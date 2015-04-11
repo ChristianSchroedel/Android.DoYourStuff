@@ -3,6 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
     package="schroedel.de.doitlater" >
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
