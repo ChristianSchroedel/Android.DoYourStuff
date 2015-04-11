@@ -95,7 +95,16 @@ public class ItemListActivity extends ActionBarActivity
 				.setActivateOnItemClick(true);
 		}
 
-		// TODO: If exposing deep links into your app, handle intents here.
+		Intent intent = getIntent();
+
+		if (intent != null)
+		{
+			if (intent.hasExtra(ToDoItem.EXTRA_ID))
+			{
+				long id = intent.getLongExtra(ToDoItem.EXTRA_ID, -1);
+				onItemSelected(ToDoDatabase.getInstance(this).getItem(id));
+			}
+		}
 	}
 
 	@Override
