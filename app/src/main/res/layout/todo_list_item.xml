@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
+	android:layout_height="72dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/todo_list_header">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/todo_list_time"
+            android:layout_toStartOf="@+id/todo_list_time"
+            android:textSize="16sp"
+            android:alpha="0.87"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/todo_list_title"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:alpha="0.87"
+            android:id="@+id/todo_list_time"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/todo_list_header"
+        android:textSize="14sp"
+        android:alpha="0.54"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:id="@+id/todo_list_desc"/>
+
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DoItLater</string>
+
+	<string name="activity_label_create">Create item</string>
+	<string name="activity_label_update">Update item</string>
+	<string name="activity_label_detail">Details</string>
+
+	<string name="action_add">Add item</string>
+	<string name="action_edit">Edit item</string>
+
+	<string name="hint_title">Title</string>
+	<string name="hint_description">Description</string>
+
+	<string name="button_create">Create</string>
+
+    <string name="today">Today</string>
+    <string name="missed">Missed</string>
+
+</resources>
