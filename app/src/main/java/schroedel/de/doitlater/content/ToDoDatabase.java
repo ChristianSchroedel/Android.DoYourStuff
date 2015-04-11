@@ -185,7 +185,7 @@ public class ToDoDatabase
 	}
 
 	/**
-	 * Creates header to put in front of item.
+	 * Creates header to put in front of to do item in item list.
 	 *
 	 * @param item - to do list item
 	 * @return - created header or null if no header is necessary
@@ -314,14 +314,14 @@ public class ToDoDatabase
 	/**
 	 * Removes an item from database.
 	 *
-	 * @param item - item to remove
+	 * @param id - id of item to remove
 	 */
-	public void removeItem(ToDoItem item)
+	public void removeItem(long id)
 	{
 		SQLiteDatabase sql = dbHelper.getWritableDatabase();
 
 		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = {String.valueOf(item.id)};
+		String[] selectionArgs = {String.valueOf(id)};
 
 		sql.delete(ToDoEntry.TABLE_NAME, selection, selectionArgs);
 	}
@@ -329,16 +329,16 @@ public class ToDoDatabase
 	/**
 	 * Updates title and description of item in database.
 	 *
-	 * @param item - to do list item
+	 * @param id - id of to do list item
 	 * @param title - new item title
 	 * @param description - new item description
 	 */
-	public void updateItemText(ToDoItem item, String title, String description)
+	public void updateItemText(long id, String title, String description)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
 		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = { String.valueOf(item.id) };
+		String[] selectionArgs = { String.valueOf(id) };
 
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_TITLE, title);
@@ -354,15 +354,15 @@ public class ToDoDatabase
 	/**
 	 * Updates notification date and time of item in database.
 	 *
-	 * @param item - to do list item
+	 * @param id - if of to do list item
 	 * @param dateTime - new notification date time
 	 */
-	public void updateItemDateTime(ToDoItem item, String dateTime)
+	public void updateItemDateTime(long id, String dateTime)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
 		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = { String.valueOf(item.id) };
+		String[] selectionArgs = { String.valueOf(id) };
 
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_DATETIME, dateTime);
@@ -400,34 +400,19 @@ public class ToDoDatabase
 	private boolean dateIsPast(ToDoItem item)
 	{
 		Calendar calendar = Calendar.getInstance();
+		calendar.set(
+			item.year,
+			item.month-1,
+			item.dayOfMonth,
+			item.hourOfDay,
+			item.minute);
 
-		int calYear = calendar.get(Calendar.YEAR);
-		int calMonth = calendar.get(Calendar.MONTH)+1;
-		int calDay = calendar.get(Calendar.DAY_OF_MONTH);
+		long itemTime = calendar.getTimeInMillis();
 
-		int calHour = calendar.get(Calendar.HOUR_OF_DAY);
-		int calMinute = calendar.get(Calendar.MINUTE);
+		Calendar calNow = Calendar.getInstance();
 
-		if (item.year < calYear)
-			return true;
-		else if (item.year == calYear &&
-			item.month < calMonth)
-			return true;
-		else if (item.year == calYear &&
-			item.month == calMonth &&
-			item.dayOfMonth < calDay)
-			return true;
-		else if (item.year == calYear &&
-			item.month == calMonth &&
-			item.dayOfMonth == calDay)
-		{
-			if (item.hourOfDay < calHour)
-				return true;
-			else if (item.hourOfDay == calHour &&
-				item.minute < calMinute)
-				return true;
-		}
+		long now = calNow.getTimeInMillis();
 
-		return false;
+		return (itemTime < now);
 	}
 }

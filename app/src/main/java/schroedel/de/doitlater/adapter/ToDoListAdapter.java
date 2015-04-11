@@ -96,7 +96,8 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 		items.remove(item);
 
 		if (item.getItemType() == ItemType.LIST_ITEM.value)
-			ToDoDatabase.getInstance(getContext()).removeItem((ToDoItem) item);
+			ToDoDatabase.getInstance(getContext()).
+				removeItem(((ToDoItem) item).id);
 
 		notifyDataSetChanged();
 	}

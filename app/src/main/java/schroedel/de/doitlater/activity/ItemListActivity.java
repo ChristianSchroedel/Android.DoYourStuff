@@ -215,11 +215,11 @@ public class ItemListActivity extends ActionBarActivity
 				ToDoItem.initItemFromExtras(selectedItem, data);
 
 				ToDoDatabase.getInstance(this).updateItemText(
-					selectedItem,
+					selectedItem.id,
 					selectedItem.title,
 					selectedItem.description);
 				ToDoDatabase.getInstance(this).updateItemDateTime(
-					selectedItem,
+					selectedItem.id,
 					selectedItem.getDateTimeString());
 
 				setReminderAlarm(selectedItem);

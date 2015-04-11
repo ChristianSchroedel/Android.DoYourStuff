@@ -140,11 +140,11 @@ public class ItemDetailActivity extends ActionBarActivity
 				ToDoItem.initItemFromExtras(item, data);
 
 				ToDoDatabase.getInstance(this).updateItemText(
-					item,
+					item.id,
 					item.title,
 					item.description);
 				ToDoDatabase.getInstance(this).updateItemDateTime(
-					item,
+					item.id,
 					item.getDateTimeString());
 
 				finish();
