@@ -30,6 +30,39 @@ public class ToDoItem implements Parcelable, ListItem
 	public static final String EXTRA_DAYOFMONTH = "dayOfMonth";
 	public static final String EXTRA_HOUROFDAY = "hourOfDay";
 	public static final String EXTRA_MINUTE = "minute";
+	public static final String EXTRA_CATEGORY = "category";
+	public static final String EXTRA_DONE = "done";
+
+	public static final int ITEM_PENDING = 0;
+	public static final int ITEM_DONE = 1;
+
+	public enum Category
+	{
+		ITEM_DEFAULT(0);
+
+		private int value;
+
+		private Category(int value)
+		{
+			this.value = value;
+		}
+
+		public int toValue()
+		{
+			return value;
+		}
+
+		public static Category fromValue(int value)
+		{
+			for (Category cat : Category.values())
+			{
+				if (cat.toValue() == value)
+					return cat;
+			}
+
+			return null;
+		}
+	}
 
 	public long id;
 	public String title;
@@ -39,6 +72,9 @@ public class ToDoItem implements Parcelable, ListItem
 	public int dayOfMonth;
 	public int hourOfDay;
 	public int minute;
+
+	public int itemDone;
+	public Category category;
 
 	static class ViewHolder
 	{
@@ -60,6 +96,8 @@ public class ToDoItem implements Parcelable, ListItem
 		dayOfMonth = -1;
 		hourOfDay = -1;
 		minute = -1;
+		itemDone = ITEM_PENDING;
+		category = Category.ITEM_DEFAULT;
 	}
 
 	/**
@@ -97,6 +135,8 @@ public class ToDoItem implements Parcelable, ListItem
 		out.writeInt(dayOfMonth);
 		out.writeInt(hourOfDay);
 		out.writeInt(minute);
+		out.writeInt(itemDone);
+		out.writeInt(category.toValue());
 	}
 
 	/**
@@ -114,6 +154,8 @@ public class ToDoItem implements Parcelable, ListItem
 		dayOfMonth = in.readInt();
 		hourOfDay = in.readInt();
 		minute = in.readInt();
+		itemDone = in.readInt();
+		category = Category.fromValue(in.readInt());
 	}
 
 	/**
@@ -219,6 +261,8 @@ public class ToDoItem implements Parcelable, ListItem
 		data.putExtra(ToDoItem.EXTRA_DAYOFMONTH, item.dayOfMonth);
 		data.putExtra(ToDoItem.EXTRA_HOUROFDAY, item.hourOfDay);
 		data.putExtra(ToDoItem.EXTRA_MINUTE, item.minute);
+		data.putExtra(ToDoItem.EXTRA_CATEGORY, item.category.toValue());
+		data.putExtra(ToDoItem.EXTRA_DONE, item.itemDone);
 	}
 
 	/**
@@ -266,6 +310,15 @@ public class ToDoItem implements Parcelable, ListItem
 
 		if (data.hasExtra(ToDoItem.EXTRA_MINUTE))
 			item.minute = data.getIntExtra(ToDoItem.EXTRA_MINUTE, -1);
+
+		if (data.hasExtra(ToDoItem.EXTRA_CATEGORY))
+		{
+			int cat = data.getIntExtra(ToDoItem.EXTRA_CATEGORY, 0);
+			item.category = Category.fromValue(cat);
+		}
+
+		if (data.hasExtra(ToDoItem.EXTRA_DONE))
+			item.itemDone = data.getIntExtra(ToDoItem.EXTRA_DONE, ITEM_PENDING);
 	}
 
 	@Override

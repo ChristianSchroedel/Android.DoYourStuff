@@ -20,6 +20,7 @@ import schroedel.de.doitlater.R;
  */
 public class ToDoDatabase
 {
+	private final static String INTEGER = " integer";
 	private final static String TEXT = " text";
 	private final static String COMMA = ", ";
 
@@ -27,6 +28,7 @@ public class ToDoDatabase
 	private ToDoDatabaseHelper dbHelper;
 	private Context context;
 
+	private Header doneHeader;
 	private Header missedHeader;
 	private ToDoItem last;
 	private boolean lastInPast = false;
@@ -36,13 +38,23 @@ public class ToDoDatabase
 		"(" +
 		ToDoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA +
 		ToDoEntry.COLUMN_TITLE + TEXT + COMMA +
-		ToDoEntry.COLUMN_DESCRIPTION + TEXT +
-		ToDoEntry.COLUMN_DATETIME + TEXT +
+		ToDoEntry.COLUMN_DESCRIPTION + TEXT + COMMA +
+		ToDoEntry.COLUMN_DATETIME + TEXT + COMMA +
+		ToDoEntry.COLUMN_CATEGORY + INTEGER + COMMA +
+		ToDoEntry.COLUMN_DONE + INTEGER +
 		")";
 
 	private final static String SQL_ADD_DATETIME =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME +" ADD COLUMN " +
+		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
 			ToDoEntry.COLUMN_DATETIME + TEXT;
+
+	private final static String SQL_ADD_CATEGORY =
+		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
+			ToDoEntry.COLUMN_CATEGORY + INTEGER;
+
+	private final static String SQL_ADD_DONE =
+		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
+			ToDoEntry.COLUMN_DONE + INTEGER;
 
 	/**
 	 * To do list item columns.
@@ -53,6 +65,8 @@ public class ToDoDatabase
 		public static final String COLUMN_TITLE = "title";
 		public static final String COLUMN_DESCRIPTION = "description";
 		public static final String COLUMN_DATETIME = "datetime";
+		public static final String COLUMN_CATEGORY = "category";
+		public static final String COLUMN_DONE = "done";
 	}
 
 	/**
@@ -61,7 +75,7 @@ public class ToDoDatabase
 	class ToDoDatabaseHelper extends SQLiteOpenHelper
 	{
 		private static final String DB_NAME = "ToDoList.db";
-		private static final int VERSION = 2;
+		private static final int VERSION = 3;
 
 		/**
 		 * Creates database helper.
@@ -85,6 +99,12 @@ public class ToDoDatabase
 			if (oldVersion == 1 &&
 				newVersion == 2)
 				db.execSQL(SQL_ADD_DATETIME);
+			else if (oldVersion == 2 &&
+				newVersion == 3)
+			{
+				db.execSQL(SQL_ADD_CATEGORY);
+				db.execSQL(SQL_ADD_DONE);
+			}
 		}
 	}
 
@@ -128,7 +148,9 @@ public class ToDoDatabase
 			ToDoEntry._ID,
 			ToDoEntry.COLUMN_TITLE,
 			ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoEntry.COLUMN_DATETIME };
+			ToDoEntry.COLUMN_DATETIME,
+			ToDoEntry.COLUMN_CATEGORY,
+			ToDoEntry.COLUMN_DONE };
 
 		String sortOrder = ToDoEntry.COLUMN_DATETIME + " ASC";
 
@@ -149,6 +171,7 @@ public class ToDoDatabase
             return items;
         }
 
+		doneHeader = null;
 		missedHeader = null;
 		last = null;
 
@@ -161,12 +184,18 @@ public class ToDoDatabase
 				cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
 			String dateTime = cursor.getString(
 				cursor.getColumnIndex(ToDoEntry.COLUMN_DATETIME));
+			int category = cursor.getInt(
+				cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
+			int done = cursor.getInt(
+				cursor.getColumnIndex(ToDoEntry.COLUMN_DONE));
 
 			ToDoItem item = new ToDoItem();
 			item.id = id;
 			item.title = title;
 			item.description = desc;
 			item.setDateTime(dateTime);
+			item.category = ToDoItem.Category.fromValue(category);
+			item.itemDone = done;
 
 			Header header = getHeader(item);
 
@@ -192,6 +221,17 @@ public class ToDoDatabase
 	 */
 	private Header getHeader(ToDoItem item)
 	{
+		if (item.itemDone == ToDoItem.ITEM_DONE)
+		{
+			if (doneHeader != null)
+				return null;
+
+			String done = "Done";
+
+			doneHeader = new Header(done);
+			return doneHeader;
+		}
+
 		if (!item.isDateValid())
 			return null;
 
@@ -250,7 +290,9 @@ public class ToDoDatabase
 			ToDoEntry._ID,
 			ToDoEntry.COLUMN_TITLE,
 			ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoEntry.COLUMN_DATETIME };
+			ToDoEntry.COLUMN_DATETIME,
+			ToDoEntry.COLUMN_CATEGORY,
+			ToDoEntry.COLUMN_DONE };
 
 		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = {String.valueOf(id)};
@@ -277,12 +319,18 @@ public class ToDoDatabase
 			cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
 		String dateTime = cursor.getString(
 			cursor.getColumnIndex(ToDoEntry.COLUMN_DATETIME));
+		int category = cursor.getInt(
+			cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
+		int done = cursor.getInt(
+			cursor.getColumnIndex(ToDoEntry.COLUMN_DONE));
 
 		ToDoItem item = new ToDoItem();
 		item.id = id;
 		item.title = title;
 		item.description = desc;
 		item.setDateTime(dateTime);
+		item.category = ToDoItem.Category.fromValue(category);
+		item.itemDone = done;
 
         cursor.close();
 
@@ -303,6 +351,8 @@ public class ToDoDatabase
 		values.put(ToDoEntry.COLUMN_TITLE, item.title);
 		values.put(ToDoEntry.COLUMN_DESCRIPTION, item.description);
 		values.put(ToDoEntry.COLUMN_DATETIME, item.getDateTimeString());
+		values.put(ToDoEntry.COLUMN_CATEGORY, item.category.toValue());
+		values.put(ToDoEntry.COLUMN_DONE, item.itemDone);
 
 		long newRowId = sql.insert(ToDoEntry.TABLE_NAME, "null", values);
 
@@ -354,7 +404,7 @@ public class ToDoDatabase
 	/**
 	 * Updates notification date and time of item in database.
 	 *
-	 * @param id - if of to do list item
+	 * @param id - id of to do list item
 	 * @param dateTime - new notification date time
 	 */
 	public void updateItemDateTime(long id, String dateTime)
@@ -366,6 +416,52 @@ public class ToDoDatabase
 
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_DATETIME, dateTime);
+
+		sql.update(
+			ToDoEntry.TABLE_NAME,
+			values,
+			selection,
+			selectionArgs);
+	}
+
+	/**
+	 * Updates state of item in database.
+	 *
+	 * @param id - id of to do item
+	 * @param done - new state of item
+	 */
+	public void updateItemIsDone(long id, int done)
+	{
+		SQLiteDatabase sql = dbHelper.getReadableDatabase();
+
+		String selection = ToDoEntry._ID + " LIKE ?";
+		String[] selectionArgs = { String.valueOf(id) };
+
+		ContentValues values = new ContentValues();
+		values.put(ToDoEntry.COLUMN_DONE, done);
+
+		sql.update(
+			ToDoEntry.TABLE_NAME,
+			values,
+			selection,
+			selectionArgs);
+	}
+
+	/**
+	 * Updates category of item in database.
+	 *
+	 * @param id - id of to do item
+	 * @param category - new category of item
+	 */
+	public void updateItemCategory(long id, int category)
+	{
+		SQLiteDatabase sql = dbHelper.getReadableDatabase();
+
+		String selection = ToDoEntry._ID + " LIKE ?";
+		String[] selectionArgs = { String.valueOf(id) };
+
+		ContentValues values = new ContentValues();
+		values.put(ToDoEntry.COLUMN_CATEGORY, category);
 
 		sql.update(
 			ToDoEntry.TABLE_NAME,
