@@ -478,7 +478,7 @@ public class ToDoDatabase
 	 * @param day - day of date
 	 * @return - true if today else false
 	 */
-	private boolean dateIsToday(int year, int month, int day)
+	public static boolean dateIsToday(int year, int month, int day)
 	{
 		Calendar calendar = Calendar.getInstance();
 

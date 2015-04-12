@@ -354,8 +354,21 @@ public class ToDoItem implements Parcelable, ListItem
 
 		if (hourOfDay != -1 &&
 			minute != -1)
-			viewHolder.tvTime.setText(
-				String.format("%02d:%02d", hourOfDay, minute));
+		{
+			String dateTime;
+
+			if (ToDoDatabase.dateIsToday(year, month, dayOfMonth))
+				dateTime = String.format("%02d:%02d", hourOfDay, minute);
+			else
+				dateTime = String.format(
+					"%02d.%02d. %02d:%02d",
+					month,
+					dayOfMonth,
+					hourOfDay,
+					minute);
+
+			viewHolder.tvTime.setText(dateTime);
+		}
 
 		return convertView;
 	}
