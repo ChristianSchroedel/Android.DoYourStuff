@@ -12,6 +12,12 @@
         android:theme="@style/AppTheme" >
 
         <receiver android:name=".service.AlarmReceiver"/>
+        <receiver android:name=".service.UpdateItemReceiver">
+            <intent-filter>
+                <action android:name="de.schroedel.doit.service.UpdateItemReceiver.ACTION_SNOOZE"/>
+                <action android:name="de.schroedel.doit.service.UpdateItemReceiver.ACTION_DONE"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".activity.ItemListActivity"
