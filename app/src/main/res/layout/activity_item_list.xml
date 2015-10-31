@@ -5,8 +5,8 @@
 	android:orientation="vertical">
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
 	<fragment
 		xmlns:tools="http://schemas.android.com/tools"
@@ -18,17 +18,17 @@
 		android:layout_marginRight="16dp"
         android:layout_below="@id/toolbar"
 		tools:context=".ItemListActivity"
-		tools:layout="@android:layout/list_content" />
+		tools:layout="@android:layout/list_content"/>
 
     <android.support.design.widget.FloatingActionButton
         xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/action_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:id="@+id/action_new"
         android:src="@drawable/ic_action_new"
         fab:backgroundTint="@color/primary"
         fab:elevation="4dp"/>

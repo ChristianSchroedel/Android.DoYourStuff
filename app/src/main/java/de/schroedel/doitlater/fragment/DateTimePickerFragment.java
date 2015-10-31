@@ -25,7 +25,7 @@ public final class DateTimePickerFragment extends DialogFragment
 {
 	public interface OnDateTimePickedCallback
 	{
-		public void onDateTimePicked(
+		void onDateTimePicked(
 			int year,
 			int month,
 			int day,

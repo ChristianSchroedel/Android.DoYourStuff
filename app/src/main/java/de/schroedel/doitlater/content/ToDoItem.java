@@ -42,7 +42,7 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 
 		private int value;
 
-		private Category(int value)
+		Category(int value)
 		{
 			this.value = value;
 		}

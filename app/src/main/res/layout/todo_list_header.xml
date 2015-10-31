@@ -9,12 +9,12 @@
     android:background="@color/listHeader">
 
     <TextView
+        android:id="@+id/list_item_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/accent"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:id="@+id/list_item_header"/>
+        android:textStyle="bold"/>
 
 </LinearLayout>

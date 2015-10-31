@@ -29,7 +29,7 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 
 		public int value;
 
-		private ItemType(int value)
+		ItemType(int value)
 		{
 			this.value = value;
 		}

@@ -4,7 +4,8 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +23,7 @@ import de.schroedel.doitlater.fragment.DateTimePickerFragment;
  *
  * Activity creating/editing to do list items.
  */
-public class ItemCreateActivity extends ActionBarActivity implements
+public class ItemCreateActivity extends AppCompatActivity implements
 	DateTimePickerFragment.OnDateTimePickedCallback
 {
 	private EditText etTitle;
@@ -42,7 +43,11 @@ public class ItemCreateActivity extends ActionBarActivity implements
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		ActionBar actionBar = getSupportActionBar();
+
+		if (actionBar != null)
+			actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
 

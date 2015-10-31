@@ -1,6 +1,6 @@
 package de.schroedel.doitlater.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -43,8 +43,8 @@ public class ItemListFragment extends ListFragment
 
 	public interface Callbacks
 	{
-		public void onItemSelected(ToDoItem item);
-		public void onItemDismissed(ToDoItem item);
+		void onItemSelected(ToDoItem item);
+		void onItemDismissed(ToDoItem item);
 	}
 
 	/**
@@ -121,18 +121,18 @@ public class ItemListFragment extends ListFragment
 	}
 
 	@Override
-	public void onAttach(Activity activity)
+	public void onAttach(Context context)
 	{
-		super.onAttach(activity);
+		super.onAttach(context);
 
 		// Activities containing this fragment must implement its callbacks.
-		if (!(activity instanceof Callbacks))
+		if (!(context instanceof Callbacks))
 		{
 			throw new IllegalStateException(
 				"Activity must implement fragment's callbacks.");
 		}
 
-		callback = (Callbacks) activity;
+		callback = (Callbacks) context;
 	}
 
 	@Override

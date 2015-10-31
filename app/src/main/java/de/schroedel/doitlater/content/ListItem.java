@@ -10,6 +10,6 @@ import android.view.View;
  */
 public interface ListItem
 {
-	public int getItemType();
-	public View getView(LayoutInflater inflater, View convertView);
+	int getItemType();
+	View getView(LayoutInflater inflater, View convertView);
 }

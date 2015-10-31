@@ -69,7 +69,10 @@ public class AlarmReceiver extends BroadcastReceiver
 		builder.setCategory(Notification.CATEGORY_ALARM);
 		builder.setPriority(Notification.PRIORITY_HIGH);
 		builder.setContentIntent(content);
-		builder.addAction(R.drawable.ic_launcher, "later", later);
+		builder.addAction(
+			R.drawable.ic_launcher,
+			"later",
+			later);
 		builder.addAction(R.drawable.ic_launcher, "done", done);
 
 		Uri alarmSound = RingtoneManager.getDefaultUri(
