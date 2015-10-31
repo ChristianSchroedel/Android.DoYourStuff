@@ -1,6 +1,5 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
@@ -12,7 +11,7 @@
 	<fragment
 		xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/item_list"
-		android:name="schroedel.de.doitlater.fragment.ItemListFragment"
+		android:name="de.schroedel.doitlater.fragment.ItemListFragment"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginLeft="16dp"
@@ -21,15 +20,17 @@
 		tools:context=".ItemListActivity"
 		tools:layout="@android:layout/list_content" />
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
         android:id="@+id/action_new"
-        fab:fab_icon="@drawable/ic_action_new"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorPressed="@color/primaryDark"/>
+        android:src="@drawable/ic_action_new"
+        fab:backgroundTint="@color/primary"
+        fab:elevation="4dp"/>
 
 </RelativeLayout>

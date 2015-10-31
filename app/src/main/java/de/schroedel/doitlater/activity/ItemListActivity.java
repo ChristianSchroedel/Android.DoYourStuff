@@ -5,14 +5,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
