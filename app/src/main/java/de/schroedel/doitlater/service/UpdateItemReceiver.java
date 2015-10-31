@@ -1,12 +1,12 @@
-package schroedel.de.doitlater.service;
+package de.schroedel.doitlater.service;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
 
 /**
  * Created by Christian Schrödel on 11.04.15.

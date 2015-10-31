@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.service;
+package de.schroedel.doitlater.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,10 +11,10 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.activity.ItemListActivity;
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.activity.ItemListActivity;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
 
 /**
  * Created by Christian Schrödel on 10.04.15.

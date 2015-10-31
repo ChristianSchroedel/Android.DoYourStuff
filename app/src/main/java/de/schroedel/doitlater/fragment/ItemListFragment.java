@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.fragment;
+package de.schroedel.doitlater.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,11 +6,11 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
-import schroedel.de.doitlater.adapter.ToDoListAdapter;
-import schroedel.de.doitlater.content.ListItem;
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
-import schroedel.de.doitlater.listener.SwipeDismissListViewTouchListener;
+import de.schroedel.doitlater.adapter.ToDoListAdapter;
+import de.schroedel.doitlater.content.ListItem;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.listener.SwipeDismissListViewTouchListener;
 
 
 /**

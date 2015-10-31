@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.activity;
+package de.schroedel.doitlater.activity;
 
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.content.ToDoItem;
-import schroedel.de.doitlater.fragment.DateTimePickerFragment;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.fragment.DateTimePickerFragment;
 
 /**
  * Created by Christian Schrödel on 10.04.15.

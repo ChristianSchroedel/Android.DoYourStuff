@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.activity;
+package de.schroedel.doitlater.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,13 +14,13 @@ import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.adapter.ToDoListAdapter;
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
-import schroedel.de.doitlater.fragment.ItemDetailFragment;
-import schroedel.de.doitlater.fragment.ItemListFragment;
-import schroedel.de.doitlater.service.AlarmReceiver;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.adapter.ToDoListAdapter;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.fragment.ItemDetailFragment;
+import de.schroedel.doitlater.fragment.ItemListFragment;
+import de.schroedel.doitlater.service.AlarmReceiver;
 
 
 /**
@@ -32,11 +32,11 @@ import schroedel.de.doitlater.service.AlarmReceiver;
  * item details side-by-side using two vertical panes.
  *
  * The activity makes heavy use of fragments. The list of items is a
- * {@link schroedel.de.doitlater.fragment.ItemListFragment} and the item details
- * (if present) is a {@link schroedel.de.doitlater.fragment.ItemDetailFragment}.
+ * {@link de.schroedel.doitlater.fragment.ItemListFragment} and the item details
+ * (if present) is a {@link de.schroedel.doitlater.fragment.ItemDetailFragment}.
  *
  * This activity also implements the required
- * {@link schroedel.de.doitlater.fragment.ItemListFragment.Callbacks} interface
+ * {@link de.schroedel.doitlater.fragment.ItemListFragment.Callbacks} interface
  * to listen for item selections.
  *
  * Created by Christian Schrödel on 10.04.15.

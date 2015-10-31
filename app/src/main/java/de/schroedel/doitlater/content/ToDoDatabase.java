@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.content;
+package de.schroedel.doitlater.content;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import schroedel.de.doitlater.R;
+import de.schroedel.doitlater.R;
 
 /**
  * Created by Christian Schrödel on 10.04.15.

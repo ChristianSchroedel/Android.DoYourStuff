@@ -1,11 +1,11 @@
-package schroedel.de.doitlater.content;
+package de.schroedel.doitlater.content;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.adapter.ToDoListAdapter;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.adapter.ToDoListAdapter;
 
 /**
  * Created by Christian Schrödel on 10.04.15.

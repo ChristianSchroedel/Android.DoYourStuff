@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.content;
+package de.schroedel.doitlater.content;
 
 import android.content.Intent;
 import android.os.Parcel;
@@ -10,15 +10,15 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.adapter.ToDoListAdapter;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.adapter.ToDoListAdapter;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
  *
  * To do list item holding information about planned task of user.
  */
-public class ToDoItem implements Parcelable, ListItem
+public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.ListItem
 {
 	public static final String EXTRA_ITEM = "todoItem";
 	public static final String EXTRA_ID = "id";

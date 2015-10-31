@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.fragment;
+package de.schroedel.doitlater.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,9 +12,9 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.activity.ItemCreateActivity;
-import schroedel.de.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.activity.ItemCreateActivity;
+import de.schroedel.doitlater.content.ToDoItem;
 
 /**
  * Created by Christian Schrödel on 10.04.15.

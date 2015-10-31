@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.content;
+package de.schroedel.doitlater.content;
 
 import android.view.LayoutInflater;
 import android.view.View;

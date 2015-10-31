@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.fragment;
+package de.schroedel.doitlater.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import schroedel.de.doitlater.R;
-import schroedel.de.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.content.ToDoItem;
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link schroedel.de.doitlater.activity.ItemListActivity}
- * in two-pane mode (on tablets) or a {@link schroedel.de.doitlater.activity.ItemDetailActivity}
+ * This fragment is either contained in a {@link de.schroedel.doitlater.activity.ItemListActivity}
+ * in two-pane mode (on tablets) or a {@link de.schroedel.doitlater.activity.ItemDetailActivity}
  * on handsets.
  *
  * Created by Christian Schrödel on 10.04.15.

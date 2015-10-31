@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.activity;
+package de.schroedel.doitlater.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
-import schroedel.de.doitlater.fragment.ItemDetailFragment;
-import schroedel.de.doitlater.R;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.fragment.ItemDetailFragment;
+import de.schroedel.doitlater.R;
 
 
 /**

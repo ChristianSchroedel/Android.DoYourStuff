@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package schroedel.de.doitlater.listener;
+package de.schroedel.doitlater.listener;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

@@ -1,4 +1,4 @@
-package schroedel.de.doitlater.adapter;
+package de.schroedel.doitlater.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
-import schroedel.de.doitlater.content.ListItem;
-import schroedel.de.doitlater.content.ToDoDatabase;
-import schroedel.de.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.content.ListItem;
+import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.content.ToDoItem;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
