@@ -151,7 +151,7 @@ public class ItemDetailActivity extends AppCompatActivity
 					item.description);
 				ToDoDatabase.getInstance(this).updateItemDateTime(
 					item.id,
-					item.getDateTimeString());
+					item.timestamp);
 
 				finish();
 				NavUtils.navigateUpTo(

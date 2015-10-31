@@ -25,14 +25,14 @@ public class ToDoDatabaseHelper extends SQLiteOpenHelper
 			ToDoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA +
 			ToDoEntry.COLUMN_TITLE + TEXT + COMMA +
 			ToDoEntry.COLUMN_DESCRIPTION + TEXT + COMMA +
-			ToDoEntry.COLUMN_DATETIME + TEXT + COMMA +
+			ToDoEntry.COLUMN_TIMESTAMP + INTEGER + COMMA +
 			ToDoEntry.COLUMN_CATEGORY + INTEGER + COMMA +
 			ToDoEntry.COLUMN_DONE + INTEGER +
 			")";
 
 	private final static String SQL_ADD_DATETIME =
 		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_DATETIME + TEXT;
+			ToDoEntry.COLUMN_TIMESTAMP + TEXT;
 
 	private final static String SQL_ADD_CATEGORY =
 		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
@@ -50,7 +50,7 @@ public class ToDoDatabaseHelper extends SQLiteOpenHelper
 		public static final String TABLE_NAME = "items";
 		public static final String COLUMN_TITLE = "title";
 		public static final String COLUMN_DESCRIPTION = "description";
-		public static final String COLUMN_DATETIME = "datetime";
+		public static final String COLUMN_TIMESTAMP = "datetime";
 		public static final String COLUMN_CATEGORY = "category";
 		public static final String COLUMN_DONE = "done";
 	}

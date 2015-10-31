@@ -228,7 +228,7 @@ public class ItemListActivity extends AppCompatActivity
 					selectedItem.description);
 				ToDoDatabase.getInstance(this).updateItemDateTime(
 					selectedItem.id,
-					selectedItem.getDateTimeString());
+					selectedItem.timestamp);
 
 				setReminderAlarm(selectedItem);
 			}
@@ -295,7 +295,7 @@ public class ItemListActivity extends AppCompatActivity
 
 		AlarmManager manager =
 			(AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		manager.set(AlarmManager.RTC_WAKEUP, item.getDateTime(), alarm);
+		manager.set(AlarmManager.RTC_WAKEUP, item.timestamp, alarm);
 	}
 
 	/**

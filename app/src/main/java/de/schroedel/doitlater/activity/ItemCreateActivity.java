@@ -29,11 +29,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 	private EditText etTitle;
 	private EditText etDesc;
 
-	private int year = -1;
-	private int month = -1;
-	private int day = -1;
-	private int hour = -1;
-	private int minute = -1;
+	private long timestamp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -44,42 +40,32 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		ActionBar actionBar = getSupportActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 
 		if (actionBar != null)
+		{
+			actionBar.setTitle(R.string.activity_label_update);
 			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
 		Intent intent = getIntent();
 
 		if (intent == null)
 			return;
 
-		etTitle = (EditText) findViewById(R.id.et_title);
-		etDesc = (EditText) findViewById(R.id.et_desc);
+		this.etTitle = (EditText) findViewById(R.id.et_title);
+		this.etDesc = (EditText) findViewById(R.id.et_desc);
 
-		if (intent.hasExtra(ToDoItem.EXTRA_TITLE))
-		{
-			etTitle.setText(intent.getStringExtra(ToDoItem.EXTRA_TITLE));
-			getSupportActionBar().setTitle(R.string.activity_label_update);
-		}
+		String title = intent.getStringExtra(ToDoItem.EXTRA_TITLE);
+		String description = intent.getStringExtra(ToDoItem.EXTRA_DESCRIPTION);
 
-		if (intent.hasExtra(ToDoItem.EXTRA_DESCRIPTION))
-			etDesc.setText(intent.getStringExtra(ToDoItem.EXTRA_DESCRIPTION));
+		this.timestamp = intent.getLongExtra(ToDoItem.EXTRA_TIMESTAMP, 0);
 
-		if (intent.hasExtra(ToDoItem.EXTRA_YEAR))
-			year = intent.getIntExtra(ToDoItem.EXTRA_YEAR, -1);
+		if (title != null)
+			etTitle.setText(title);
 
-		if (intent.hasExtra(ToDoItem.EXTRA_MONTH))
-			month = intent.getIntExtra(ToDoItem.EXTRA_MONTH, -1);
-
-		if (intent.hasExtra(ToDoItem.EXTRA_DAYOFMONTH))
-			day = intent.getIntExtra(ToDoItem.EXTRA_DAYOFMONTH, -1);
-
-		if (intent.hasExtra(ToDoItem.EXTRA_HOUROFDAY))
-			hour = intent.getIntExtra(ToDoItem.EXTRA_HOUROFDAY, -1);
-
-		if (intent.hasExtra(ToDoItem.EXTRA_MINUTE))
-			minute = intent.getIntExtra(ToDoItem.EXTRA_MINUTE, -1);
+		if (description != null)
+			etDesc.setText(description);
 
 		Button btnDate = (Button) findViewById(R.id.btn_dateTime);
 		btnDate.setOnClickListener(
@@ -89,11 +75,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 				public void onClick(View view)
 				{
 					Bundle arguments = new Bundle();
-					arguments.putInt(ToDoItem.EXTRA_YEAR, year);
-					arguments.putInt(ToDoItem.EXTRA_MONTH, month);
-					arguments.putInt(ToDoItem.EXTRA_DAYOFMONTH, day);
-					arguments.putInt(ToDoItem.EXTRA_HOUROFDAY, hour);
-					arguments.putInt(ToDoItem.EXTRA_MINUTE, minute);
+					arguments.putLong(ToDoItem.EXTRA_TIMESTAMP, timestamp);
 
 					DialogFragment picker = new DateTimePickerFragment();
 					picker.setArguments(arguments);
@@ -133,11 +115,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 			data.putExtra(
 				ToDoItem.EXTRA_DESCRIPTION,
 				etDesc.getText().toString());
-			data.putExtra(ToDoItem.EXTRA_YEAR, year);
-			data.putExtra(ToDoItem.EXTRA_MONTH, month);
-			data.putExtra(ToDoItem.EXTRA_DAYOFMONTH, day);
-			data.putExtra(ToDoItem.EXTRA_HOUROFDAY, hour);
-			data.putExtra(ToDoItem.EXTRA_MINUTE, minute);
+			data.putExtra(ToDoItem.EXTRA_TIMESTAMP, timestamp);
 
 			setResult(RESULT_OK, data);
 			finish();
@@ -149,18 +127,8 @@ public class ItemCreateActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onDateTimePicked(
-		int year,
-		int month,
-		int day,
-		int hour,
-		int minute)
+	public void onDateTimePicked(long timestamp)
 	{
-		this.hour = hour;
-		this.minute = minute;
-
-		this.year = year;
-		this.month = month;
-		this.day = day;
+		this.timestamp = timestamp;
 	}
 }

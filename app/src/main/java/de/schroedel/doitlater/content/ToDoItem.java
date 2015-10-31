@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.StringTokenizer;
+import java.util.Locale;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
@@ -26,11 +27,7 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 
 	public static final String EXTRA_TITLE = "title";
 	public static final String EXTRA_DESCRIPTION = "description";
-	public static final String EXTRA_YEAR = "year";
-	public static final String EXTRA_MONTH = "month";
-	public static final String EXTRA_DAYOFMONTH = "dayOfMonth";
-	public static final String EXTRA_HOUROFDAY = "hourOfDay";
-	public static final String EXTRA_MINUTE = "minute";
+	public static final String EXTRA_TIMESTAMP = "timestamp";
 	public static final String EXTRA_CATEGORY = "category";
 	public static final String EXTRA_DONE = "done";
 
@@ -68,13 +65,14 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	public long id;
 	public String title;
 	public String description;
+/*
 	public int year;
 	public int month;
 	public int dayOfMonth;
 	public int hourOfDay;
 	public int minute;
-
-	public long timeStamp;
+*/
+	public long timestamp;
 
 	public int itemDone;
 	public Category category;
@@ -92,13 +90,10 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	public ToDoItem()
 	{
 		id = -1;
+
 		title = null;
 		description = null;
-		year = -1;
-		month = -1;
-		dayOfMonth = -1;
-		hourOfDay = -1;
-		minute = -1;
+
 		itemDone = ITEM_PENDING;
 		category = Category.ITEM_DEFAULT;
 	}
@@ -133,11 +128,7 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 		out.writeLong(id);
 		out.writeString(title);
 		out.writeString(description);
-		out.writeInt(year);
-		out.writeInt(month);
-		out.writeInt(dayOfMonth);
-		out.writeInt(hourOfDay);
-		out.writeInt(minute);
+		out.writeLong(timestamp);
 		out.writeInt(itemDone);
 		out.writeInt(category.toValue());
 	}
@@ -152,101 +143,63 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 		id = in.readLong();
 		title = in.readString();
 		description = in.readString();
-		year = in.readInt();
-		month = in.readInt();
-		dayOfMonth = in.readInt();
-		hourOfDay = in.readInt();
-		minute = in.readInt();
+		timestamp = in.readLong();
 		itemDone = in.readInt();
 		category = Category.fromValue(in.readInt());
 	}
 
 	/**
-	 * Returns date time in milliseconds.
+	 * Returns date of to do item with 'dd.MM.yyyy' pattern.
 	 *
-	 * @return - date time
+	 * @return - date
 	 */
-	public long getDateTime()
+	public String getDate()
+	{
+		return getFormattedDate(timestamp, "dd.MM.yyyy");
+	}
+
+
+	public String getDayOfMonth()
+	{
+		return getFormattedDate(timestamp, "dd");
+	}
+
+
+	public String getMonth()
+	{
+		return getFormattedDate(timestamp, "MM");
+	}
+
+
+	public String getMinute()
+	{
+		return getFormattedDate(timestamp, "m");
+	}
+
+
+	public String getHourOfDay()
+	{
+		return getFormattedDate(timestamp, "H");
+	}
+
+	/**
+	 * Returns formatted string using given UTC timestamp + pattern.
+	 *
+	 * @param timestamp - UTC timestamp
+	 * @param pattern - format pattern
+	 * @return - formatted string
+	 */
+	private static String getFormattedDate(long timestamp, String pattern)
 	{
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(year, month-1, dayOfMonth, hourOfDay, minute);
+		calendar.setTimeInMillis(timestamp);
 
-		return calendar.getTimeInMillis();
-	}
+		SimpleDateFormat dateFormat =
+			new SimpleDateFormat(pattern, Locale.getDefault());
 
-	/**
-	 * Returns date time of item as ISO8601 string ("YYYY-MM-DD HH:MM:SS.SSS").
-	 *
-	 * @return - date time as ISO8601 string
-	 */
-	public String getDateTimeString()
-	{
-		if (year == -1 ||
-			month == -1 ||
-			dayOfMonth == -1 ||
-			hourOfDay == -1 ||
-			minute == -1)
-			return null;
+		dateFormat.setCalendar(calendar);
 
-		return String.format(
-			"%04d-%02d-%02d %02d:%02d:00.000",
-			year,
-			month,
-			dayOfMonth,
-			hourOfDay,
-			minute);
-	}
-
-	/**
-	 * Sets date and time to item using ISO8061 string.
-	 *
-	 * @param dateTime - date time after ISO8601 ("YYYY-MM-DD HH:MM:SS.SSS")
-	 */
-	public void setDateTime(String dateTime)
-	{
-		if (dateTime == null)
-			return;
-
-		StringTokenizer tokenizer = new StringTokenizer(dateTime);
-		String date = tokenizer.nextToken();
-		String time = tokenizer.nextToken();
-
-		tokenizer = new StringTokenizer(date);
-
-		year = Integer.valueOf(tokenizer.nextToken("-"));
-		month = Integer.valueOf(tokenizer.nextToken("-"));
-		dayOfMonth = Integer.valueOf(tokenizer.nextToken());
-
-		tokenizer = new StringTokenizer(time);
-
-		hourOfDay = Integer.valueOf(tokenizer.nextToken(":"));
-		minute = Integer.valueOf(tokenizer.nextToken(":"));
-	}
-
-	/**
-	 * Checks if set date is valid.
-	 *
-	 * @return - true if valid else false
-	 */
-	public boolean isDateValid()
-	{
-		Calendar calendar = Calendar.getInstance();
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH)+1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-		if (this.year < year)
-			return false;
-		else if (this.year == year &&
-			this.month < month)
-			return false;
-		else if (this.year == year &&
-			this.month == month &&
-			this.dayOfMonth < day)
-			return false;
-
-		return true;
+		return dateFormat.format(calendar.getTime());
 	}
 
 	/**
@@ -257,15 +210,11 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	 */
 	public static void putItemDataAsExtras(ToDoItem item, Intent data)
 	{
-		data.putExtra(ToDoItem.EXTRA_TITLE, item.title);
-		data.putExtra(ToDoItem.EXTRA_DESCRIPTION, item.description);
-		data.putExtra(ToDoItem.EXTRA_YEAR, item.year);
-		data.putExtra(ToDoItem.EXTRA_MONTH, item.month);
-		data.putExtra(ToDoItem.EXTRA_DAYOFMONTH, item.dayOfMonth);
-		data.putExtra(ToDoItem.EXTRA_HOUROFDAY, item.hourOfDay);
-		data.putExtra(ToDoItem.EXTRA_MINUTE, item.minute);
-		data.putExtra(ToDoItem.EXTRA_CATEGORY, item.category.toValue());
-		data.putExtra(ToDoItem.EXTRA_DONE, item.itemDone);
+		data.putExtra(EXTRA_TITLE, item.title);
+		data.putExtra(EXTRA_DESCRIPTION, item.description);
+		data.putExtra(EXTRA_TIMESTAMP, item.timestamp);
+		data.putExtra(EXTRA_CATEGORY, item.category.toValue());
+		data.putExtra(EXTRA_DONE, item.itemDone);
 	}
 
 	/**
@@ -280,7 +229,7 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 		if (!data.hasExtra(ToDoItem.EXTRA_TITLE))
 			return false;
 
-		String title = data.getStringExtra(ToDoItem.EXTRA_TITLE);
+		String title = data.getStringExtra(EXTRA_TITLE);
 
 		return (title != null && !title.isEmpty());
 	}
@@ -293,35 +242,16 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	 */
 	public static void initItemFromExtras(ToDoItem item, Intent data)
 	{
-		if (data.hasExtra(ToDoItem.EXTRA_TITLE))
-			item.title = data.getStringExtra(ToDoItem.EXTRA_TITLE);
+		item.title = data.getStringExtra(EXTRA_TITLE);
+		item.description = data.getStringExtra(EXTRA_DESCRIPTION);
+		item.timestamp = data.getLongExtra(EXTRA_TIMESTAMP, 0);
 
-		if (data.hasExtra(ToDoItem.EXTRA_DESCRIPTION))
-			item.description = data.getStringExtra(ToDoItem.EXTRA_DESCRIPTION);
+		int cat = data.getIntExtra(ToDoItem.EXTRA_CATEGORY, 0);
+		item.category = Category.fromValue(cat);
 
-		if (data.hasExtra(ToDoItem.EXTRA_YEAR))
-			item.year = data.getIntExtra(ToDoItem.EXTRA_YEAR, -1);
-
-		if (data.hasExtra(ToDoItem.EXTRA_MONTH))
-			item.month = data.getIntExtra(ToDoItem.EXTRA_MONTH, -1);
-
-		if (data.hasExtra(ToDoItem.EXTRA_DAYOFMONTH))
-			item.dayOfMonth = data.getIntExtra(ToDoItem.EXTRA_DAYOFMONTH, -1);
-
-		if (data.hasExtra(ToDoItem.EXTRA_HOUROFDAY))
-			item.hourOfDay = data.getIntExtra(ToDoItem.EXTRA_HOUROFDAY, -1);
-
-		if (data.hasExtra(ToDoItem.EXTRA_MINUTE))
-			item.minute = data.getIntExtra(ToDoItem.EXTRA_MINUTE, -1);
-
-		if (data.hasExtra(ToDoItem.EXTRA_CATEGORY))
-		{
-			int cat = data.getIntExtra(ToDoItem.EXTRA_CATEGORY, 0);
-			item.category = Category.fromValue(cat);
-		}
-
-		if (data.hasExtra(ToDoItem.EXTRA_DONE))
-			item.itemDone = data.getIntExtra(ToDoItem.EXTRA_DONE, ITEM_PENDING);
+		item.itemDone = data.getIntExtra(
+			ToDoItem.EXTRA_DONE,
+			ITEM_PENDING);
 	}
 
 	@Override
@@ -355,23 +285,19 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 		viewHolder.tvTitle.setText(title);
 		viewHolder.tvDesc.setText(description);
 
-		if (hourOfDay != -1 &&
-			minute != -1)
+		if (timestamp > 0)
 		{
 			String dateTime;
 
-			if (ToDoDatabase.dateIsToday(
-				year,
-				month,
-				dayOfMonth))
-				dateTime = String.format("%02d:%02d", hourOfDay, minute);
+			if (ToDoDatabase.dateIsToday(timestamp))
+				dateTime = String.format("%s:%s", getHourOfDay(), getMinute());
 			else
 				dateTime = String.format(
-					"%02d.%02d. %02d:%02d",
-					month,
-					dayOfMonth,
-					hourOfDay,
-					minute);
+					"%s.%s. %s:%s",
+					getMonth(),
+					getDayOfMonth(),
+					getHourOfDay(),
+					getMinute());
 
 			viewHolder.tvTime.setText(dateTime);
 		}

@@ -25,20 +25,10 @@ public final class DateTimePickerFragment extends DialogFragment
 {
 	public interface OnDateTimePickedCallback
 	{
-		void onDateTimePicked(
-			int year,
-			int month,
-			int day,
-			int hour,
-			int minute);
+		void onDateTimePicked(long timestamp);
 	}
 
-	private int year = -1;
-	private int month = -1;
-	private int day = -1;
-
-	private int hour = -1;
-	private int minute = -1;
+	private long timestamp = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -50,20 +40,7 @@ public final class DateTimePickerFragment extends DialogFragment
 		if (arguments == null)
 			return;
 
-		if (arguments.containsKey(ToDoItem.EXTRA_YEAR))
-			year = arguments.getInt(ToDoItem.EXTRA_YEAR);
-
-		if (arguments.containsKey(ToDoItem.EXTRA_MONTH))
-			month = arguments.getInt(ToDoItem.EXTRA_MONTH)-1;
-
-		if (arguments.containsKey(ToDoItem.EXTRA_DAYOFMONTH))
-			day = arguments.getInt(ToDoItem.EXTRA_DAYOFMONTH);
-
-		if (arguments.containsKey(ToDoItem.EXTRA_HOUROFDAY))
-			hour = arguments.getInt(ToDoItem.EXTRA_HOUROFDAY);
-
-		if (arguments.containsKey(ToDoItem.EXTRA_MINUTE))
-			minute = arguments.getInt(ToDoItem.EXTRA_MINUTE);
+		this.timestamp = arguments.getLong(ToDoItem.EXTRA_TIMESTAMP, 0);
 	}
 
 	@Override
@@ -77,23 +54,20 @@ public final class DateTimePickerFragment extends DialogFragment
 
 		final Calendar calendar = Calendar.getInstance();
 
-		if (year == -1 ||
-			month == -1 ||
-			day == -1 ||
-			hour == -1 ||
-			minute == -1)
-		{
-			year = calendar.get(Calendar.YEAR);
-			month = calendar.get(Calendar.MONTH)+1;
-			day = calendar.get(Calendar.DAY_OF_MONTH);
+		if (timestamp > 0)
+			calendar.setTimeInMillis(timestamp);
 
-			hour = calendar.get(Calendar.HOUR_OF_DAY)+2;
-			minute = calendar.get(Calendar.MINUTE);
-		}
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH)+1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+		int hour = calendar.get(Calendar.HOUR_OF_DAY)+2;
+		int minute = calendar.get(Calendar.MINUTE);
 
 		final DatePicker datePicker =
 			(DatePicker) view.findViewById(R.id.date_picker);
-		datePicker.setMinDate(calendar.getTimeInMillis()-1000);
+		// We have to set a date at least 1 second before now.
+		datePicker.setMinDate(System.currentTimeMillis()-1000L);
 		datePicker.init(year, month - 1, day, null);
 
 		final TimePicker timePicker =
@@ -109,16 +83,22 @@ public final class DateTimePickerFragment extends DialogFragment
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i)
 				{
-					year = datePicker.getYear();
-					month = datePicker.getMonth()+1;
-					day = datePicker.getDayOfMonth();
+					int year = datePicker.getYear();
+					int month = datePicker.getMonth();
+					int day = datePicker.getDayOfMonth();
 
-					hour = timePicker.getCurrentHour();
-					minute = timePicker.getCurrentMinute();
+					int hour = timePicker.getCurrentHour();
+					int minute = timePicker.getCurrentMinute();
+
+					calendar.set(Calendar.YEAR, year);
+					calendar.set(Calendar.MONTH, month);
+					calendar.set(Calendar.DAY_OF_MONTH, day);
+					calendar.set(Calendar.HOUR_OF_DAY, hour);
+					calendar.set(Calendar.MINUTE, minute);
 
 					OnDateTimePickedCallback callback =
 						(ItemCreateActivity) getActivity();
-					callback.onDateTimePicked(year, month, day,	hour, minute);
+					callback.onDateTimePicked(calendar.getTimeInMillis());
 				}
 			});
 		builder.setNegativeButton(android.R.string.cancel, null);

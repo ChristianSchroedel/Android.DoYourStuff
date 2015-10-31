@@ -71,11 +71,11 @@ public class ToDoDatabase
 			ToDoEntry._ID,
 			ToDoEntry.COLUMN_TITLE,
 			ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoEntry.COLUMN_DATETIME,
+			ToDoEntry.COLUMN_TIMESTAMP,
 			ToDoEntry.COLUMN_CATEGORY,
 			ToDoEntry.COLUMN_DONE };
 
-		String sortOrder = ToDoEntry.COLUMN_DATETIME + " ASC";
+		String sortOrder = ToDoEntry.COLUMN_TIMESTAMP + " ASC";
 
 		Cursor cursor = sql.query(
 			ToDoEntry.TABLE_NAME,
@@ -105,8 +105,8 @@ public class ToDoDatabase
 				cursor.getColumnIndex(ToDoEntry.COLUMN_TITLE));
 			String desc = cursor.getString(
 				cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
-			String dateTime = cursor.getString(
-				cursor.getColumnIndex(ToDoEntry.COLUMN_DATETIME));
+			Long timeStamp = cursor.getLong(
+				cursor.getColumnIndex(ToDoEntry.COLUMN_TIMESTAMP));
 			int category = cursor.getInt(
 				cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
 			int done = cursor.getInt(
@@ -116,7 +116,7 @@ public class ToDoDatabase
 			item.id = id;
 			item.title = title;
 			item.description = desc;
-			item.setDateTime(dateTime);
+			item.timestamp = timeStamp;
 			item.category = ToDoItem.Category.fromValue(category);
 			item.itemDone = done;
 
@@ -155,7 +155,7 @@ public class ToDoDatabase
 			return doneHeader;
 		}
 
-		if (!item.isDateValid())
+		if (item.timestamp == 0)
 			return null;
 
 		if (dateIsPast(item))
@@ -174,23 +174,17 @@ public class ToDoDatabase
 		{
 			if (!lastInPast &&
 				last != null &&
-				(item.year == last.year &&
-				item.month == last.month &&
-				item.dayOfMonth == last.dayOfMonth))
+				hasSameDay(item.timestamp, last.timestamp))
 				return null;
 
 			lastInPast = false;
 
 			String header;
 
-			if (dateIsToday(item.year, item.month, item.dayOfMonth))
+			if (dateIsToday(item.timestamp))
 				header = context.getResources().getString(R.string.today);
 			else
-				header = String.format(
-					"%02d.%02d.%04d",
-					item.dayOfMonth,
-					item.month,
-					item.year);
+				header = item.getDate();
 
 			return new Header(header);
 		}
@@ -213,7 +207,7 @@ public class ToDoDatabase
 			ToDoEntry._ID,
 			ToDoEntry.COLUMN_TITLE,
 			ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoEntry.COLUMN_DATETIME,
+			ToDoEntry.COLUMN_TIMESTAMP,
 			ToDoEntry.COLUMN_CATEGORY,
 			ToDoEntry.COLUMN_DONE };
 
@@ -240,8 +234,8 @@ public class ToDoDatabase
 			cursor.getColumnIndex(ToDoEntry.COLUMN_TITLE));
 		String desc = cursor.getString(
 			cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
-		String dateTime = cursor.getString(
-			cursor.getColumnIndex(ToDoEntry.COLUMN_DATETIME));
+		long timeStamp = cursor.getLong(
+			cursor.getColumnIndex(ToDoEntry.COLUMN_TIMESTAMP));
 		int category = cursor.getInt(
 			cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
 		int done = cursor.getInt(
@@ -251,7 +245,7 @@ public class ToDoDatabase
 		item.id = id;
 		item.title = title;
 		item.description = desc;
-		item.setDateTime(dateTime);
+		item.timestamp = timeStamp;
 		item.category = ToDoItem.Category.fromValue(category);
 		item.itemDone = done;
 
@@ -273,7 +267,7 @@ public class ToDoDatabase
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_TITLE, item.title);
 		values.put(ToDoEntry.COLUMN_DESCRIPTION, item.description);
-		values.put(ToDoEntry.COLUMN_DATETIME, item.getDateTimeString());
+		values.put(ToDoEntry.COLUMN_TIMESTAMP, item.timestamp);
 		values.put(ToDoEntry.COLUMN_CATEGORY, item.category.toValue());
 		values.put(ToDoEntry.COLUMN_DONE, item.itemDone);
 
@@ -326,19 +320,18 @@ public class ToDoDatabase
 
 	/**
 	 * Updates notification date and time of item in database.
-	 *
-	 * @param id - id of to do list item
+	 *  @param id - id of to do list item
 	 * @param dateTime - new notification date time
 	 */
-	public void updateItemDateTime(long id, String dateTime)
+	public void updateItemDateTime(long id, long dateTime)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
 		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = { String.valueOf(id) };
+		String[] selectionArgs = { Long.toString(id) };
 
 		ContentValues values = new ContentValues();
-		values.put(ToDoEntry.COLUMN_DATETIME, dateTime);
+		values.put(ToDoEntry.COLUMN_TIMESTAMP, dateTime);
 
 		sql.update(
 			ToDoEntry.TABLE_NAME,
@@ -396,18 +389,34 @@ public class ToDoDatabase
 	/**
 	 * Checks if given date is today.
 	 *
-	 * @param year - year of date
-	 * @param month - month of date
-	 * @param day - day of date
+	 * @param timestamp - time stamp
 	 * @return - true if today else false
 	 */
-	public static boolean dateIsToday(int year, int month, int day)
+	public static boolean dateIsToday(long timestamp)
+	{
+		return hasSameDay(System.currentTimeMillis(), timestamp);
+	}
+
+	/**
+	 * Checks if two timestamps are on the same day.
+	 *
+	 * @param timestamp - first timestamp
+	 * @param timestampOther - other timestamp
+	 */
+	private static boolean hasSameDay(long timestamp, long timestampOther)
 	{
 		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+		calendar.setTimeInMillis(timestampOther);
 
 		return (calendar.get(Calendar.YEAR) == year &&
-			calendar.get(Calendar.MONTH)+1 == month &&
-			calendar.get(Calendar.DAY_OF_MONTH) == day);
+			calendar.get(Calendar.MONTH) == month &&
+			calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth);
 	}
 
 	/**
@@ -418,20 +427,6 @@ public class ToDoDatabase
 	 */
 	private boolean dateIsPast(ToDoItem item)
 	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(
-			item.year,
-			item.month-1,
-			item.dayOfMonth,
-			item.hourOfDay,
-			item.minute);
-
-		long itemTime = calendar.getTimeInMillis();
-
-		Calendar calNow = Calendar.getInstance();
-
-		long now = calNow.getTimeInMillis();
-
-		return (itemTime < now);
+		return item.timestamp < System.currentTimeMillis();
 	}
 }
