@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import de.schroedel.doitlater.R;
-import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 

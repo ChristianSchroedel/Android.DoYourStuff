@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import de.schroedel.doitlater.content.ListItem;
-import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 
 /**

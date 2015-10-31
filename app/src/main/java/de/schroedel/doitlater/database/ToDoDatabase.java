@@ -1,17 +1,19 @@
-package de.schroedel.doitlater.content;
+package de.schroedel.doitlater.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.content.Header;
+import de.schroedel.doitlater.content.ListItem;
+import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoDatabaseHelper.ToDoEntry;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
@@ -20,10 +22,6 @@ import de.schroedel.doitlater.R;
  */
 public class ToDoDatabase
 {
-	private final static String INTEGER = " integer";
-	private final static String TEXT = " text";
-	private final static String COMMA = ", ";
-
 	private static ToDoDatabase instance;
 	private ToDoDatabaseHelper dbHelper;
 	private Context context;
@@ -32,81 +30,6 @@ public class ToDoDatabase
 	private Header missedHeader;
 	private ToDoItem last;
 	private boolean lastInPast = false;
-
-	private final static String SQL_CREATE_ENTRIES =
-		"CREATE TABLE " + ToDoEntry.TABLE_NAME +
-		"(" +
-		ToDoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA +
-		ToDoEntry.COLUMN_TITLE + TEXT + COMMA +
-		ToDoEntry.COLUMN_DESCRIPTION + TEXT + COMMA +
-		ToDoEntry.COLUMN_DATETIME + TEXT + COMMA +
-		ToDoEntry.COLUMN_CATEGORY + INTEGER + COMMA +
-		ToDoEntry.COLUMN_DONE + INTEGER +
-		")";
-
-	private final static String SQL_ADD_DATETIME =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_DATETIME + TEXT;
-
-	private final static String SQL_ADD_CATEGORY =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_CATEGORY + INTEGER;
-
-	private final static String SQL_ADD_DONE =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_DONE + INTEGER;
-
-	/**
-	 * To do list item columns.
-	 */
-	class ToDoEntry implements BaseColumns
-	{
-		public static final String TABLE_NAME = "items";
-		public static final String COLUMN_TITLE = "title";
-		public static final String COLUMN_DESCRIPTION = "description";
-		public static final String COLUMN_DATETIME = "datetime";
-		public static final String COLUMN_CATEGORY = "category";
-		public static final String COLUMN_DONE = "done";
-	}
-
-	/**
-	 * Helper to access/create/update database content.
-	 */
-	class ToDoDatabaseHelper extends SQLiteOpenHelper
-	{
-		private static final String DB_NAME = "ToDoList.db";
-		private static final int VERSION = 3;
-
-		/**
-		 * Creates database helper.
-		 *
-		 * @param context - context
-		 */
-		public ToDoDatabaseHelper(Context context)
-		{
-			super(context, DB_NAME, null, VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db)
-		{
-			db.execSQL(SQL_CREATE_ENTRIES);
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-		{
-			if (oldVersion == 1 &&
-				newVersion == 2)
-				db.execSQL(SQL_ADD_DATETIME);
-			else if (oldVersion == 2 &&
-				newVersion == 3)
-			{
-				db.execSQL(SQL_ADD_CATEGORY);
-				db.execSQL(SQL_ADD_DONE);
-			}
-		}
-	}
 
 	/**
 	 * Creates database instance.

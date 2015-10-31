@@ -13,7 +13,7 @@ import android.support.v4.app.TaskStackBuilder;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.activity.ItemListActivity;
-import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 
 /**
@@ -73,7 +73,10 @@ public class AlarmReceiver extends BroadcastReceiver
 			R.drawable.ic_launcher,
 			"later",
 			later);
-		builder.addAction(R.drawable.ic_launcher, "done", done);
+		builder.addAction(
+			R.drawable.ic_launcher,
+			"done",
+			done);
 
 		Uri alarmSound = RingtoneManager.getDefaultUri(
 			RingtoneManager.TYPE_ALARM);

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import android.view.View;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
-import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 import de.schroedel.doitlater.fragment.ItemListFragment;

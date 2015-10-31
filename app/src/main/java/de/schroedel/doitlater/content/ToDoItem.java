@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
+import de.schroedel.doitlater.database.ToDoDatabase;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
@@ -72,6 +73,8 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	public int dayOfMonth;
 	public int hourOfDay;
 	public int minute;
+
+	public long timeStamp;
 
 	public int itemDone;
 	public Category category;
@@ -357,7 +360,10 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 		{
 			String dateTime;
 
-			if (ToDoDatabase.dateIsToday(year, month, dayOfMonth))
+			if (ToDoDatabase.dateIsToday(
+				year,
+				month,
+				dayOfMonth))
 				dateTime = String.format("%02d:%02d", hourOfDay, minute);
 			else
 				dateTime = String.format(

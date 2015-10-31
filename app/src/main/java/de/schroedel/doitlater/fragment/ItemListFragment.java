@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
 import de.schroedel.doitlater.content.ListItem;
-import de.schroedel.doitlater.content.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.listener.SwipeDismissListViewTouchListener;
 
