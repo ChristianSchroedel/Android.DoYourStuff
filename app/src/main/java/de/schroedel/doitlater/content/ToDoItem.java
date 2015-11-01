@@ -168,7 +168,7 @@ public class ToDoItem implements Parcelable, ListItem
 	 */
 	public String getMinute()
 	{
-		return DateFormatter.getFormattedDate(timestamp, "m");
+		return DateFormatter.getFormattedDate(timestamp, "mm");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class ToDoItem implements Parcelable, ListItem
 	 */
 	public String getHourOfDay()
 	{
-		return DateFormatter.getFormattedDate(timestamp, "H");
+		return DateFormatter.getFormattedDate(timestamp, "HH");
 	}
 
 	@Override
@@ -215,10 +215,10 @@ public class ToDoItem implements Parcelable, ListItem
 		viewHolder.tvTitle.setText(title);
 		viewHolder.tvDesc.setText(description);
 
+		String dateTime = null;
+
 		if (timestamp > 0)
 		{
-			String dateTime;
-
 			if (ToDoDatabase.dateIsToday(timestamp))
 				dateTime = String.format("%s:%s", getHourOfDay(), getMinute());
 			else
@@ -228,9 +228,9 @@ public class ToDoItem implements Parcelable, ListItem
 					getDayOfMonth(),
 					getHourOfDay(),
 					getMinute());
-
-			viewHolder.tvTime.setText(dateTime);
 		}
+
+		viewHolder.tvTime.setText(dateTime);
 
 		return convertView;
 	}

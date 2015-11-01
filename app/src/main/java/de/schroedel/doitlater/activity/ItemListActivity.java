@@ -216,7 +216,8 @@ public class ItemListActivity extends AppCompatActivity
 						item.description,
 						item.timestamp);
 
-				setReminderAlarm(item);
+				if (item.timestamp != 0)
+					setReminderAlarm(item);
 
 				selectedItem = item;
 			}
