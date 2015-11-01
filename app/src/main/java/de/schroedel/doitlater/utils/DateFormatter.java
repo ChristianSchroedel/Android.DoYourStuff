@@ -31,4 +31,46 @@ public final class DateFormatter
 		return dateFormat.format(calendar.getTime());
 	}
 
+	/**
+	 * Checks if given date is today.
+	 *
+	 * @param timestamp - time stamp
+	 * @return - true if today else false
+	 */
+	public static boolean dateIsToday(long timestamp)
+	{
+		return hasSameDay(System.currentTimeMillis(), timestamp);
+	}
+
+	/**
+	 * Checks if two timestamps are on the same day.
+	 *
+	 * @param timestamp - first timestamp
+	 * @param timestampOther - other timestamp
+	 */
+	public static boolean hasSameDay(long timestamp, long timestampOther)
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+		calendar.setTimeInMillis(timestampOther);
+
+		return (calendar.get(Calendar.YEAR) == year &&
+			calendar.get(Calendar.MONTH) == month &&
+			calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth);
+	}
+
+	/**
+	 * Checks if given timestamp is in the past.
+	 *
+	 * @param timestamp - timestamp
+	 */
+	public static boolean dateIsPast(long timestamp)
+	{
+		return timestamp < System.currentTimeMillis();
+	}
 }

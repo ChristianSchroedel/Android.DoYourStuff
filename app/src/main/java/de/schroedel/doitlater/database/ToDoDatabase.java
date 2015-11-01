@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import de.schroedel.doitlater.R;
@@ -14,6 +13,7 @@ import de.schroedel.doitlater.content.Header;
 import de.schroedel.doitlater.content.ListItem;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.database.ToDoDatabaseHelper.ToDoEntry;
+import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
@@ -158,7 +158,7 @@ public class ToDoDatabase
 		if (item.timestamp == 0)
 			return null;
 
-		if (dateIsPast(item))
+		if (DateFormatter.dateIsPast(item.timestamp))
 		{
 			lastInPast = true;
 
@@ -174,14 +174,14 @@ public class ToDoDatabase
 		{
 			if (!lastInPast &&
 				last != null &&
-				hasSameDay(item.timestamp, last.timestamp))
+				DateFormatter.hasSameDay(item.timestamp, last.timestamp))
 				return null;
 
 			lastInPast = false;
 
 			String header;
 
-			if (dateIsToday(item.timestamp))
+			if (DateFormatter.dateIsToday(item.timestamp))
 				header = context.getResources().getString(R.string.today);
 			else
 				header = item.getDate();
@@ -368,49 +368,5 @@ public class ToDoDatabase
 			values,
 			selection,
 			selectionArgs);
-	}
-
-	/**
-	 * Checks if given date is today.
-	 *
-	 * @param timestamp - time stamp
-	 * @return - true if today else false
-	 */
-	public static boolean dateIsToday(long timestamp)
-	{
-		return hasSameDay(System.currentTimeMillis(), timestamp);
-	}
-
-	/**
-	 * Checks if two timestamps are on the same day.
-	 *
-	 * @param timestamp - first timestamp
-	 * @param timestampOther - other timestamp
-	 */
-	private static boolean hasSameDay(long timestamp, long timestampOther)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(timestamp);
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-		calendar.setTimeInMillis(timestampOther);
-
-		return (calendar.get(Calendar.YEAR) == year &&
-			calendar.get(Calendar.MONTH) == month &&
-			calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth);
-	}
-
-	/**
-	 * Checks if given date is in the past.
-	 *
-	 * @param item - to do list item
-	 * @return - true if past else false
-	 */
-	private boolean dateIsPast(ToDoItem item)
-	{
-		return item.timestamp < System.currentTimeMillis();
 	}
 }

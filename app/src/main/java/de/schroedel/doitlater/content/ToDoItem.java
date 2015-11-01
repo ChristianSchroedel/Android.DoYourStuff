@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import de.schroedel.doitlater.R;
-import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
@@ -219,7 +218,7 @@ public class ToDoItem implements Parcelable, ListItem
 
 		if (timestamp > 0)
 		{
-			if (ToDoDatabase.dateIsToday(timestamp))
+			if (DateFormatter.dateIsToday(timestamp))
 				dateTime = String.format("%s:%s", getHourOfDay(), getMinute());
 			else
 				dateTime = String.format(
