@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
-    android:background="@color/listHeader">
+    android:background="@color/primary">
 
     <TextView
         android:id="@+id/list_item_header"
