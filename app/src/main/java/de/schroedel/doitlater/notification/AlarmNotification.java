@@ -17,8 +17,8 @@ import java.util.List;
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.activity.ItemListActivity;
 import de.schroedel.doitlater.content.ToDoItem;
-import de.schroedel.doitlater.service.DismissAlarmReceiver;
-import de.schroedel.doitlater.service.UpdateItemReceiver;
+import de.schroedel.doitlater.receiver.DismissAlarmReceiver;
+import de.schroedel.doitlater.receiver.UpdateItemReceiver;
 
 /**
  * Created by Christian Schrödel on 01.11.15.

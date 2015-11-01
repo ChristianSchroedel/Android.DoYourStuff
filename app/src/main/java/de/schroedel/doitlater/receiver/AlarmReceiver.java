@@ -1,4 +1,4 @@
-package de.schroedel.doitlater.service;
+package de.schroedel.doitlater.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

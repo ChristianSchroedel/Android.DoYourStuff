@@ -11,10 +11,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <receiver android:name=".service.AlarmReceiver"/>
-        <receiver android:name=".service.DismissAlarmReceiver"/>
+        <receiver android:name=".receiver.AlarmReceiver"/>
+        <receiver android:name=".receiver.DismissAlarmReceiver"/>
         <receiver
-            android:name=".service.UpdateItemReceiver"
+            android:name=".receiver.UpdateItemReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="de.schroedel.doit.service.UpdateItemReceiver.ACTION_SNOOZE"/>

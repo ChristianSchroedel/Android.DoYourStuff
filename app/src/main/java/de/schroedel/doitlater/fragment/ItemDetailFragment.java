@@ -60,7 +60,6 @@ public class ItemDetailFragment extends Fragment
 			container,
 			false);
 
-		// Show the dummy content as text in a TextView.
 		if (item != null)
 		{
 			tvDesc = (TextView) rootView.findViewById(R.id.todo_detail_desc);

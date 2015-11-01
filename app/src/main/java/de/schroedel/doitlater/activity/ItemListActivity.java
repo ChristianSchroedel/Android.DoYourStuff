@@ -19,7 +19,7 @@ import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 import de.schroedel.doitlater.fragment.ItemListFragment;
-import de.schroedel.doitlater.service.AlarmReceiver;
+import de.schroedel.doitlater.receiver.AlarmReceiver;
 
 
 /**
