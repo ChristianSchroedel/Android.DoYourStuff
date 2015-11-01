@@ -1,12 +1,12 @@
 package de.schroedel.doitlater.service;
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoDatabase;
+import de.schroedel.doitlater.notification.AlarmNotification;
 
 /**
  * Created by Christian Schrödel on 11.04.15.
@@ -23,9 +23,9 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	{
 		String action = intent.getAction();
 
-		if (action.equalsIgnoreCase(ACTION_DONE))
+		if (action.equals(ACTION_DONE))
 			itemIsDone(context, intent);
-		else if (action.equalsIgnoreCase(ACTION_LATER))
+		else if (action.equals(ACTION_LATER))
 			doItemLater(context, intent);
 	}
 
@@ -49,7 +49,7 @@ public class UpdateItemReceiver extends BroadcastReceiver
 			item.id,
 			ToDoItem.ITEM_DONE);
 
-		cancelNotification(context, item.id);
+		cancelNotification(context);
 	}
 
 	/**
@@ -68,20 +68,17 @@ public class UpdateItemReceiver extends BroadcastReceiver
 		if (item == null)
 			return;
 
-		cancelNotification(context, item.id);
+		cancelNotification(context);
 	}
 
 	/**
-	 * Cancels existing notification matching giving id.
+	 * Cancels existing alarm notification.
 	 *
 	 * @param context - context
-	 * @param id - id of notification
 	 */
-	private void cancelNotification(Context context, long id)
+	private void cancelNotification(Context context)
 	{
-		NotificationManager manager = (NotificationManager)
-			context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		manager.cancel((int) id);
+		AlarmNotification notification = AlarmNotification.getInstance();
+		notification.cancel(context);
 	}
 }
