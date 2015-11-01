@@ -3,7 +3,9 @@
 
 	<color name="primary">#ff313df2</color>
 	<color name="primary_dark">#ff6c6cca</color>
-	<color name="accent">#ffffff</color>
+	<color name="accent">#787878</color>
+
+	<color name="white">#ffffff</color>
 
 	<color name="theme_background">#ffeaeaea</color>
 
