@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoEntryTable;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 
 
@@ -147,12 +148,16 @@ public class ItemDetailActivity extends AppCompatActivity
 				if (data != null &&
 					(item =
 						data.getParcelableExtra(ToDoItem.EXTRA_ITEM)) != null)
+				{
+					ToDoDatabase database = ToDoDatabase.getInstance(this);
+					ToDoEntryTable entryTable = database.getToDoEntryTable();
 
-				ToDoDatabase.getInstance(this).updateToDoItem(
-					item.id,
-					item.title,
-					item.description,
-					item.timestamp);
+					entryTable.updateToDoItem(
+						item.id,
+						item.title,
+						item.description,
+						item.timestamp);
+				}
 
 				finish();
 				NavUtils.navigateUpTo(

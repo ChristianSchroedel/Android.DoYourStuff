@@ -17,6 +17,7 @@ import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoEntryTable;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 import de.schroedel.doitlater.fragment.ItemListFragment;
 import de.schroedel.doitlater.receiver.AlarmReceiver;
@@ -205,12 +206,15 @@ public class ItemListActivity extends AppCompatActivity
 
 				item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
+				ToDoDatabase database = ToDoDatabase.getInstance(this);
+				ToDoEntryTable entryTable = database.getToDoEntryTable();
+
 				// If ID of to do item is not a real number it is not stored in
 				// the database yet.
 				if (item.id < 0)
-					ToDoDatabase.getInstance(this).insertItem(item);
+					entryTable.insert(item);
 				else
-					ToDoDatabase.getInstance(this).updateToDoItem(
+					entryTable.updateToDoItem(
 						item.id,
 						item.title,
 						item.description,

@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
+import de.schroedel.doitlater.database.ToDoEntryTable;
 import de.schroedel.doitlater.notification.AlarmNotification;
 
 /**
@@ -45,9 +46,10 @@ public class UpdateItemReceiver extends BroadcastReceiver
 		if (item == null)
 			return;
 
-		ToDoDatabase.getInstance(context).updateItemIsDone(
-			item.id,
-			ToDoItem.ITEM_DONE);
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
+
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+		entryTable.updateItemIsDone(item.id, ToDoItem.ITEM_DONE);
 
 		cancelNotification(context);
 	}

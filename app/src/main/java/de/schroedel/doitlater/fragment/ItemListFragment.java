@@ -10,6 +10,7 @@ import de.schroedel.doitlater.adapter.ToDoListAdapter;
 import de.schroedel.doitlater.content.ListItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoEntryTable;
 import de.schroedel.doitlater.listener.SwipeDismissListViewTouchListener;
 
 
@@ -69,9 +70,10 @@ public class ItemListFragment extends ListFragment
 	{
 		super.onResume();
 
-		setListAdapter(new ToDoListAdapter(
-			getActivity(),
-			ToDoDatabase.getInstance(getActivity()).getItems()));
+		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		setListAdapter(new ToDoListAdapter(getContext(), entryTable.getAll()));
 	}
 
 	@Override

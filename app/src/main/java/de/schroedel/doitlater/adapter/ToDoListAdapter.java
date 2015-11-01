@@ -11,6 +11,7 @@ import java.util.List;
 import de.schroedel.doitlater.content.ListItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoEntryTable;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
@@ -66,8 +67,14 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	{
 		items.add(item);
 
+		if (!(item instanceof ToDoItem))
+			return;
+
+		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
 		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
-			ToDoDatabase.getInstance(getContext()).insertItem((ToDoItem) item);
+			entryTable.insert(item);
 
 		notifyDataSetChanged();
 	}
@@ -77,9 +84,14 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	{
 		items.remove(item);
 
+		if (!(item instanceof ToDoItem))
+			return;
+
+		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
 		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
-			ToDoDatabase.getInstance(getContext()).
-				removeItem(((ToDoItem) item).id);
+			entryTable.remove(((ToDoItem) item).id);
 
 		notifyDataSetChanged();
 	}
