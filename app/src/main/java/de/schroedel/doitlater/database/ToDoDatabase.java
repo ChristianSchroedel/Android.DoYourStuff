@@ -299,8 +299,13 @@ public class ToDoDatabase
 	 * @param id - id of to do list item
 	 * @param title - new item title
 	 * @param description - new item description
+	 * @param timestamp - timestamp
 	 */
-	public void updateItemText(long id, String title, String description)
+	public void updateToDoItem(
+		long id,
+		String title,
+		String description,
+		long timestamp)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
@@ -310,28 +315,7 @@ public class ToDoDatabase
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_TITLE, title);
 		values.put(ToDoEntry.COLUMN_DESCRIPTION, description);
-
-		sql.update(
-			ToDoEntry.TABLE_NAME,
-			values,
-			selection,
-			selectionArgs);
-	}
-
-	/**
-	 * Updates notification date and time of item in database.
-	 *  @param id - id of to do list item
-	 * @param dateTime - new notification date time
-	 */
-	public void updateItemDateTime(long id, long dateTime)
-	{
-		SQLiteDatabase sql = dbHelper.getReadableDatabase();
-
-		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = { Long.toString(id) };
-
-		ContentValues values = new ContentValues();
-		values.put(ToDoEntry.COLUMN_TIMESTAMP, dateTime);
+		values.put(ToDoEntry.COLUMN_TIMESTAMP, timestamp);
 
 		sql.update(
 			ToDoEntry.TABLE_NAME,

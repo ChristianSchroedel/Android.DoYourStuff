@@ -1,6 +1,5 @@
 package de.schroedel.doitlater.content;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -8,28 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.database.ToDoDatabase;
+import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
  *
  * To do list item holding information about planned task of user.
  */
-public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.ListItem
+public class ToDoItem implements Parcelable, ListItem
 {
 	public static final String EXTRA_ITEM = "todoItem";
-	public static final String EXTRA_ID = "id";
-
-	public static final String EXTRA_TITLE = "title";
-	public static final String EXTRA_DESCRIPTION = "description";
 	public static final String EXTRA_TIMESTAMP = "timestamp";
-	public static final String EXTRA_CATEGORY = "category";
-	public static final String EXTRA_DONE = "done";
 
 	public static final int ITEM_PENDING = 0;
 	public static final int ITEM_DONE = 1;
@@ -65,13 +55,6 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	public long id;
 	public String title;
 	public String description;
-/*
-	public int year;
-	public int month;
-	public int dayOfMonth;
-	public int hourOfDay;
-	public int minute;
-*/
 	public long timestamp;
 
 	public int itemDone;
@@ -85,7 +68,7 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	}
 
 	/**
-	 * Creates new to do item.
+	 * Creates new empty to do item.
 	 */
 	public ToDoItem()
 	{
@@ -149,111 +132,53 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	}
 
 	/**
-	 * Returns date of to do item with 'dd.MM.yyyy' pattern.
+	 * Returns date of to do item as string with 'dd.MM.yyyy' pattern.
 	 *
 	 * @return - date
 	 */
 	public String getDate()
 	{
-		return getFormattedDate(timestamp, "dd.MM.yyyy");
+		return DateFormatter.getFormattedDate(timestamp, "dd.MM.yyyy");
 	}
 
-
+	/**
+	 * Returns day of month of to do item as string.
+	 *
+	 * @return - day of month
+	 */
 	public String getDayOfMonth()
 	{
-		return getFormattedDate(timestamp, "dd");
+		return DateFormatter.getFormattedDate(timestamp, "dd");
 	}
 
-
+	/**
+	 * Returns month of to do item as string.
+	 *
+	 * @return - month
+	 */
 	public String getMonth()
 	{
-		return getFormattedDate(timestamp, "MM");
+		return DateFormatter.getFormattedDate(timestamp, "MM");
 	}
 
-
+	/**
+	 * Returns minute of to do item as string.
+	 *
+	 * @return - minute
+	 */
 	public String getMinute()
 	{
-		return getFormattedDate(timestamp, "m");
+		return DateFormatter.getFormattedDate(timestamp, "m");
 	}
 
-
+	/**
+	 * Returns hour of to do item of day as string.
+	 *
+	 * @return - hour of day
+	 */
 	public String getHourOfDay()
 	{
-		return getFormattedDate(timestamp, "H");
-	}
-
-	/**
-	 * Returns formatted string using given UTC timestamp + pattern.
-	 *
-	 * @param timestamp - UTC timestamp
-	 * @param pattern - format pattern
-	 * @return - formatted string
-	 */
-	private static String getFormattedDate(long timestamp, String pattern)
-	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(timestamp);
-
-		SimpleDateFormat dateFormat =
-			new SimpleDateFormat(pattern, Locale.getDefault());
-
-		dateFormat.setCalendar(calendar);
-
-		return dateFormat.format(calendar.getTime());
-	}
-
-	/**
-	 * Puts to do list item data as extras into given intent.
-	 *
-	 * @param item - to do list item
-	 * @param data - intent
-	 */
-	public static void putItemDataAsExtras(ToDoItem item, Intent data)
-	{
-		data.putExtra(EXTRA_TITLE, item.title);
-		data.putExtra(EXTRA_DESCRIPTION, item.description);
-		data.putExtra(EXTRA_TIMESTAMP, item.timestamp);
-		data.putExtra(EXTRA_CATEGORY, item.category.toValue());
-		data.putExtra(EXTRA_DONE, item.itemDone);
-	}
-
-	/**
-	 * Checks if extras are valid. To be valid the data has to contain at least
-	 * a non-empty title.
-	 *
-	 * @param data - extras
-	 * @return - true if valid else false
-	 */
-	public static boolean itemExtrasAreValid(Intent data)
-	{
-		if (!data.hasExtra(ToDoItem.EXTRA_TITLE))
-			return false;
-
-		String title = data.getStringExtra(EXTRA_TITLE);
-
-		return (title != null && !title.isEmpty());
-	}
-
-	/**
-	 * Initializes to do list item with given extras.
-	 *
-	 * @param item - to do list item
-	 * @param data - extras
-	 */
-	public static void initItemFromExtras(ToDoItem item, Intent data)
-	{
-		item.title = data.getStringExtra(EXTRA_TITLE);
-		item.description = data.getStringExtra(EXTRA_DESCRIPTION);
-		item.timestamp = data.getLongExtra(
-			EXTRA_TIMESTAMP,
-			0);
-
-		int cat = data.getIntExtra(ToDoItem.EXTRA_CATEGORY, 0);
-		item.category = Category.fromValue(cat);
-
-		item.itemDone = data.getIntExtra(
-			ToDoItem.EXTRA_DONE,
-			ITEM_PENDING);
+		return DateFormatter.getFormattedDate(timestamp, "H");
 	}
 
 	@Override

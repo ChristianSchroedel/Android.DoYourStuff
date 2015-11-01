@@ -46,7 +46,6 @@ public class ItemDetailActivity extends AppCompatActivity
 		if (actionBar != null)
 			actionBar.setDisplayHomeAsUpEnabled(true);
 
-
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
 		// (e.g. when rotating the screen from portrait to landscape).
@@ -123,7 +122,10 @@ public class ItemDetailActivity extends AppCompatActivity
 		else if (menuItem.getItemId() == R.id.action_edit)
 		{
 			Intent editIntent = new Intent(this, ItemCreateActivity.class);
-			ToDoItem.putItemDataAsExtras(item, editIntent);
+			editIntent.putExtra(
+				ToDoItem.EXTRA_ITEM,
+				item);
+
 			startActivityForResult(editIntent, EDIT_ITEM);
 		}
 
@@ -140,17 +142,16 @@ public class ItemDetailActivity extends AppCompatActivity
 		{
 			if (resultCode == RESULT_OK)
 			{
-				if (!ToDoItem.itemExtrasAreValid(data))
-					return;
+				ToDoItem item;
 
-				ToDoItem.initItemFromExtras(item, data);
+				if (data != null &&
+					(item =
+						data.getParcelableExtra(ToDoItem.EXTRA_ITEM)) != null)
 
-				ToDoDatabase.getInstance(this).updateItemText(
+				ToDoDatabase.getInstance(this).updateToDoItem(
 					item.id,
 					item.title,
-					item.description);
-				ToDoDatabase.getInstance(this).updateItemDateTime(
-					item.id,
+					item.description,
 					item.timestamp);
 
 				finish();

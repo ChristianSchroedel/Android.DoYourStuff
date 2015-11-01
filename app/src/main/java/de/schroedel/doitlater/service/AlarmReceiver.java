@@ -13,7 +13,6 @@ import android.support.v4.app.TaskStackBuilder;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.activity.ItemListActivity;
-import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
 
 /**
@@ -29,23 +28,23 @@ public class AlarmReceiver extends BroadcastReceiver
 		ToDoItem item;
 		long id = -1;
 
-		if (data.hasExtra(ToDoItem.EXTRA_ID))
-			id = data.getLongExtra(ToDoItem.EXTRA_ID, -1);
+		if (data == null)
+			return;
 
-		item = ToDoDatabase.getInstance(context).getItem(id);
+		item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
 		if (item == null)
 			return;
 
 		Intent detailIntent = new Intent(context, ItemListActivity.class);
-		detailIntent.putExtra(ToDoItem.EXTRA_ID, id);
+		detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
 		Intent laterIntent = new Intent(context, UpdateItemReceiver.class);
-		laterIntent.putExtra(ToDoItem.EXTRA_ID, id);
+		laterIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 		laterIntent.setAction(UpdateItemReceiver.ACTION_LATER);
 
 		Intent doneIntent = new Intent(context, UpdateItemReceiver.class);
-		doneIntent.putExtra(ToDoItem.EXTRA_ID, id);
+		doneIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 		doneIntent.setAction(UpdateItemReceiver.ACTION_DONE);
 
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

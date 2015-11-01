@@ -29,6 +29,8 @@ public class ItemCreateActivity extends AppCompatActivity implements
 	private EditText etTitle;
 	private EditText etDesc;
 
+	private ToDoItem item;
+
 	private long timestamp;
 
 	@Override
@@ -48,24 +50,28 @@ public class ItemCreateActivity extends AppCompatActivity implements
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
-		Intent intent = getIntent();
-
-		if (intent == null)
-			return;
-
 		this.etTitle = (EditText) findViewById(R.id.et_title);
 		this.etDesc = (EditText) findViewById(R.id.et_desc);
 
-		String title = intent.getStringExtra(ToDoItem.EXTRA_TITLE);
-		String description = intent.getStringExtra(ToDoItem.EXTRA_DESCRIPTION);
+		Intent intent = getIntent();
 
-		this.timestamp = intent.getLongExtra(ToDoItem.EXTRA_TIMESTAMP, 0);
+		ToDoItem item = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
-		if (title != null)
-			etTitle.setText(title);
+		if (item != null)
+		{
+			this.item = item;
 
-		if (description != null)
-			etDesc.setText(description);
+			String title = item.title;
+			String description = item.description;
+
+			this.timestamp = intent.getLongExtra(ToDoItem.EXTRA_TIMESTAMP, 0);
+
+			if (title != null)
+				etTitle.setText(title);
+
+			if (description != null)
+				etDesc.setText(description);
+		}
 
 		Button btnDate = (Button) findViewById(R.id.btn_dateTime);
 		btnDate.setOnClickListener(
@@ -110,14 +116,17 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		}
 		else if (id == R.id.action_edit)
 		{
-			Intent data = new Intent();
-			data.putExtra(ToDoItem.EXTRA_TITLE, etTitle.getText().toString());
-			data.putExtra(
-				ToDoItem.EXTRA_DESCRIPTION,
-				etDesc.getText().toString());
-			data.putExtra(ToDoItem.EXTRA_TIMESTAMP, timestamp);
+			if (item == null)
+				item = new ToDoItem();
 
-			setResult(RESULT_OK, data);
+			item.title = etTitle.getText().toString();
+			item.description = etDesc.getText().toString();
+			item.timestamp = timestamp;
+
+			Intent resultIntent = new Intent();
+			resultIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+
+			setResult(RESULT_OK, resultIntent);
 			finish();
 
 			return false;

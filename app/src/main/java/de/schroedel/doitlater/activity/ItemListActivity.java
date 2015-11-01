@@ -15,8 +15,8 @@ import android.view.View;
 
 import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
-import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.content.ToDoItem;
+import de.schroedel.doitlater.database.ToDoDatabase;
 import de.schroedel.doitlater.fragment.ItemDetailFragment;
 import de.schroedel.doitlater.fragment.ItemListFragment;
 import de.schroedel.doitlater.service.AlarmReceiver;
@@ -98,11 +98,10 @@ public class ItemListActivity extends AppCompatActivity
 
 		if (intent != null)
 		{
-			if (intent.hasExtra(ToDoItem.EXTRA_ID))
-			{
-				long id = intent.getLongExtra(ToDoItem.EXTRA_ID, -1);
-				onItemSelected(ToDoDatabase.getInstance(this).getItem(id));
-			}
+			ToDoItem item = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+
+			if (item != null)
+				onItemSelected(item);
 		}
 	}
 
@@ -122,7 +121,9 @@ public class ItemListActivity extends AppCompatActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_list, menu);
+		inflater.inflate(
+			R.menu.menu_list,
+			menu);
 
 		actionEdit = menu.findItem(R.id.action_edit);
 
@@ -170,7 +171,8 @@ public class ItemListActivity extends AppCompatActivity
 	private void editItem(ToDoItem item)
 	{
 		Intent editIntent = new Intent(this, ItemCreateActivity.class);
-		ToDoItem.putItemDataAsExtras(item, editIntent);
+		editIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+
 		startActivityForResult(editIntent, EDIT_ITEM);
 	}
 
@@ -191,46 +193,32 @@ public class ItemListActivity extends AppCompatActivity
 		int resultCode,
 		Intent data)
 	{
-		if (requestCode == ADD_ITEM)
+		if (requestCode == ADD_ITEM ||
+			requestCode == EDIT_ITEM)
 		{
 			if (resultCode == RESULT_OK)
 			{
-				if (!ToDoItem.itemExtrasAreValid(data))
+				ToDoItem item;
+
+				if (data == null)
 					return;
 
-				ToDoItem item = new ToDoItem();
+				item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
-				ToDoItem.initItemFromExtras(item, data);
-
-				ToDoListAdapter adapter = getListAdapter();
-				adapter.add(item);
+				// If ID of to do item is not a real number it is not stored in
+				// the database yet.
+				if (item.id < 0)
+					ToDoDatabase.getInstance(this).insertItem(item);
+				else
+					ToDoDatabase.getInstance(this).updateToDoItem(
+						item.id,
+						item.title,
+						item.description,
+						item.timestamp);
 
 				setReminderAlarm(item);
 
 				selectedItem = item;
-			}
-		}
-		else if (requestCode == EDIT_ITEM)
-		{
-			if (resultCode == RESULT_OK)
-			{
-				if (selectedItem == null)
-					return;
-
-				if (!ToDoItem.itemExtrasAreValid(data))
-					return;
-
-				ToDoItem.initItemFromExtras(selectedItem, data);
-
-				ToDoDatabase.getInstance(this).updateItemText(
-					selectedItem.id,
-					selectedItem.title,
-					selectedItem.description);
-				ToDoDatabase.getInstance(this).updateItemDateTime(
-					selectedItem.id,
-					selectedItem.timestamp);
-
-				setReminderAlarm(selectedItem);
 			}
 		}
 	}
@@ -242,6 +230,8 @@ public class ItemListActivity extends AppCompatActivity
 	@Override
 	public void onItemSelected(ToDoItem item)
 	{
+		selectedItem = item;
+
 		if (twoPane)
 		{
 			// In two-pane mode, show the detail view in this activity by
@@ -260,7 +250,6 @@ public class ItemListActivity extends AppCompatActivity
 					fragment)
 				.commit();
 
-			selectedItem = item;
 			actionEdit.setVisible(true);
 		}
 		else
@@ -288,7 +277,7 @@ public class ItemListActivity extends AppCompatActivity
 	private void setReminderAlarm(ToDoItem item)
 	{
 		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra(ToDoItem.EXTRA_ID, item.id);
+		intent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
 		PendingIntent alarm =
 			PendingIntent.getBroadcast(this, (int) item.id, intent, 0);
