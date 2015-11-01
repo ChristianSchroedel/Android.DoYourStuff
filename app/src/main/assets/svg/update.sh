@@ -100,20 +100,20 @@ ic_launcher.svg 48
 EOF
 
 update ../../res/drawable << EOF
-ic_action_back.svg 24
-ic_action_edit.svg 24
-ic_action_new.svg 24
-ic_category_car.svg 24
-ic_category_default.svg 24
-ic_category_food.svg 24
-ic_category_gaming.svg 24
-ic_category_house.svg 24
-ic_category_important.svg 24
-ic_category_party.svg 24
-ic_category_phone.svg 24
-ic_category_school.svg 24
-ic_category_shopping.svg 24
-ic_category_sport.svg 24
-ic_category_template.svg 24
-ic_category_work.svg 24
+ic_action_back.svg 32
+ic_action_edit.svg 32
+ic_action_new.svg 32
+ic_category_car.svg 32
+ic_category_default.svg 32
+ic_category_food.svg 32
+ic_category_gaming.svg 32
+ic_category_house.svg 32
+ic_category_important.svg 32
+ic_category_party.svg 32
+ic_category_phone.svg 32
+ic_category_school.svg 32
+ic_category_shopping.svg 32
+ic_category_sport.svg 32
+ic_category_template.svg 32
+ic_category_work.svg 32
 EOF
