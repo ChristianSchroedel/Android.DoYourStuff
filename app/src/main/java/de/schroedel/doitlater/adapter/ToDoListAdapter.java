@@ -22,19 +22,6 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	private List<ListItem> items;
 	private LayoutInflater inflater;
 
-	public enum ItemType
-	{
-		LIST_ITEM(0),
-		HEADER_ITEM(1);
-
-		public int value;
-
-		ItemType(int value)
-		{
-			this.value = value;
-		}
-	}
-
 	/**
 	 * Creates to do list adapter managing items.
 	 *
@@ -52,31 +39,26 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	@Override
 	public int getViewTypeCount()
 	{
-		return ItemType.values().length;
+		return ListItem.ItemType.values().length;
 	}
 
 	@Override
 	public int getItemViewType(int position)
 	{
-		return items.get(position).getItemType();
-	}
+		ListItem item = getItem(position);
 
-	@Override
-	public int getCount()
-	{
-		return items.size();
-	}
-
-	@Override
-	public ListItem getItem(int position)
-	{
-		return items.get(position);
+		return item.getItemType().value;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		return items.get(position).getView(inflater, convertView);
+		ListItem item = getItem(position);
+
+		return item.getView(
+			inflater,
+			convertView,
+			parent);
 	}
 
 	@Override
@@ -84,7 +66,7 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	{
 		items.add(item);
 
-		if (item.getItemType() == ItemType.LIST_ITEM.value)
+		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
 			ToDoDatabase.getInstance(getContext()).insertItem((ToDoItem) item);
 
 		notifyDataSetChanged();
@@ -95,7 +77,7 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	{
 		items.remove(item);
 
-		if (item.getItemType() == ItemType.LIST_ITEM.value)
+		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
 			ToDoDatabase.getInstance(getContext()).
 				removeItem(((ToDoItem) item).id);
 

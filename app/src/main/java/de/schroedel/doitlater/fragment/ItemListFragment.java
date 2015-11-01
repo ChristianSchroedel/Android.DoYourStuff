@@ -91,7 +91,7 @@ public class ItemListFragment extends ListFragment
 									getItem(position);
 
 								return (item.getItemType() ==
-									ToDoListAdapter.ItemType.LIST_ITEM.value);
+									ListItem.ItemType.LIST_ITEM);
                             }
 
                             @Override
@@ -161,7 +161,7 @@ public class ItemListFragment extends ListFragment
 		// fragment is attached to one) that an item has been selected.
 		ListItem item = (ListItem) getListAdapter().getItem(position);
 
-		if (item.getItemType() == ToDoListAdapter.ItemType.LIST_ITEM.value)
+		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
 			callback.onItemSelected((ToDoItem) item);
 	}
 

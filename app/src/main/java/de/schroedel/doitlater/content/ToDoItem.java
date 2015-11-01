@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -12,7 +13,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.schroedel.doitlater.R;
-import de.schroedel.doitlater.adapter.ToDoListAdapter;
 import de.schroedel.doitlater.database.ToDoDatabase;
 
 /**
@@ -244,7 +244,9 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	{
 		item.title = data.getStringExtra(EXTRA_TITLE);
 		item.description = data.getStringExtra(EXTRA_DESCRIPTION);
-		item.timestamp = data.getLongExtra(EXTRA_TIMESTAMP, 0);
+		item.timestamp = data.getLongExtra(
+			EXTRA_TIMESTAMP,
+			0);
 
 		int cat = data.getIntExtra(ToDoItem.EXTRA_CATEGORY, 0);
 		item.category = Category.fromValue(cat);
@@ -255,19 +257,22 @@ public class ToDoItem implements Parcelable, de.schroedel.doitlater.content.List
 	}
 
 	@Override
-	public int getItemType()
+	public ItemType getItemType()
 	{
-		return ToDoListAdapter.ItemType.LIST_ITEM.value;
+		return ItemType.LIST_ITEM;
 	}
 
 	@Override
-	public View getView(LayoutInflater inflater, View convertView)
+	public View getView(
+		LayoutInflater inflater,
+		View convertView,
+		ViewGroup parent)
 	{
 		ViewHolder viewHolder;
 
 		if (convertView == null)
 		{
-			convertView = inflater.inflate(R.layout.todo_list_item, null);
+			convertView = inflater.inflate(R.layout.todo_list_item, parent, false);
 
 			viewHolder = new ViewHolder();
 			viewHolder.tvTitle =

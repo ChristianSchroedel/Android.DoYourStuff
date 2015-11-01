@@ -2,10 +2,10 @@ package de.schroedel.doitlater.content;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import de.schroedel.doitlater.R;
-import de.schroedel.doitlater.adapter.ToDoListAdapter;
 
 /**
  * Created by Christian Schrödel on 10.04.15.
@@ -32,19 +32,25 @@ public class Header implements ListItem
 	}
 
 	@Override
-	public int getItemType()
+	public ItemType getItemType()
 	{
-		return ToDoListAdapter.ItemType.HEADER_ITEM.value;
+		return ItemType.HEADER_ITEM;
 	}
 
 	@Override
-	public View getView(LayoutInflater inflater, View convertView)
+	public View getView(
+		LayoutInflater inflater,
+		View convertView,
+		ViewGroup parent)
 	{
 		ViewHolder viewHolder;
 
 		if (convertView == null)
 		{
-			convertView = inflater.inflate(R.layout.todo_list_header, null);
+			convertView = inflater.inflate(
+				R.layout.todo_list_header,
+				parent,
+				false);
 
 			viewHolder = new ViewHolder();
 			viewHolder.tvHeader =
