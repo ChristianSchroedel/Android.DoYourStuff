@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DoItLater</string>
+	<string name="app_name">Do Your Stuff</string>
 
 	<string name="activity_label_create">Create item</string>
+	<string name="activity_label_list">Time Scheduler</string>
 	<string name="activity_label_detail">Details</string>
 
 	<string name="action_add">Add item</string>
@@ -12,10 +13,10 @@
 	<string name="hint_title">Title</string>
 	<string name="hint_description">Description</string>
 
-	<string name="button_create">Create</string>
+	<string name="btn_create">Create</string>
 
-    <string name="today">Today</string>
-    <string name="missed">Missed</string>
+    <string name="header_today">Today</string>
+    <string name="header_missed">Missed</string>
 
 	<string name="category_default">Default</string>
 	<string name="category_car">Car</string>
@@ -29,5 +30,7 @@
 	<string name="category_shopping">Shopping</string>
 	<string name="category_sport">Sport</string>
 	<string name="category_work">Work</string>
+
+	<string name="content_category">Category</string>
 
 </resources>

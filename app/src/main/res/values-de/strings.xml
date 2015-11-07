@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Mach Dein Zeug</string>
+
+	<string name="activity_label_create">Eintrag erstellen</string>
+	<string name="activity_label_list">Zeitplaner</string>
+	<string name="activity_label_detail">Details</string>
+
+	<string name="action_add">Eintrag hinzufügen</string>
+	<string name="action_edit">Eintrag bearbeiten</string>
+
+	<string name="hint_title">Titel</string>
+	<string name="hint_description">Beschreibung</string>
+
+	<string name="btn_create">Erstellen</string>
+
+    <string name="header_today">Heute</string>
+    <string name="header_missed">Verpasst</string>
+
+	<string name="category_default">Standard</string>
+	<string name="category_car">Auto</string>
+	<string name="category_food">Essen</string>
+	<string name="category_gaming">Gaming</string>
+	<string name="category_house">Haus</string>
+	<string name="category_important">Wichtig</string>
+	<string name="category_party">Party</string>
+	<string name="category_phone">Telefon</string>
+	<string name="category_school">Schule</string>
+	<string name="category_shopping">Einkaufen</string>
+	<string name="category_sport">Sport</string>
+	<string name="category_work">Arbeit</string>
+
+	<string name="content_category">Kategorie</string>
+
+</resources>
