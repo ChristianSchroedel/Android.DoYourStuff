@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="15.335801"
+     inkscape:cx="-0.37848471"
      inkscape:cy="5.3811016"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -58,7 +58,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,7 +69,7 @@
      transform="translate(-205.34393,-137.44696)">
     <g
        id="g3807"
-       style="stroke:#313df2;stroke-opacity:1"
+       style="stroke:#ffffff;stroke-opacity:1"
        inkscape:export-filename="/home/christian/coding/Android/DoItLater/app/src/main/res/drawable-xxhdpi/ic_action_back.png"
        inkscape:export-xdpi="804.78003"
        inkscape:export-ydpi="804.78003">
@@ -77,13 +77,13 @@
          inkscape:connector-curvature="0"
          id="path3781"
          d="m 225.4432,149.44696 -15.09048,0"
-         style="fill:none;stroke:#313df2;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <g
          transform="matrix(1.1254374,0,0,1,-26.222435,0)"
          id="g3793"
-         style="stroke:#313df2;stroke-opacity:1">
+         style="stroke:#ffffff;stroke-opacity:1">
         <path
-           style="fill:none;stroke:#313df2;stroke-width:1.88525163999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:none;stroke:#ffffff;stroke-width:1.88525163999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
            d="m 217.10761,142.11119 -7.05042,7.99811"
            id="path3783"
            inkscape:connector-curvature="0" />
@@ -91,7 +91,7 @@
            inkscape:connector-curvature="0"
            id="path3785"
            d="m 217.10762,156.80919 -7.05967,-8.02392"
-           style="fill:none;stroke:#313df2;stroke-width:1.88525163999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+           style="fill:none;stroke:#ffffff;stroke-width:1.88525163999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       </g>
     </g>
   </g>

@@ -268,12 +268,14 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	 * @param title - new item title
 	 * @param description - new item description
 	 * @param timestamp - timestamp
+	 * @param category - category
 	 */
 	public void updateToDoItem(
 		long id,
 		String title,
 		String description,
-		long timestamp)
+		long timestamp,
+		ToDoItem.Category category)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
@@ -284,6 +286,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE, title);
 		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION, description);
 		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP, timestamp);
+		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY, category.toValue());
 
 		sql.update(
 			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,

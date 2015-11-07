@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-2.4674991"
-     inkscape:cy="12.4781"
+     inkscape:zoom="15.839192"
+     inkscape:cx="8.4079306"
+     inkscape:cy="13.552567"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -58,7 +58,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,7 +69,7 @@
      transform="translate(277.08038,-638.29228)">
     <g
        id="g3940"
-       style="fill:#ffffff;fill-opacity:1;stroke:#313df2;stroke-width:16.96408312;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:16.96408312000000151;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        transform="matrix(0.05423846,0.10562439,-0.09782034,-0.00534352,-255.34226,623.64137)">
       <rect
          transform="matrix(-0.83866998,0.54463994,-0.54463994,-0.83866998,0,0)"
@@ -80,12 +80,12 @@
          height="219.71405"
          width="30.696003"
          id="rect3914"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#313df2;stroke-width:16.96408312;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:16.96408312000000151;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path3916"
          d="m 325.31063,316.69997 -19.89989,12.92318 42.10217,44.3795 z"
-         style="fill:#ffffff;fill-opacity:1;stroke:#313df2;stroke-width:16.96408312;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:16.96408312000000151;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
   </g>
 </svg>

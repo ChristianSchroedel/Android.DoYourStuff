@@ -12,19 +12,17 @@
     <LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
 		android:orientation="vertical">
 
 		<EditText
-			android:id="@+id/et_title"
+			android:id="@+id/title"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
 			android:inputType="textAutoComplete"
 			android:hint="@string/hint_title"/>
 
 		<EditText
-			android:id="@+id/et_desc"
+			android:id="@+id/description"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="top|start"
@@ -33,19 +31,23 @@
 			android:scrollbars="vertical"
 			android:hint="@string/hint_description"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-        <Button
-			android:id="@+id/btn_dateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="DateTime"/>
+			<Spinner
+				android:id="@+id/category"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+			<Button
+				android:id="@+id/dateTime"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="DateTime"/>
+
+		</LinearLayout>
 
 	</LinearLayout>
 

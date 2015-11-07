@@ -103,7 +103,7 @@ public class AlarmNotification
 
 		NotificationCompat.Builder builder =
 			new NotificationCompat.Builder(context);
-		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setSmallIcon(R.mipmap.ic_launcher);
 		builder.setContentTitle(item.title);
 		builder.setContentText(item.description);
 		builder.setContentIntent(content);
@@ -111,8 +111,8 @@ public class AlarmNotification
 
 		if (toDoItems.size() == 1)
 		{
-			builder.addAction(R.drawable.ic_launcher, "later", later);
-			builder.addAction(R.drawable.ic_launcher, "done", done);
+			builder.addAction(R.mipmap.ic_launcher, "later", later);
+			builder.addAction(R.mipmap.ic_launcher, "done", done);
 		}
 		else
 			builder.setStyle(createInbox());

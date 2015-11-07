@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<color name="primary">#ffc0dfff</color>
-	<color name="primaryDark">#ff6c6cca</color>
-	<color name="accent">#ff313df2</color>
+	<color name="primary">#ff313df2</color>
+	<color name="primary_dark">#ff6c6cca</color>
+	<color name="accent">#787878</color>
 
-	<color name="background">#ffeaeaea</color>
-    <color name="listHeader">#ff8cc3ff</color>
+	<color name="white">#ffffff</color>
+
+	<color name="theme_background">#ffeaeaea</color>
+
+	<color name="list_item_selected">#ff8cc3ff</color>
 
 </resources>

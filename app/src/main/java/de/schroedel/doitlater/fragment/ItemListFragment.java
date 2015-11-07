@@ -6,6 +6,7 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import de.schroedel.doitlater.R;
 import de.schroedel.doitlater.adapter.ToDoListAdapter;
 import de.schroedel.doitlater.content.ListItem;
 import de.schroedel.doitlater.database.ToDoDatabase;
@@ -40,7 +41,7 @@ public class ItemListFragment extends ListFragment
 	 * clicks.
 	 */
 	private Callbacks callback = sDummyCallbacks;
-	private int mActivatedPosition = ListView.INVALID_POSITION;
+	private int activatedPosition = ListView.INVALID_POSITION;
 
 	public interface Callbacks
 	{
@@ -82,36 +83,38 @@ public class ItemListFragment extends ListFragment
 		super.onViewCreated(view, savedInstanceState);
 
         SwipeDismissListViewTouchListener dismissListener =
-                new SwipeDismissListViewTouchListener(
-                        getListView(),
-                        new SwipeDismissListViewTouchListener.DismissCallbacks()
-                        {
-                            @Override
-                            public boolean canDismiss(int position)
-                            {
-								ListItem item =	(ListItem) getListAdapter().
-									getItem(position);
+			new SwipeDismissListViewTouchListener(
+				getListView(),
+				new SwipeDismissListViewTouchListener.DismissCallbacks()
+				{
+					@Override
+					public boolean canDismiss(int position)
+					{
+						ListItem item =	(ListItem) getListAdapter().
+							getItem(position);
 
-								return (item.getItemType() ==
-									ListItem.ItemType.LIST_ITEM);
-                            }
+						return (item.getItemType() ==
+							ListItem.ItemType.LIST_ITEM);
+					}
 
-                            @Override
-                            public void onDismiss(
-								ListView listView,
-								int[] reverseSortedPositions)
-                            {
-                                if (reverseSortedPositions.length == 0)
-                                    return;
+					@Override
+					public void onDismiss(
+						ListView listView,
+						int[] reverseSortedPositions)
+					{
+						if (reverseSortedPositions.length == 0)
+							return;
 
-                                callback.onItemDismissed(
-									(ToDoItem) listView.getItemAtPosition(
-                                        reverseSortedPositions[0]));
-                            }
-                        });
+						callback.onItemDismissed(
+							(ToDoItem) listView.getItemAtPosition(
+								reverseSortedPositions[0]));
+					}
+				});
 
-        getListView().setOnTouchListener(dismissListener);
-        getListView().setOnScrollListener(dismissListener.makeScrollListener());
+		ListView lv = getListView();
+		lv.setOnTouchListener(dismissListener);
+		lv.setOnScrollListener(dismissListener.makeScrollListener());
+		lv.setSelector(R.drawable.item_list_selector);
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
@@ -159,6 +162,8 @@ public class ItemListFragment extends ListFragment
 
 		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
 			callback.onItemSelected((ToDoItem) item);
+
+		setActivatedPosition(position);
 	}
 
 	@Override
@@ -166,12 +171,12 @@ public class ItemListFragment extends ListFragment
 	{
 		super.onSaveInstanceState(outState);
 
-		if (mActivatedPosition != ListView.INVALID_POSITION)
+		if (activatedPosition != ListView.INVALID_POSITION)
 		{
 			// Serialize and persist the activated item position.
 			outState.putInt(
 				STATE_ACTIVATED_POSITION,
-				mActivatedPosition);
+				activatedPosition);
 		}
 	}
 
@@ -196,11 +201,13 @@ public class ItemListFragment extends ListFragment
 	 */
 	private void setActivatedPosition(int position)
 	{
-		if (position == ListView.INVALID_POSITION)
-			getListView().setItemChecked(mActivatedPosition, false);
-		else
-			getListView().setItemChecked(position, true);
+		ListView lv = getListView();
 
-		mActivatedPosition = position;
+		if (position == ListView.INVALID_POSITION)
+			lv.setItemChecked(activatedPosition, false);
+		else
+			lv.setItemChecked(position, true);
+
+		activatedPosition = position;
 	}
 }

@@ -3,10 +3,10 @@
 	<!-- Base application theme. -->
 	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="colorPrimary">@color/primary</item>
-		<item name="colorPrimaryDark">@color/primaryDark</item>
+		<item name="colorPrimaryDark">@color/primary_dark</item>
 		<item name="colorAccent">@color/accent</item>
 		<item name="android:editTextStyle">@style/ToDoEditText</item>
-		<item name="android:colorBackground">@color/background</item>
+		<item name="android:colorBackground">@color/theme_background</item>
 	</style>
 
 	<style name="ToDoEditText" parent="Base.Widget.AppCompat.EditText">
@@ -18,13 +18,13 @@
 	
 	<style name="ToDoToolBarText"
 		   parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-		<item name="android:textColor">@color/accent</item>
+		<item name="android:textColor">@color/white</item>
 	</style>
-    
-    <style name="ToDoToolBar" parent="AppTheme">
-        <item name="android:textColorPrimary">@color/accent</item>
-        <item name="android:textColorSecondary">@color/accent</item>
-        <item name="titleTextAppearance">@style/ToDoToolBarText</item>
+
+    <style name="ToDoToolBar" parent="@style/AppTheme">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+		<item name="titleTextAppearance">@style/ToDoToolBarText</item>
     </style>
 
 </resources>

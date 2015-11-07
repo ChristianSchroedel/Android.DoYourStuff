@@ -5,9 +5,11 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.adapter.CategoryAdapter;
 import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
@@ -25,7 +27,18 @@ public class ToDoItem implements Parcelable, ListItem
 
 	public enum Category
 	{
-		ITEM_DEFAULT(0);
+		ITEM_DEFAULT(0),
+		ITEM_CAR(1),
+		ITEM_FOOD(2),
+		ITEM_GAMING(3),
+		ITEM_HOUSE(4),
+		ITEM_IMPORTANT(5),
+		ITEM_PARTY(6),
+		ITEM_PHONE(7),
+		ITEM_SCHOOL(8),
+		ITEM_SHOPPING(9),
+		ITEM_SPORT(10),
+		ITEM_WORK(11);
 
 		private int value;
 
@@ -61,6 +74,7 @@ public class ToDoItem implements Parcelable, ListItem
 
 	static class ViewHolder
 	{
+		ImageView ivCategory;
 		TextView tvTitle;
 		TextView tvDesc;
 		TextView tvTime;
@@ -141,26 +155,6 @@ public class ToDoItem implements Parcelable, ListItem
 	}
 
 	/**
-	 * Returns day of month of to do item as string.
-	 *
-	 * @return - day of month
-	 */
-	public String getDayOfMonth()
-	{
-		return DateFormatter.getFormattedDate(timestamp, "dd");
-	}
-
-	/**
-	 * Returns month of to do item as string.
-	 *
-	 * @return - month
-	 */
-	public String getMonth()
-	{
-		return DateFormatter.getFormattedDate(timestamp, "MM");
-	}
-
-	/**
 	 * Returns minute of to do item as string.
 	 *
 	 * @return - minute
@@ -199,6 +193,8 @@ public class ToDoItem implements Parcelable, ListItem
 			convertView = inflater.inflate(R.layout.todo_list_item, parent, false);
 
 			viewHolder = new ViewHolder();
+			viewHolder.ivCategory =
+				(ImageView) convertView.findViewById(R.id.todo_list_category);
 			viewHolder.tvTitle =
 				(TextView) convertView.findViewById(R.id.todo_list_title);
 			viewHolder.tvDesc =
@@ -211,23 +207,17 @@ public class ToDoItem implements Parcelable, ListItem
 		else
 			viewHolder = (ViewHolder) convertView.getTag();
 
+		viewHolder.ivCategory.setImageDrawable(
+			CategoryAdapter.getCategoryDrawable(
+				inflater.getContext(),
+				category));
 		viewHolder.tvTitle.setText(title);
 		viewHolder.tvDesc.setText(description);
 
 		String dateTime = null;
 
 		if (timestamp > 0)
-		{
-			if (DateFormatter.dateIsToday(timestamp))
-				dateTime = String.format("%s:%s", getHourOfDay(), getMinute());
-			else
-				dateTime = String.format(
-					"%s.%s. %s:%s",
-					getMonth(),
-					getDayOfMonth(),
-					getHourOfDay(),
-					getMinute());
-		}
+			dateTime = DateFormatter.getFormattedDate(timestamp, "HH:mm");
 
 		viewHolder.tvTime.setText(dateTime);
 

@@ -156,7 +156,8 @@ public class ItemDetailActivity extends AppCompatActivity
 						item.id,
 						item.title,
 						item.description,
-						item.timestamp);
+						item.timestamp,
+						item.category);
 				}
 
 				finish();
