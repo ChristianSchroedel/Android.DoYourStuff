@@ -73,4 +73,18 @@ public final class DateFormatter
 	{
 		return timestamp < System.currentTimeMillis();
 	}
+
+	/**
+	 * Returns day of week from calendar.
+	 *
+	 * @param timestamp - timestamp
+	 * @return - day of week
+	 */
+	public static int getCalendarDayOfWeek(long timestamp)
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+
+		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
 }

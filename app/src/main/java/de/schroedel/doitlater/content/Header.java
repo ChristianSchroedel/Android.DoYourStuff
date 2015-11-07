@@ -1,9 +1,12 @@
 package de.schroedel.doitlater.content;
 
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 import de.schroedel.doitlater.R;
 
@@ -15,6 +18,7 @@ import de.schroedel.doitlater.R;
 public class Header implements ListItem
 {
 	private String text;
+	private int dayOfWeek;
 
 	static class ViewHolder
 	{
@@ -26,9 +30,10 @@ public class Header implements ListItem
 	 *
 	 * @param text - header text
 	 */
-	public Header(String text)
+	public Header(String text, int dayOfWeek)
 	{
 		this.text = text;
+		this.dayOfWeek = dayOfWeek;
 	}
 
 	@Override
@@ -63,6 +68,33 @@ public class Header implements ListItem
 
 		viewHolder.tvHeader.setText(text);
 
+		convertView.setBackgroundColor(
+			ContextCompat.getColor(
+				inflater.getContext(),
+				getColorForDayOfWeek(dayOfWeek)));
+
 		return convertView;
+	}
+
+	/**
+	 * Returns color resource equivalent to day of week.
+	 *
+	 * @param dayOfWeek - day of week
+	 * @return - color resource
+	 */
+	private static int getColorForDayOfWeek(int dayOfWeek)
+	{
+		switch (dayOfWeek)
+		{
+			case Calendar.MONDAY: return R.color.background_monday;
+			case Calendar.TUESDAY: return R.color.background_tuesday;
+			case Calendar.WEDNESDAY: return R.color.background_wednesday;
+			case Calendar.THURSDAY: return R.color.background_thursday;
+			case Calendar.FRIDAY: return R.color.background_friday;
+			case Calendar.SATURDAY: return R.color.background_saturday;
+			case Calendar.SUNDAY: return R.color.background_sunday;
+
+			default: return R.color.background_default;
+		}
 	}
 }

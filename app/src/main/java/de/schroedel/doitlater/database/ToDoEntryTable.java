@@ -223,7 +223,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 
 			String done = "Done";
 
-			doneHeader = new Header(done);
+			doneHeader = new Header(done, -1);
 			return doneHeader;
 		}
 
@@ -239,7 +239,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 
 			String missed = context.getResources().getString(R.string.missed);
 
-			missedHeader = new Header(missed);
+			missedHeader = new Header(missed, -1);
 			return missedHeader;
 		}
 		else
@@ -260,7 +260,9 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 					item.timestamp,
 					"EEEE - dd.MM.yyyy");
 
-			return new Header(headerTitle);
+			int dayOfWeek = DateFormatter.getCalendarDayOfWeek(item.timestamp);
+
+			return new Header(headerTitle, dayOfWeek);
 		}
 	}
 	/**
