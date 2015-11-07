@@ -63,7 +63,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		if (item != null)
 		{
 			this.item = item;
-			this.timestamp = intent.getLongExtra(ToDoItem.EXTRA_TIMESTAMP, 0);
+			this.timestamp = item.timestamp;
 
 			etTitle.setText(item.title);
 			etDesc.setText(item.description);
