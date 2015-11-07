@@ -22,7 +22,8 @@ import de.schroedel.doitlater.content.ToDoItem;
  */
 public class ItemDetailFragment extends Fragment
 {
-	private TextView tvDesc;
+	private TextView tvTitle;
+	private TextView tvDescription;
 
 	private ToDoItem item;
 
@@ -42,11 +43,13 @@ public class ItemDetailFragment extends Fragment
 	{
 		super.onResume();
 
-		if (tvDesc == null ||
+		if (tvTitle == null ||
+			tvDescription == null ||
 			item == null)
 			return;
 
-		tvDesc.setText(item.description);
+		tvTitle.setText(item.title);
+		tvDescription.setText(item.description);
 	}
 
 	@Override
@@ -56,14 +59,18 @@ public class ItemDetailFragment extends Fragment
 		Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(
-			R.layout.todoitem_detail,
+			R.layout.fragment_item_detail,
 			container,
 			false);
 
 		if (item != null)
 		{
-			tvDesc = (TextView) rootView.findViewById(R.id.todo_detail_desc);
-			tvDesc.setText(item.description);
+			tvTitle = (TextView) rootView.findViewById(R.id.todo_detail_title);
+			tvTitle.setText(item.title);
+
+			tvDescription =
+				(TextView) rootView.findViewById(R.id.todo_detail_desc);
+			tvDescription.setText(item.description);
 		}
 
 		return rootView;

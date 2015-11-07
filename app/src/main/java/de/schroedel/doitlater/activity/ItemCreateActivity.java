@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import de.schroedel.doitlater.R;
+import de.schroedel.doitlater.adapter.CategoryAdapter;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.fragment.DateTimePickerFragment;
 
@@ -28,6 +30,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 {
 	private EditText etTitle;
 	private EditText etDesc;
+	private Spinner spCategory;
 
 	private ToDoItem item;
 
@@ -45,13 +48,13 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		final ActionBar actionBar = getSupportActionBar();
 
 		if (actionBar != null)
-		{
-			actionBar.setTitle(R.string.activity_label_update);
 			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
 
-		this.etTitle = (EditText) findViewById(R.id.et_title);
-		this.etDesc = (EditText) findViewById(R.id.et_desc);
+		this.etTitle = (EditText) findViewById(R.id.title);
+		this.etDesc = (EditText) findViewById(R.id.description);
+		this.spCategory = (Spinner) findViewById(R.id.category);
+
+		spCategory.setAdapter(new CategoryAdapter(this));
 
 		Intent intent = getIntent();
 
@@ -60,20 +63,17 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		if (item != null)
 		{
 			this.item = item;
-
-			String title = item.title;
-			String description = item.description;
-
 			this.timestamp = intent.getLongExtra(ToDoItem.EXTRA_TIMESTAMP, 0);
 
-			if (title != null)
-				etTitle.setText(title);
+			etTitle.setText(item.title);
+			etDesc.setText(item.description);
+			spCategory.setSelection(item.category.toValue());
 
-			if (description != null)
-				etDesc.setText(description);
+			if (actionBar != null)
+				actionBar.setTitle(item.title);
 		}
 
-		Button btnDate = (Button) findViewById(R.id.btn_dateTime);
+		Button btnDate = (Button) findViewById(R.id.dateTime);
 		btnDate.setOnClickListener(
 			new View.OnClickListener()
 			{
@@ -121,6 +121,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 
 			item.title = etTitle.getText().toString();
 			item.description = etDesc.getText().toString();
+			item.category = (ToDoItem.Category) spCategory.getSelectedItem();
 			item.timestamp = timestamp;
 
 			Intent resultIntent = new Intent();

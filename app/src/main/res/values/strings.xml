@@ -4,7 +4,6 @@
     <string name="app_name">DoItLater</string>
 
 	<string name="activity_label_create">Create item</string>
-	<string name="activity_label_update">Update item</string>
 	<string name="activity_label_detail">Details</string>
 
 	<string name="action_add">Add item</string>
@@ -17,5 +16,18 @@
 
     <string name="today">Today</string>
     <string name="missed">Missed</string>
+
+	<string name="category_default">Default</string>
+	<string name="category_car">Car</string>
+	<string name="category_food">Food</string>
+	<string name="category_gaming">Gaming</string>
+	<string name="category_house">House</string>
+	<string name="category_important">Important</string>
+	<string name="category_party">Party</string>
+	<string name="category_phone">Phone</string>
+	<string name="category_school">School</string>
+	<string name="category_shopping">Shopping</string>
+	<string name="category_sport">Sport</string>
+	<string name="category_work">Work</string>
 
 </resources>
