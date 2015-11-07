@@ -12,6 +12,7 @@ import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.content.Header;
 import de.schroedel.doyourstuff.content.ListItem;
 import de.schroedel.doyourstuff.content.ToDoItem;
+import de.schroedel.doyourstuff.database.ToDoDatabaseHelper.ToDoEntry;
 import de.schroedel.doyourstuff.utils.DateFormatter;
 
 /**
@@ -46,13 +47,13 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		SQLiteDatabase sql = dbHelper.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE, item.title);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION, item.description);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP, item.timestamp);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY, item.category.toValue());
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE, item.itemDone);
+		values.put(ToDoEntry.COLUMN_TITLE, item.title);
+		values.put(ToDoEntry.COLUMN_DESCRIPTION, item.description);
+		values.put(ToDoEntry.COLUMN_TIMESTAMP, item.timestamp);
+		values.put(ToDoEntry.COLUMN_CATEGORY, item.category.toValue());
+		values.put(ToDoEntry.COLUMN_DONE, item.itemDone);
 
-		long newRowId = sql.insert(ToDoDatabaseHelper.ToDoEntry.TABLE_NAME, "null", values);
+		long newRowId = sql.insert(ToDoEntry.TABLE_NAME, "null", values);
 
 		item.id = newRowId;
 
@@ -64,11 +65,11 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	{
 		SQLiteDatabase sql = dbHelper.getWritableDatabase();
 
-		String selection = ToDoDatabaseHelper.ToDoEntry._ID + " LIKE ?";
+		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = {String.valueOf(id)};
 
 		return sql.delete(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			selection,
 			selectionArgs);
 	}
@@ -81,17 +82,17 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
 		String[] projection = {
-			ToDoDatabaseHelper.ToDoEntry._ID,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE };
+			ToDoEntry._ID,
+			ToDoEntry.COLUMN_TITLE,
+			ToDoEntry.COLUMN_DESCRIPTION,
+			ToDoEntry.COLUMN_TIMESTAMP,
+			ToDoEntry.COLUMN_CATEGORY,
+			ToDoEntry.COLUMN_DONE };
 
-		String sortOrder = ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP + " ASC";
+		String sortOrder = ToDoEntry.COLUMN_TIMESTAMP + " ASC";
 
 		Cursor cursor = sql.query(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			projection,
 			null,
 			null,
@@ -113,17 +114,17 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 
 		do
 		{
-			long id = cursor.getLong(cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry._ID));
+			long id = cursor.getLong(cursor.getColumnIndex(ToDoEntry._ID));
 			String title = cursor.getString(
-				cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE));
+				cursor.getColumnIndex(ToDoEntry.COLUMN_TITLE));
 			String desc = cursor.getString(
-				cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION));
+				cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
 			Long timeStamp = cursor.getLong(
-				cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP));
+				cursor.getColumnIndex(ToDoEntry.COLUMN_TIMESTAMP));
 			int category = cursor.getInt(
-				cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY));
+				cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
 			int done = cursor.getInt(
-				cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE));
+				cursor.getColumnIndex(ToDoEntry.COLUMN_DONE));
 
 			ToDoItem item = new ToDoItem();
 			item.id = id;
@@ -158,18 +159,18 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
 		String[] projection = {
-			ToDoDatabaseHelper.ToDoEntry._ID,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY,
-			ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE };
+			ToDoEntry._ID,
+			ToDoEntry.COLUMN_TITLE,
+			ToDoEntry.COLUMN_DESCRIPTION,
+			ToDoEntry.COLUMN_TIMESTAMP,
+			ToDoEntry.COLUMN_CATEGORY,
+			ToDoEntry.COLUMN_DONE };
 
-		String selection = ToDoDatabaseHelper.ToDoEntry._ID + " LIKE ?";
+		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = {String.valueOf(id)};
 
 		Cursor cursor = sql.query(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			projection,
 			selection,
 			selectionArgs,
@@ -185,15 +186,15 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		}
 
 		String title = cursor.getString(
-			cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE));
+			cursor.getColumnIndex(ToDoEntry.COLUMN_TITLE));
 		String desc = cursor.getString(
-			cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION));
+			cursor.getColumnIndex(ToDoEntry.COLUMN_DESCRIPTION));
 		long timeStamp = cursor.getLong(
-			cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP));
+			cursor.getColumnIndex(ToDoEntry.COLUMN_TIMESTAMP));
 		int category = cursor.getInt(
-			cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY));
+			cursor.getColumnIndex(ToDoEntry.COLUMN_CATEGORY));
 		int done = cursor.getInt(
-			cursor.getColumnIndex(ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE));
+			cursor.getColumnIndex(ToDoEntry.COLUMN_DONE));
 
 		ToDoItem item = new ToDoItem();
 		item.id = id;
@@ -283,17 +284,17 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
-		String selection = ToDoDatabaseHelper.ToDoEntry._ID + " LIKE ?";
+		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = { String.valueOf(id) };
 
 		ContentValues values = new ContentValues();
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TITLE, title);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_DESCRIPTION, description);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_TIMESTAMP, timestamp);
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY, category.toValue());
+		values.put(ToDoEntry.COLUMN_TITLE, title);
+		values.put(ToDoEntry.COLUMN_DESCRIPTION, description);
+		values.put(ToDoEntry.COLUMN_TIMESTAMP, timestamp);
+		values.put(ToDoEntry.COLUMN_CATEGORY, category.toValue());
 
 		sql.update(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			values,
 			selection,
 			selectionArgs);
@@ -309,14 +310,14 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
-		String selection = ToDoDatabaseHelper.ToDoEntry._ID + " LIKE ?";
+		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = { String.valueOf(id) };
 
 		ContentValues values = new ContentValues();
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_DONE, done);
+		values.put(ToDoEntry.COLUMN_DONE, done);
 
 		sql.update(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			values,
 			selection,
 			selectionArgs);
@@ -332,14 +333,14 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
-		String selection = ToDoDatabaseHelper.ToDoEntry._ID + " LIKE ?";
+		String selection = ToDoEntry._ID + " LIKE ?";
 		String[] selectionArgs = { String.valueOf(id) };
 
 		ContentValues values = new ContentValues();
-		values.put(ToDoDatabaseHelper.ToDoEntry.COLUMN_CATEGORY, category);
+		values.put(ToDoEntry.COLUMN_CATEGORY, category);
 
 		sql.update(
-			ToDoDatabaseHelper.ToDoEntry.TABLE_NAME,
+			ToDoEntry.TABLE_NAME,
 			values,
 			selection,
 			selectionArgs);
