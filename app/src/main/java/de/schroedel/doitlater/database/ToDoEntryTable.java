@@ -251,14 +251,16 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 
 			lastInPast = false;
 
-			String header;
+			String headerTitle;
 
 			if (DateFormatter.dateIsToday(item.timestamp))
-				header = context.getResources().getString(R.string.today);
+				headerTitle = context.getResources().getString(R.string.today);
 			else
-				header = item.getDate();
+				headerTitle = DateFormatter.getFormattedDate(
+					item.timestamp,
+					"EEEE - dd.MM.yyyy");
 
-			return new Header(header);
+			return new Header(headerTitle);
 		}
 	}
 	/**

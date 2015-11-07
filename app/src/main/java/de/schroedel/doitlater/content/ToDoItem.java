@@ -144,36 +144,6 @@ public class ToDoItem implements Parcelable, ListItem
 		category = Category.fromValue(in.readInt());
 	}
 
-	/**
-	 * Returns date of to do item as string with 'dd.MM.yyyy' pattern.
-	 *
-	 * @return - date
-	 */
-	public String getDate()
-	{
-		return DateFormatter.getFormattedDate(timestamp, "dd.MM.yyyy");
-	}
-
-	/**
-	 * Returns minute of to do item as string.
-	 *
-	 * @return - minute
-	 */
-	public String getMinute()
-	{
-		return DateFormatter.getFormattedDate(timestamp, "mm");
-	}
-
-	/**
-	 * Returns hour of to do item of day as string.
-	 *
-	 * @return - hour of day
-	 */
-	public String getHourOfDay()
-	{
-		return DateFormatter.getFormattedDate(timestamp, "HH");
-	}
-
 	@Override
 	public ItemType getItemType()
 	{

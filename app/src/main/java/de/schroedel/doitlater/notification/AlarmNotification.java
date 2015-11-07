@@ -5,8 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -19,6 +17,7 @@ import de.schroedel.doitlater.activity.ItemListActivity;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.receiver.DismissAlarmReceiver;
 import de.schroedel.doitlater.receiver.UpdateItemReceiver;
+import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
  * Created by Christian Schrödel on 01.11.15.
@@ -123,9 +122,6 @@ public class AlarmNotification
 			builder.setPriority(Notification.PRIORITY_HIGH);
 		}
 
-		Uri alarmSound = RingtoneManager.getDefaultUri(
-			RingtoneManager.TYPE_ALARM);
-		builder.setSound(alarmSound);
 		builder.setVibrate(new long[]{1000, 500, 1000, 500});
 
 		NotificationManager manager = (NotificationManager)
@@ -159,9 +155,8 @@ public class AlarmNotification
 		for (ToDoItem item : toDoItems)
 		{
 			String line = String.format(
-				"%s:%s | %s - %s",
-				item.getHourOfDay(),
-				item.getMinute(),
+				"%s | %s - %s",
+				DateFormatter.getFormattedDate(item.timestamp, "HH:mm"),
 				item.title,
 				item.description);
 
