@@ -9,16 +9,41 @@
 	tools:context=".ItemDetailFragment"
 	style="?android:attr/textAppearanceLarge">
 
-	<TextView
-		android:id="@+id/todo_detail_title"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textSize="16sp"/>
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:id="@+id/todo_detail_category"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:contentDescription="@string/content_category"/>
+
+		<TextView
+			android:id="@+id/todo_detail_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginStart="16dp"
+			android:textSize="24sp"
+			android:textStyle="bold"/>
+
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/todo_detail_datetime"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textSize="16sp"
+		android:textStyle="italic"/>
 
 	<TextView
 		android:id="@+id/todo_detail_desc"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textSize="14sp"/>
+		android:paddingTop="16dp"
+		android:paddingBottom="16dp"
+		android:textSize="20sp"/>
 
 </LinearLayout>
