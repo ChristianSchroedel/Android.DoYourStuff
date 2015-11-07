@@ -19,6 +19,7 @@ import de.schroedel.doitlater.activity.ItemListActivity;
 import de.schroedel.doitlater.content.ToDoItem;
 import de.schroedel.doitlater.receiver.DismissAlarmReceiver;
 import de.schroedel.doitlater.receiver.UpdateItemReceiver;
+import de.schroedel.doitlater.utils.DateFormatter;
 
 /**
  * Created by Christian Schrödel on 01.11.15.
@@ -159,9 +160,8 @@ public class AlarmNotification
 		for (ToDoItem item : toDoItems)
 		{
 			String line = String.format(
-				"%s:%s | %s - %s",
-				item.getHourOfDay(),
-				item.getMinute(),
+				"%s | %s - %s",
+				DateFormatter.getFormattedDate(item.timestamp, "HH:mm"),
 				item.title,
 				item.description);
 
