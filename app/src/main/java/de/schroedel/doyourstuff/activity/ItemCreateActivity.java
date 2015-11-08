@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.adapter.CategoryAdapter;
+import de.schroedel.doyourstuff.content.Category;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.fragment.DateTimePickerFragment;
 
@@ -121,7 +122,7 @@ public class ItemCreateActivity extends AppCompatActivity implements
 
 			item.title = etTitle.getText().toString();
 			item.description = etDesc.getText().toString();
-			item.category = (ToDoItem.Category) spCategory.getSelectedItem();
+			item.category = (Category) spCategory.getSelectedItem();
 			item.timestamp = timestamp;
 
 			Intent resultIntent = new Intent();

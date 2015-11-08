@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.adapter.CategoryAdapter;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.utils.DateFormatter;
 
@@ -57,8 +56,7 @@ public class ItemDetailFragment extends Fragment
 			DateFormatter.getFormattedDate(
 				item.timestamp,
 				"EEEE - dd.MM.yyyy | HH:mm"));
-		ivCategory.setImageDrawable(
-			CategoryAdapter.getCategoryDrawable(getContext(), item.category));
+		ivCategory.setImageDrawable(item.category.getDrawable(getContext()));
 	}
 
 	@Override
@@ -91,9 +89,7 @@ public class ItemDetailFragment extends Fragment
 			ivCategory =
 				(ImageView) rootView.findViewById(R.id.todo_detail_category);
 			ivCategory.setImageDrawable(
-				CategoryAdapter.getCategoryDrawable(
-					getContext(),
-					item.category));
+				item.category.getDrawable(getContext()));
 		}
 
 		return rootView;

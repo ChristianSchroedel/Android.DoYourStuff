@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.adapter.CategoryAdapter;
 import de.schroedel.doyourstuff.utils.DateFormatter;
 
 /**
@@ -24,45 +23,6 @@ public class ToDoItem implements Parcelable, ListItem
 
 	public static final int ITEM_PENDING = 0;
 	public static final int ITEM_DONE = 1;
-
-	public enum Category
-	{
-		ITEM_DEFAULT(0),
-		ITEM_CAR(1),
-		ITEM_FOOD(2),
-		ITEM_GAMING(3),
-		ITEM_HOUSE(4),
-		ITEM_IMPORTANT(5),
-		ITEM_PARTY(6),
-		ITEM_PHONE(7),
-		ITEM_SCHOOL(8),
-		ITEM_SHOPPING(9),
-		ITEM_SPORT(10),
-		ITEM_WORK(11);
-
-		private int value;
-
-		Category(int value)
-		{
-			this.value = value;
-		}
-
-		public int toValue()
-		{
-			return value;
-		}
-
-		public static Category fromValue(int value)
-		{
-			for (Category cat : Category.values())
-			{
-				if (cat.toValue() == value)
-					return cat;
-			}
-
-			return null;
-		}
-	}
 
 	public long id;
 	public String title;
@@ -178,9 +138,7 @@ public class ToDoItem implements Parcelable, ListItem
 			viewHolder = (ViewHolder) convertView.getTag();
 
 		viewHolder.ivCategory.setImageDrawable(
-			CategoryAdapter.getCategoryDrawable(
-				inflater.getContext(),
-				category));
+			category.getDrawable(inflater.getContext()));
 		viewHolder.tvTitle.setText(title);
 		viewHolder.tvDesc.setText(description);
 

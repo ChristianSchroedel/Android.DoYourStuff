@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.schroedel.doyourstuff.R;
+import de.schroedel.doyourstuff.content.Category;
 import de.schroedel.doyourstuff.content.Header;
 import de.schroedel.doyourstuff.content.ListItem;
 import de.schroedel.doyourstuff.content.ToDoItem;
@@ -131,7 +132,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 			item.title = title;
 			item.description = desc;
 			item.timestamp = timeStamp;
-			item.category = ToDoItem.Category.fromValue(category);
+			item.category = Category.fromValue(category);
 			item.itemDone = done;
 
 			Header header = getHeader(item);
@@ -201,7 +202,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		item.title = title;
 		item.description = desc;
 		item.timestamp = timeStamp;
-		item.category = ToDoItem.Category.fromValue(category);
+		item.category = Category.fromValue(category);
 		item.itemDone = done;
 
 		cursor.close();
@@ -280,7 +281,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		String title,
 		String description,
 		long timestamp,
-		ToDoItem.Category category)
+		Category category)
 	{
 		SQLiteDatabase sql = dbHelper.getReadableDatabase();
 
