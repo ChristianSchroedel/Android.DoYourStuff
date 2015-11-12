@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="5.3578801"
+     inkscape:cx="0.0453801"
      inkscape:cy="12.68763"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -39,8 +39,8 @@
      fit-margin-bottom="0"
      inkscape:window-width="1203"
      inkscape:window-height="739"
-     inkscape:window-x="457"
-     inkscape:window-y="164"
+     inkscape:window-x="282"
+     inkscape:window-y="138"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -69,17 +69,18 @@
      transform="translate(0,-1028.3622)">
     <g
        id="g2991"
-       style="stroke:#ffffff;stroke-opacity:1">
+       style="stroke:#ffffff;stroke-opacity:1"
+       transform="matrix(1.1087209,0,0,1.1087209,-1.3046508,-113.10911)">
       <path
          inkscape:connector-curvature="0"
          id="path2987"
          d="m 4,1040.3623 16,0"
-         style="fill:none;stroke:#ffffff;stroke-width:2.03880500999999992px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:none;stroke:#ffffff;stroke-width:2.03880501px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path2989"
          d="m 12,1032.3622 0,16"
-         style="fill:none;stroke:#ffffff;stroke-width:1.97590196000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:none;stroke:#ffffff;stroke-width:1.97590196px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
   </g>
 </svg>
