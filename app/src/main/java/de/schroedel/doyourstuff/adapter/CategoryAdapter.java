@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.schroedel.doyourstuff.R;
@@ -59,7 +60,7 @@ public class CategoryAdapter extends ArrayAdapter<Category>
 	{
 		return getView(
 			position,
-			R.layout.spinner_category,
+			R.layout.spinner_category_dropdown,
 			convertView,
 			parent);
 	}
@@ -86,14 +87,23 @@ public class CategoryAdapter extends ArrayAdapter<Category>
 		if (convertView == null)
 			convertView = inflater.inflate(layoutResource, parent, false);
 
-		TextView tvCategory =
+		TextView tvCategoryValue =
 			(TextView) convertView.findViewById(R.id.category_value);
-		tvCategory.setText(category.getString(context));
-		tvCategory.setCompoundDrawablesWithIntrinsicBounds(
-			category.getDrawable(context),
-			null,
-			null,
-			null);
+
+		ImageView ivCategoryIcon =
+			(ImageView) convertView.findViewById(R.id.category_icon);
+
+		if (tvCategoryValue != null)
+		{
+			tvCategoryValue.setText(category.getString(context));
+			tvCategoryValue.setCompoundDrawablesWithIntrinsicBounds(
+				category.getDrawable(context),
+				null,
+				null,
+				null);
+		}
+		else if (ivCategoryIcon != null)
+			ivCategoryIcon.setImageDrawable(category.getDrawable(context));
 
 		return convertView;
 	}

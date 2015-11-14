@@ -115,4 +115,6 @@ ic_category_shopping.svg 32
 ic_category_sport.svg 32
 ic_category_template.svg 32
 ic_category_work.svg 32
+ic_event.svg 32
+ic_schedule.svg 32
 EOF

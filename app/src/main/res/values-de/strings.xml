@@ -32,5 +32,7 @@
 	<string name="category_work">Arbeit</string>
 
 	<string name="content_category">Kategorie</string>
+	<string name="content_date">Datum</string>
+	<string name="content_time">Uhrzeit</string>
 
 </resources>

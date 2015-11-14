@@ -17,9 +17,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -136,7 +136,7 @@ public class ItemCreateActivity extends AppCompatActivity
 
 		spCategory.setAdapter(new CategoryAdapter(this));
 
-		Button btnDate = (Button) findViewById(R.id.date);
+		ImageButton btnDate = (ImageButton) findViewById(R.id.date);
 		btnDate.setOnClickListener(
 			new View.OnClickListener()
 			{
@@ -148,7 +148,7 @@ public class ItemCreateActivity extends AppCompatActivity
 				}
 			});
 
-		Button btnTime = (Button) findViewById(R.id.time);
+		ImageButton btnTime = (ImageButton) findViewById(R.id.time);
 		btnTime.setOnClickListener(
 			new View.OnClickListener()
 			{
@@ -193,7 +193,9 @@ public class ItemCreateActivity extends AppCompatActivity
 		if (actionBar != null)
 		{
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(title);
+
+			if (title != null)
+				actionBar.setTitle(title);
 		}
 	}
 
