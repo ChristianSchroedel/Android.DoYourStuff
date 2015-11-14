@@ -19,12 +19,20 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
 
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:focusable="true"
+				android:focusableInTouchMode="true"/>
+
 			<EditText
 				android:id="@+id/title"
 				android:layout_width="match_parent"
 				android:layout_height="48dp"
 				android:inputType="textAutoComplete"
-				android:hint="@string/hint_title"/>
+				android:hint="@string/hint_title"
+				android:nextFocusUp="@id/title"
+				android:nextFocusLeft="@id/title"/>
 
 			<EditText
 				android:id="@+id/description"
