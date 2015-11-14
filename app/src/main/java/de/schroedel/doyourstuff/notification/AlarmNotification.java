@@ -82,6 +82,7 @@ public class AlarmNotification
 		builder.setContentText(item.description);
 		builder.setContentIntent(content);
 		builder.setDeleteIntent(delete);
+		builder.setAutoCancel(true);
 
 		if (toDoItems.size() > 1)
 			builder.setStyle(createInbox());
