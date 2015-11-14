@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.adapter.ToDoListAdapter;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
@@ -24,24 +23,20 @@ import de.schroedel.doyourstuff.receiver.AlarmReceiver;
 
 
 /**
- * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- *
+ * An activity representing a list of items. This activity has different
+ * presentations for handset and tablet-size devices. On handsets, the activity
+ * presents a list of items, which when touched, lead to a {@link ItemDetailActivity}
+ * representing item details. On tablets, the activity presents the list of
+ * items and item details side-by-side using two vertical panes.
+ * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link de.schroedel.doyourstuff.fragment.ItemListFragment} and the item details
- * (if present) is a {@link de.schroedel.doyourstuff.fragment.ItemDetailFragment}.
- *
- * This activity also implements the required
- * {@link de.schroedel.doyourstuff.fragment.ItemListFragment.Callbacks} interface
- * to listen for item selections.
- *
- * Created by Christian Schrödel on 10.04.15.
- *
- * Activity showing list of existing to do items.
+ * {@link ItemListFragment} and the item details (if present) is a
+ * {@link ItemDetailFragment}.
+ * </p>
+ * <p>
+ * This activity also implements the required {@link ItemListFragment.Callbacks}
+ * interface to listen for item selections.
+ * </p>
  */
 public class ItemListActivity extends AppCompatActivity
 	implements ItemListFragment.Callbacks
@@ -49,13 +44,10 @@ public class ItemListActivity extends AppCompatActivity
 	public static final int ADD_ITEM = 1;
 	public static final int EDIT_ITEM = 2;
 
-	/**
-	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-	 * device.
-	 */
 	private boolean twoPane;
 
 	private MenuItem actionEdit;
+
 	private ToDoItem selectedItem;
 
 	@Override
@@ -83,13 +75,13 @@ public class ItemListActivity extends AppCompatActivity
 		if (findViewById(R.id.item_detail_container) != null)
 		{
 			// The detail container view will be present only in the
-			// large-screen layouts (res/values-large and
-			// res/values-sw600dp). If this view is present, then the
-			// activity should be in two-pane mode.
+			// large-screen layouts (res/values-large and res/values-sw600dp).
+			// If this view is present, then the activity should be in two-pane
+			// mode.
 			twoPane = true;
 
-			// In two-pane mode, list items should be given the
-			// 'activated' state when touched.
+			// In two-pane mode, list items should be given the 'activated'
+			// state when touched.
 			((ItemListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.item_list))
 				.setActivateOnItemClick(true);
@@ -98,12 +90,11 @@ public class ItemListActivity extends AppCompatActivity
 		Intent intent = getIntent();
 
 		if (intent != null)
-		{
-			ToDoItem item = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+			this.selectedItem = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
-			if (item != null)
-				onItemSelected(item);
-		}
+		if (savedInstanceState != null)
+			this.selectedItem =
+				savedInstanceState.getParcelable(ToDoItem.EXTRA_ITEM);
 	}
 
 	@Override
@@ -115,7 +106,16 @@ public class ItemListActivity extends AppCompatActivity
 			return;
 
 		if (twoPane)
-			onItemSelected(selectedItem);
+			showToDoDetails(selectedItem);
+	}
+
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		outState.putParcelable(ToDoItem.EXTRA_ITEM, selectedItem);
+
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -126,7 +126,9 @@ public class ItemListActivity extends AppCompatActivity
 			R.menu.menu_list,
 			menu);
 
-		actionEdit = menu.findItem(R.id.action_edit);
+		this.actionEdit = menu.findItem(R.id.action_edit);
+
+		actionEdit.setVisible(selectedItem != null);
 
 		return true;
 	}
@@ -141,51 +143,6 @@ public class ItemListActivity extends AppCompatActivity
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns list adapter of list fragment.
-	 *
-	 * @return - list adapter
-	 */
-	private ToDoListAdapter getListAdapter()
-	{
-		return (ToDoListAdapter) ((ItemListFragment) getSupportFragmentManager()
-			.findFragmentById(R.id.item_list))
-			.getListAdapter();
-	}
-
-	/**
-	 * Adds a new item to the to do list.
-	 */
-	private void addItem()
-	{
-		Intent addIntent = new Intent(this, ItemCreateActivity.class);
-		startActivityForResult(addIntent, ADD_ITEM);
-	}
-
-	/**
-	 * Edits item of the to do list.
-	 *
-	 * @param item - to do list item
-	 */
-	private void editItem(ToDoItem item)
-	{
-		Intent editIntent = new Intent(this, ItemCreateActivity.class);
-		editIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
-
-		startActivityForResult(editIntent, EDIT_ITEM);
-	}
-
-	/**
-	 * Removes item of the to do list.
-	 *
-	 * @param item - to do list item
-	 */
-	private void removeItem(ToDoItem item)
-	{
-		cancelReminderAlarm(item);
-		getListAdapter().remove(item);
 	}
 
 	@Override
@@ -224,20 +181,100 @@ public class ItemListActivity extends AppCompatActivity
 				if (item.timestamp != 0)
 					setReminderAlarm(item);
 
-				selectedItem = item;
+				this.selectedItem = item;
 			}
 		}
 	}
 
-	/**
-	 * Callback method from {@link ItemListFragment.Callbacks}
-	 * indicating that the item with the given ID was selected.
-	 */
 	@Override
-	public void onItemSelected(ToDoItem item)
+	public void onItemSelected(int index)
 	{
-		selectedItem = item;
+		ToDoItem item = null;
+		ItemListFragment listFragment = getListFragment();
 
+		if (listFragment != null)
+			item = listFragment.getToDoItem(index);
+
+		if (item == null)
+			return;
+
+		this.selectedItem = item;
+
+		showToDoDetails(item);
+	}
+
+	@Override
+	public void onItemDismissed(int index)
+	{
+		ToDoItem item = null;
+		ItemListFragment listFragment = getListFragment();
+
+		if (listFragment != null)
+			item = listFragment.getToDoItem(index);
+
+		if (item != null)
+			removeItem(item);
+	}
+
+	/**
+	 * Returns {@link ItemListFragment} containing {@link ToDoItem} objects.
+	 *
+	 * @return {@link ItemListFragment}
+	 */
+	private ItemListFragment getListFragment()
+	{
+		return (ItemListFragment) getSupportFragmentManager().
+			findFragmentById(R.id.item_list);
+	}
+
+	/**
+	 * Starts {@link ItemCreateActivity} to add a new {@link ToDoItem}.
+	 */
+	private void addItem()
+	{
+		Intent addIntent = new Intent(this, ItemCreateActivity.class);
+		startActivityForResult(addIntent, ADD_ITEM);
+	}
+
+	/**
+	 * Starts {@link ItemCreateActivity} to edit a {@link ToDoItem}.
+	 *
+	 * @param item {@link ToDoItem} to edit
+	 */
+	private void editItem(ToDoItem item)
+	{
+		Intent editIntent = new Intent(this, ItemCreateActivity.class);
+		editIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+
+		startActivityForResult(editIntent, EDIT_ITEM);
+	}
+
+	/**
+	 * Removes {@link ToDoItem} from {@link ItemListFragment}.
+	 *
+	 * @param item {@link ToDoItem} to remove
+	 */
+	private void removeItem(ToDoItem item)
+	{
+		cancelReminderAlarm(item);
+
+		ItemListFragment listFragment = getListFragment();
+
+		if (listFragment != null)
+			listFragment.removeItem(item);
+	}
+
+	/**
+	 * Shows detailed information of {@link ToDoItem}.
+	 * <p>
+	 * On tablets details of {@link ToDoItem} are displayed in {@link ItemDetailFragment},
+	 * while on handsets the {@link ItemDetailActivity} is started.
+	 * </p>
+	 *
+	 * @param item {@link ToDoItem} to show detailed information of
+	 */
+	private void showToDoDetails(ToDoItem item)
+	{
 		if (twoPane)
 		{
 			// In two-pane mode, show the detail view in this activity by
@@ -256,12 +293,13 @@ public class ItemListActivity extends AppCompatActivity
 					fragment)
 				.commit();
 
-			actionEdit.setVisible(true);
+			if (actionEdit != null)
+				actionEdit.setVisible(true);
 		}
 		else
 		{
-			// In single-pane mode, simply start the detail activity
-			// for the selected item ID.
+			// In single-pane mode, simply start the detail activity for the
+			// selected to do item.
 			Intent detailIntent = new Intent(this, ItemDetailActivity.class);
 			detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
@@ -269,16 +307,10 @@ public class ItemListActivity extends AppCompatActivity
 		}
 	}
 
-	@Override
-	public void onItemDismissed(ToDoItem item)
-	{
-		removeItem(item);
-	}
-
 	/**
-	 * Sets reminder alarm for given to do list item.
+	 * Sets reminder alarm for given {@link ToDoItem}.
 	 *
-	 * @param item - to do list item
+	 * @param item {@link ToDoItem} to set alarm for
 	 */
 	private void setReminderAlarm(ToDoItem item)
 	{
@@ -294,9 +326,9 @@ public class ItemListActivity extends AppCompatActivity
 	}
 
 	/**
-	 * Cancels reminder alarm for given to do list item.
+	 * Cancels reminder alarm for given {@link ToDoItem}.
 	 *
-	 * @param item - to do list item
+	 * @param item {@link ToDoItem} to cancel alarm for
 	 */
 	private void cancelReminderAlarm(ToDoItem item)
 	{

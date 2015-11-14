@@ -16,55 +16,24 @@ import de.schroedel.doyourstuff.listener.SwipeDismissListViewTouchListener;
 
 
 /**
- * A list fragment representing a list of Items. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ItemDetailFragment}.
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- *
- * Created by Christian Schrödel on 10.04.15.
- *
- * Fragment containing to do list items.
+ * A list fragment representing a list of Items. This fragment also supports
+ * tablet devices by allowing list items to be given an 'activated' state upon
+ * selection. This helps indicate which {@link ToDoItem} is currently being
+ * viewed in a {@link ItemDetailFragment}.
  */
 public class ItemListFragment extends ListFragment
 {
-	/**
-	 * The serialization (saved instance state) Bundle EXTRA_ITEM representing the
-	 * activated item position. Only used on tablets.
-	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
-	private Callbacks callback = sDummyCallbacks;
+	private Callbacks callback;
+
 	private int activatedPosition = ListView.INVALID_POSITION;
 
 	public interface Callbacks
 	{
-		void onItemSelected(ToDoItem item);
-		void onItemDismissed(ToDoItem item);
+		void onItemSelected(int position);
+		void onItemDismissed(int position);
 	}
-
-	/**
-	 * A dummy implementation of the {@link Callbacks} interface that does
-	 * nothing. Used only when this fragment is not attached to an activity.
-	 */
-	private static Callbacks sDummyCallbacks = new Callbacks()
-	{
-		@Override
-		public void onItemSelected(ToDoItem item)
-		{
-		}
-
-		@Override
-		public void onItemDismissed(ToDoItem item)
-		{
-		}
-	};
 
 	@Override
 	public void onResume()
@@ -75,6 +44,8 @@ public class ItemListFragment extends ListFragment
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 
 		setListAdapter(new ToDoListAdapter(getContext(), entryTable.getAll()));
+
+		setActivatedPosition(activatedPosition);
 	}
 
 	@Override
@@ -82,39 +53,7 @@ public class ItemListFragment extends ListFragment
 	{
 		super.onViewCreated(view, savedInstanceState);
 
-        SwipeDismissListViewTouchListener dismissListener =
-			new SwipeDismissListViewTouchListener(
-				getListView(),
-				new SwipeDismissListViewTouchListener.DismissCallbacks()
-				{
-					@Override
-					public boolean canDismiss(int position)
-					{
-						ListItem item =	(ListItem) getListAdapter().
-							getItem(position);
-
-						return (item.getItemType() ==
-							ListItem.ItemType.LIST_ITEM);
-					}
-
-					@Override
-					public void onDismiss(
-						ListView listView,
-						int[] reverseSortedPositions)
-					{
-						if (reverseSortedPositions.length == 0)
-							return;
-
-						callback.onItemDismissed(
-							(ToDoItem) listView.getItemAtPosition(
-								reverseSortedPositions[0]));
-					}
-				});
-
-		ListView lv = getListView();
-		lv.setOnTouchListener(dismissListener);
-		lv.setOnScrollListener(dismissListener.makeScrollListener());
-		lv.setSelector(R.drawable.item_list_selector);
+		initListView();
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
@@ -141,15 +80,6 @@ public class ItemListFragment extends ListFragment
 	}
 
 	@Override
-	public void onDetach()
-	{
-		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
-		callback = sDummyCallbacks;
-	}
-
-	@Override
 	public void onListItemClick(
 		ListView listView,
 		View view,
@@ -161,7 +91,7 @@ public class ItemListFragment extends ListFragment
 		ListItem item = (ListItem) getListAdapter().getItem(position);
 
 		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
-			callback.onItemSelected((ToDoItem) item);
+			callback.onItemSelected(position);
 
 		setActivatedPosition(position);
 	}
@@ -181,6 +111,44 @@ public class ItemListFragment extends ListFragment
 	}
 
 	/**
+	 * Initializes underlying {@link ListView} with {@link SwipeDismissListViewTouchListener}.
+	 */
+	private void initListView()
+	{
+		SwipeDismissListViewTouchListener dismissListener =
+			new SwipeDismissListViewTouchListener(
+				getListView(),
+				new SwipeDismissListViewTouchListener.DismissCallbacks()
+				{
+					@Override
+					public boolean canDismiss(int position)
+					{
+						ListItem item =	(ListItem) getListAdapter().
+							getItem(position);
+
+						return (item.getItemType() ==
+							ListItem.ItemType.LIST_ITEM);
+					}
+
+					@Override
+					public void onDismiss(
+						ListView listView,
+						int[] reverseSortedPositions)
+					{
+						if (reverseSortedPositions.length == 0)
+							return;
+
+						callback.onItemDismissed(reverseSortedPositions[0]);
+					}
+				});
+
+		ListView lv = getListView();
+		lv.setOnTouchListener(dismissListener);
+		lv.setOnScrollListener(dismissListener.makeScrollListener());
+		lv.setSelector(R.drawable.item_list_selector);
+	}
+
+	/**
 	 * Turns on activate-on-click mode. When this mode is on, list items will be
 	 * given the 'activated' state when touched.
 	 */
@@ -195,11 +163,11 @@ public class ItemListFragment extends ListFragment
 	}
 
 	/**
-	 * Sets activated item in list view.
+	 * Sets activated item in underlying {@link ListView}.
 	 *
-	 * @param position - position of item
+	 * @param position position of list item
 	 */
-	private void setActivatedPosition(int position)
+	public void setActivatedPosition(int position)
 	{
 		ListView lv = getListView();
 
@@ -208,6 +176,35 @@ public class ItemListFragment extends ListFragment
 		else
 			lv.setItemChecked(position, true);
 
-		activatedPosition = position;
+		this.activatedPosition = position;
+	}
+
+	/**
+	 * Returns {@link ToDoItem} from underlying {@link ListView}.
+	 *
+	 * @param index index of {@link ToDoItem}
+	 * @return found {@link ToDoItem}
+	 */
+	public ToDoItem getToDoItem(int index)
+	{
+		ToDoListAdapter adapter = (ToDoListAdapter) getListView().getAdapter();
+
+		ListItem item = adapter.getItem(index);
+
+		if (item instanceof ToDoItem)
+			return (ToDoItem) item;
+
+		return null;
+	}
+
+	/**
+	 * Removes {@link ToDoItem} from underlying {@link ListView}.
+	 *
+	 * @param item {@link ToDoItem} to remove
+	 */
+	public void removeItem(ToDoItem item)
+	{
+		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
+		adapter.remove(item);
 	}
 }
