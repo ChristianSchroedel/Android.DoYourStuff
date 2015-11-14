@@ -22,9 +22,7 @@ import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.fragment.DateTimePickerFragment;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
- * Activity creating/editing to do list items.
+ * Activity creating/editing {@link ToDoItem} values.
  */
 public class ItemCreateActivity extends AppCompatActivity implements
 	DateTimePickerFragment.OnDateTimePickedCallback

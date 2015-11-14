@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.utils.DateFormatter;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
  * To do list item holding information about planned task of user.
  */
 public class ToDoItem implements Parcelable, ListItem
@@ -41,7 +39,7 @@ public class ToDoItem implements Parcelable, ListItem
 	}
 
 	/**
-	 * Creates new empty to do item.
+	 * Creates new empty {@link ToDoItem}.
 	 */
 	public ToDoItem()
 	{
@@ -55,7 +53,7 @@ public class ToDoItem implements Parcelable, ListItem
 	}
 
 	/**
-	 * Creator to implement Parcelable.Creator interface.
+	 * Creator to implement {@link android.os.Parcelable.Creator} interface.
 	 */
 	public static final Creator<ToDoItem> CREATOR = new Creator<ToDoItem>()
 	{
@@ -90,9 +88,9 @@ public class ToDoItem implements Parcelable, ListItem
 	}
 
 	/**
-	 * Creates to do item from parcel.
+	 * Creates {@link ToDoItem} from {@link Parcel}.
 	 *
-	 * @param in - parcel containing data
+	 * @param in parcel containing data
 	 */
 	private ToDoItem(Parcel in)
 	{
@@ -145,7 +143,7 @@ public class ToDoItem implements Parcelable, ListItem
 		String dateTime = null;
 
 		if (timestamp > 0)
-			dateTime = DateFormatter.getFormattedDate(timestamp, "HH:mm");
+			dateTime = DateTimeHelper.getFormattedDate(timestamp, "HH:mm");
 
 		viewHolder.tvTime.setText(dateTime);
 

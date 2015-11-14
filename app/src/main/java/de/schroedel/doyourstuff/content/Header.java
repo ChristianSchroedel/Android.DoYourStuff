@@ -11,9 +11,7 @@ import java.util.Calendar;
 import de.schroedel.doyourstuff.R;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
- * Header item in to do list.
+ * Header item in a to do list.
  */
 public class Header implements ListItem
 {
@@ -26,9 +24,9 @@ public class Header implements ListItem
 	}
 
 	/**
-	 * Creates new header with given text.
+	 * Creates new {@link Header} with given text.
 	 *
-	 * @param text - header text
+	 * @param text header text
 	 */
 	public Header(String text, int dayOfWeek)
 	{
@@ -79,8 +77,8 @@ public class Header implements ListItem
 	/**
 	 * Returns color resource equivalent to day of week.
 	 *
-	 * @param dayOfWeek - day of week
-	 * @return - color resource
+	 * @param dayOfWeek day of week
+	 * @return color resource
 	 */
 	private static int getColorForDayOfWeek(int dayOfWeek)
 	{

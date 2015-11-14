@@ -12,7 +12,7 @@ import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.activity.ItemDetailActivity;
 import de.schroedel.doyourstuff.activity.ItemListActivity;
 import de.schroedel.doyourstuff.content.ToDoItem;
-import de.schroedel.doyourstuff.utils.DateFormatter;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 /**
  * A fragment representing a single {@link ToDoItem} detail screen. This
@@ -51,7 +51,7 @@ public class ItemDetailFragment extends Fragment
 		tvTitle.setText(item.title);
 		tvDescription.setText(item.description);
 		tvDatetime.setText(
-			DateFormatter.getFormattedDate(
+			DateTimeHelper.getFormattedDate(
 				item.timestamp,
 				"EEEE - dd.MM.yyyy | HH:mm"));
 		ivCategory.setImageDrawable(item.category.getDrawable(getContext()));
@@ -81,7 +81,7 @@ public class ItemDetailFragment extends Fragment
 			tvTitle.setText(item.title);
 			tvDescription.setText(item.description);
 			tvDatetime.setText(
-				DateFormatter.getFormattedDate(
+				DateTimeHelper.getFormattedDate(
 					item.timestamp,
 					"EEEE - dd.MM.yyyy | HH:mm"));
 			ivCategory.setImageDrawable(

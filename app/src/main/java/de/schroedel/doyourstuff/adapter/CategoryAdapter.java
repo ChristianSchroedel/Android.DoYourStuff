@@ -5,26 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.content.Category;
 
-/**
- * Created by Christian Schrödel on 07.11.15.
- *
- * Adapter handling available to do item categories.
+/**+
+ * Adapter containing available {@link Category} types.
  */
 public class CategoryAdapter extends ArrayAdapter<Category>
-	implements SpinnerAdapter
 {
 	private LayoutInflater inflater;
 
 	/**
-	 * Creates to do item category adapter.
+	 * Creates {@link CategoryAdapter} containing {@link Category} types.
 	 *
-	 * @param context - context
+	 * @param context context
 	 */
 	public CategoryAdapter(Context context)
 	{
@@ -71,11 +67,11 @@ public class CategoryAdapter extends ArrayAdapter<Category>
 	/**
 	 * Creates category view depending on given layout resource.
 	 *
-	 * @param position - position
-	 * @param layoutResource - layout resource
-	 * @param convertView - view to inflate
-	 * @param parent - parent view group
-	 * @return - created category view
+	 * @param position position
+	 * @param layoutResource layout resource
+	 * @param convertView view to inflate
+	 * @param parent parent view group
+	 * @return created category view
 	 */
 	private View getView(
 		int position,

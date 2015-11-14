@@ -9,8 +9,8 @@ import android.widget.ListView;
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.adapter.ToDoListAdapter;
 import de.schroedel.doyourstuff.content.ListItem;
-import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.content.ToDoItem;
+import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.listener.SwipeDismissListViewTouchListener;
 
@@ -111,7 +111,8 @@ public class ItemListFragment extends ListFragment
 	}
 
 	/**
-	 * Initializes underlying {@link ListView} with {@link SwipeDismissListViewTouchListener}.
+	 * Initializes underlying {@link ListView} with {@link
+	 * SwipeDismissListViewTouchListener}.
 	 */
 	private void initListView()
 	{
@@ -182,8 +183,8 @@ public class ItemListFragment extends ListFragment
 	/**
 	 * Returns {@link ToDoItem} from underlying {@link ListView}.
 	 *
-	 * @param index index of {@link ToDoItem}
-	 * @return found {@link ToDoItem}
+	 * @param index index of item
+	 * @return found item
 	 */
 	public ToDoItem getToDoItem(int index)
 	{
@@ -200,10 +201,15 @@ public class ItemListFragment extends ListFragment
 	/**
 	 * Removes {@link ToDoItem} from underlying {@link ListView}.
 	 *
-	 * @param item {@link ToDoItem} to remove
+	 * @param item item to remove
 	 */
 	public void removeItem(ToDoItem item)
 	{
+		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+		entryTable.remove(item.id);
+
 		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
 		adapter.remove(item);
 	}

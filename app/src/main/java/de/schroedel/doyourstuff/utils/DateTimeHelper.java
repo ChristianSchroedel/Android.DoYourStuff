@@ -5,18 +5,16 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by Christian Schrödel on 01.11.15.
- *
  * Utility class to format date time strings.
  */
-public final class DateFormatter
+public final class DateTimeHelper
 {
 	/**
 	 * Returns formatted string using given UTC timestamp + pattern.
 	 *
-	 * @param timestamp - UTC timestamp
-	 * @param pattern - format pattern
-	 * @return - formatted string
+	 * @param timestamp UTC timestamp
+	 * @param pattern format pattern
+	 * @return formatted string
 	 */
 	public static String getFormattedDate(long timestamp, String pattern)
 	{
@@ -34,8 +32,8 @@ public final class DateFormatter
 	/**
 	 * Checks if given date is today.
 	 *
-	 * @param timestamp - time stamp
-	 * @return - true if today else false
+	 * @param timestamp time stamp
+	 * @return true if today else false
 	 */
 	public static boolean dateIsToday(long timestamp)
 	{
@@ -45,8 +43,8 @@ public final class DateFormatter
 	/**
 	 * Checks if two timestamps are on the same day.
 	 *
-	 * @param timestamp - first timestamp
-	 * @param timestampOther - other timestamp
+	 * @param timestamp first timestamp
+	 * @param timestampOther other timestamp
 	 */
 	public static boolean hasSameDay(long timestamp, long timestampOther)
 	{
@@ -67,7 +65,7 @@ public final class DateFormatter
 	/**
 	 * Checks if given timestamp is in the past.
 	 *
-	 * @param timestamp - timestamp
+	 * @param timestamp timestamp
 	 */
 	public static boolean dateIsPast(long timestamp)
 	{
@@ -77,8 +75,8 @@ public final class DateFormatter
 	/**
 	 * Returns day of week from calendar.
 	 *
-	 * @param timestamp - timestamp
-	 * @return - day of week
+	 * @param timestamp timestamp
+	 * @return day of week
 	 */
 	public static int getCalendarDayOfWeek(long timestamp)
 	{

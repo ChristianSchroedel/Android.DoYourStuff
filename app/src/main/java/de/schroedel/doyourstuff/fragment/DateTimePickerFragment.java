@@ -17,8 +17,6 @@ import de.schroedel.doyourstuff.activity.ItemCreateActivity;
 import de.schroedel.doyourstuff.content.ToDoItem;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
  * Dialog to pick date and time.
  */
 public final class DateTimePickerFragment extends DialogFragment

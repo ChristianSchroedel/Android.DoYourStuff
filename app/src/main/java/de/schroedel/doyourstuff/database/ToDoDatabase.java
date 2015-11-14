@@ -3,8 +3,6 @@ package de.schroedel.doyourstuff.database;
 import android.content.Context;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
  * Database managing to do list items.
  */
 public class ToDoDatabase
@@ -14,9 +12,9 @@ public class ToDoDatabase
 	private ToDoEntryTable toDoEntryTable;
 
 	/**
-	 * Creates database instance.
+	 * Creates {@link ToDoDatabase} instance.
 	 *
-	 * @param context - activity context
+	 * @param context activity context
 	 */
 	private ToDoDatabase(Context context)
 	{
@@ -24,10 +22,10 @@ public class ToDoDatabase
 	}
 
 	/**
-	 * Gets only valid instance of database.
+	 * Gets only valid instance of {@link ToDoDatabase}.
 	 *
-	 * @param context - activity context
-	 * @return - database instance
+	 * @param context activity context
+	 * @return database instance
 	 */
 	public static ToDoDatabase getInstance(Context context)
 	{
@@ -38,9 +36,9 @@ public class ToDoDatabase
 	}
 
 	/**
-	 * Returns to do entry database table.
+	 * Returns {@link ToDoEntryTable} from {@link ToDoDatabase}.
 	 *
-	 * @return - to do entry table
+	 * @return to do entry table
 	 */
 	public ToDoEntryTable getToDoEntryTable()
 	{

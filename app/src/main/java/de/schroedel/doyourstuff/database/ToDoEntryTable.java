@@ -14,11 +14,9 @@ import de.schroedel.doyourstuff.content.Header;
 import de.schroedel.doyourstuff.content.ListItem;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabaseHelper.ToDoEntry;
-import de.schroedel.doyourstuff.utils.DateFormatter;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 /**
- * Created by Christian Schrödel on 01.11.15.
- *
  * To do items database table.
  */
 public class ToDoEntryTable implements DatabaseTable<ListItem>
@@ -31,6 +29,12 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	private ToDoItem last;
 	private boolean lastInPast = false;
 
+	/**
+	 * Creates {@link ToDoEntryTable} providing access to available {@link
+	 * ToDoItem} objects.
+	 *
+	 * @param context context
+	 */
 	public ToDoEntryTable(Context context)
 	{
 		this.context = context;
@@ -211,10 +215,10 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	}
 
 	/**
-	 * Creates header to put in front of to do item in item list.
+	 * Creates {@link Header} to put in front of {@link ToDoItem} in item list.
 	 *
-	 * @param item - to do list item
-	 * @return - created header or null if no header is necessary
+	 * @param item to do list item
+	 * @return created header or null if no header is necessary
 	 */
 	private Header getHeader(ToDoItem item)
 	{
@@ -232,7 +236,7 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		if (item.timestamp == 0)
 			return null;
 
-		if (DateFormatter.dateIsPast(item.timestamp))
+		if (DateTimeHelper.dateIsPast(item.timestamp))
 		{
 			lastInPast = true;
 
@@ -248,33 +252,33 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		{
 			if (!lastInPast &&
 				last != null &&
-				DateFormatter.hasSameDay(item.timestamp, last.timestamp))
+				DateTimeHelper.hasSameDay(item.timestamp, last.timestamp))
 				return null;
 
 			lastInPast = false;
 
 			String headerTitle;
 
-			if (DateFormatter.dateIsToday(item.timestamp))
+			if (DateTimeHelper.dateIsToday(item.timestamp))
 				headerTitle = context.getResources().getString(R.string.header_today);
 			else
-				headerTitle = DateFormatter.getFormattedDate(
+				headerTitle = DateTimeHelper.getFormattedDate(
 					item.timestamp,
 					"EEEE - dd.MM.yyyy");
 
-			int dayOfWeek = DateFormatter.getCalendarDayOfWeek(item.timestamp);
+			int dayOfWeek = DateTimeHelper.getCalendarDayOfWeek(item.timestamp);
 
 			return new Header(headerTitle, dayOfWeek);
 		}
 	}
 	/**
-	 * Updates title and description of item in database.
+	 * Updates title and description of {@link ToDoItem} in database table.
 	 *
-	 * @param id - id of to do list item
-	 * @param title - new item title
-	 * @param description - new item description
-	 * @param timestamp - timestamp
-	 * @param category - category
+	 * @param id id of to do list item
+	 * @param title new item title
+	 * @param description new item description
+	 * @param timestamp timestamp
+	 * @param category category
 	 */
 	public void updateToDoItem(
 		long id,
@@ -302,10 +306,10 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 	}
 
 	/**
-	 * Updates state of item in database.
+	 * Updates state of {@link ToDoItem} in database table.
 	 *
-	 * @param id - id of to do item
-	 * @param done - new state of item
+	 * @param id id of to do item
+	 * @param done new state of item
 	 */
 	public void updateItemIsDone(long id, int done)
 	{
@@ -316,29 +320,6 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 
 		ContentValues values = new ContentValues();
 		values.put(ToDoEntry.COLUMN_DONE, done);
-
-		sql.update(
-			ToDoEntry.TABLE_NAME,
-			values,
-			selection,
-			selectionArgs);
-	}
-
-	/**
-	 * Updates category of item in database.
-	 *
-	 * @param id - id of to do item
-	 * @param category - new category of item
-	 */
-	public void updateItemCategory(long id, int category)
-	{
-		SQLiteDatabase sql = dbHelper.getReadableDatabase();
-
-		String selection = ToDoEntry._ID + " LIKE ?";
-		String[] selectionArgs = { String.valueOf(id) };
-
-		ContentValues values = new ContentValues();
-		values.put(ToDoEntry.COLUMN_CATEGORY, category);
 
 		sql.update(
 			ToDoEntry.TABLE_NAME,

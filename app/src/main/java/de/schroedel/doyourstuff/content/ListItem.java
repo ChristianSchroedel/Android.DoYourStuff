@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
  * Item contained in to do list.
  */
 public interface ListItem
@@ -27,17 +25,17 @@ public interface ListItem
 	/**
 	 * Returns type of item.
 	 *
-	 * @return - type of item
+	 * @return type of item
 	 */
 	ItemType getItemType();
 
 	/**
 	 * Returns item view.
 	 *
-	 * @param inflater - inflater used to create item view
-	 * @param convertView - cached item view (may be null)
-	 * @param parent - parent view
-	 * @return - item view
+	 * @param inflater inflater used to create item view
+	 * @param convertView cached item view (may be null)
+	 * @param parent parent view
+	 * @return item view
 	 */
 	View getView(LayoutInflater inflater, View convertView, ViewGroup parent);
 }

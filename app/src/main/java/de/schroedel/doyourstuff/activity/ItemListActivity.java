@@ -35,7 +35,7 @@ import de.schroedel.doyourstuff.receiver.AlarmReceiver;
  * </p>
  * <p>
  * This activity also implements the required {@link ItemListFragment.Callbacks}
- * interface to listen for item selections.
+ * interface to listen for {@link ToDoItem} selections.
  * </p>
  */
 public class ItemListActivity extends AppCompatActivity
@@ -163,6 +163,9 @@ public class ItemListActivity extends AppCompatActivity
 
 				item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
+				if (item == null)
+					return;
+
 				ToDoDatabase database = ToDoDatabase.getInstance(this);
 				ToDoEntryTable entryTable = database.getToDoEntryTable();
 
@@ -219,7 +222,7 @@ public class ItemListActivity extends AppCompatActivity
 	/**
 	 * Returns {@link ItemListFragment} containing {@link ToDoItem} objects.
 	 *
-	 * @return {@link ItemListFragment}
+	 * @return list fragment
 	 */
 	private ItemListFragment getListFragment()
 	{
@@ -232,14 +235,15 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void addItem()
 	{
-		Intent addIntent = new Intent(this, ItemCreateActivity.class);
-		startActivityForResult(addIntent, ADD_ITEM);
+		startActivityForResult(
+			new Intent(this, ItemCreateActivity.class),
+			ADD_ITEM);
 	}
 
 	/**
 	 * Starts {@link ItemCreateActivity} to edit a {@link ToDoItem}.
 	 *
-	 * @param item {@link ToDoItem} to edit
+	 * @param item item to edit
 	 */
 	private void editItem(ToDoItem item)
 	{
@@ -252,7 +256,7 @@ public class ItemListActivity extends AppCompatActivity
 	/**
 	 * Removes {@link ToDoItem} from {@link ItemListFragment}.
 	 *
-	 * @param item {@link ToDoItem} to remove
+	 * @param item item to remove
 	 */
 	private void removeItem(ToDoItem item)
 	{
@@ -271,7 +275,7 @@ public class ItemListActivity extends AppCompatActivity
 	 * while on handsets the {@link ItemDetailActivity} is started.
 	 * </p>
 	 *
-	 * @param item {@link ToDoItem} to show detailed information of
+	 * @param item item to show detailed information of
 	 */
 	private void showToDoDetails(ToDoItem item)
 	{
@@ -310,7 +314,7 @@ public class ItemListActivity extends AppCompatActivity
 	/**
 	 * Sets reminder alarm for given {@link ToDoItem}.
 	 *
-	 * @param item {@link ToDoItem} to set alarm for
+	 * @param item item to set alarm for
 	 */
 	private void setReminderAlarm(ToDoItem item)
 	{
@@ -320,15 +324,14 @@ public class ItemListActivity extends AppCompatActivity
 		PendingIntent alarm =
 			PendingIntent.getBroadcast(this, (int) item.id, intent, 0);
 
-		AlarmManager manager =
-			(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		AlarmManager manager = getAlarmManager();
 		manager.set(AlarmManager.RTC_WAKEUP, item.timestamp, alarm);
 	}
 
 	/**
 	 * Cancels reminder alarm for given {@link ToDoItem}.
 	 *
-	 * @param item {@link ToDoItem} to cancel alarm for
+	 * @param item item to cancel alarm for
 	 */
 	private void cancelReminderAlarm(ToDoItem item)
 	{
@@ -337,8 +340,17 @@ public class ItemListActivity extends AppCompatActivity
 		PendingIntent alarm =
 			PendingIntent.getBroadcast(this, (int) item.id, intent, 0);
 
-		AlarmManager manager =
-			(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		AlarmManager manager = getAlarmManager();
 		manager.cancel(alarm);
+	}
+
+	/**
+	 * Returns {@link AlarmManager} system service.
+	 *
+	 * @return alarm manager
+	 */
+	private AlarmManager getAlarmManager()
+	{
+		return (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 	}
 }

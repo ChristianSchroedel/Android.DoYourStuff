@@ -22,10 +22,6 @@ import de.schroedel.doyourstuff.fragment.ItemDetailFragment;
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link ItemListActivity}.
- *
- * Created by Christian Schrödel on 10.04.15.
- *
- * Activity showing to do list item detail.
  */
 public class ItemDetailActivity extends AppCompatActivity
 {

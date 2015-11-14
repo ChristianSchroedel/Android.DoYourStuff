@@ -10,9 +10,7 @@ import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.notification.AlarmNotification;
 
 /**
- * Created by Christian Schrödel on 11.04.15.
- *
- * Receiver receiving intents to update to do list items.
+ * Receiver receiving broadcasts to update to do list items.
  */
 public class UpdateItemReceiver extends BroadcastReceiver
 {
@@ -31,10 +29,10 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	}
 
 	/**
-	 * Marks to do list item as done.
+	 * Marks to {@link ToDoItem} as done.
 	 *
-	 * @param context - context
-	 * @param doneIntent - intent containing data of to do list item
+	 * @param context context
+	 * @param doneIntent intent containing data of to do list item
 	 */
 	private void itemIsDone(Context context, Intent doneIntent)
 	{
@@ -55,10 +53,10 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	}
 
 	/**
-	 * Sets alarm of to do list items to a later date.
+	 * Sets alarm of {@link ToDoItem} to a later date.
 	 *
-	 * @param context - context
-	 * @param laterIntent - intent containing data of to do list item
+	 * @param context context
+	 * @param laterIntent intent containing data of to do list item
 	 */
 	private void doItemLater(Context context, Intent laterIntent)
 	{
@@ -76,7 +74,7 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	/**
 	 * Cancels existing alarm notification.
 	 *
-	 * @param context - context
+	 * @param context context
 	 */
 	private void cancelNotification(Context context)
 	{

@@ -7,9 +7,7 @@ import android.content.Intent;
 import de.schroedel.doyourstuff.notification.AlarmNotification;
 
 /**
- * Created by Christian Schrödel on 01.11.15.
- *
- * Receiver receiving callback when alarm notification was dismissed.
+ * Receiver receiving broadcasts when an alarm notification was dismissed.
  */
 public class DismissAlarmReceiver extends BroadcastReceiver
 {

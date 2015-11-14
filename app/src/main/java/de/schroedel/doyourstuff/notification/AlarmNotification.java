@@ -16,13 +16,10 @@ import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.activity.ItemListActivity;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.receiver.DismissAlarmReceiver;
-import de.schroedel.doyourstuff.receiver.UpdateItemReceiver;
-import de.schroedel.doyourstuff.utils.DateFormatter;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 /**
- * Created by Christian Schrödel on 01.11.15.
- *
- * To do item alarm notification.
+ * Notification manager for {@link ToDoItem} alarms.
  */
 public class AlarmNotification
 {
@@ -33,7 +30,7 @@ public class AlarmNotification
 	private List<ToDoItem> toDoItems;
 
 	/**
-	 * Creates new alarm notification.
+	 * Creates new {@link AlarmNotification} manager.
 	 */
 	private AlarmNotification()
 	{
@@ -43,7 +40,7 @@ public class AlarmNotification
 	/**
 	 * Returns instance of alarm notification.
 	 *
-	 * @return - instance
+	 * @return instance
 	 */
 	public static AlarmNotification getInstance()
 	{
@@ -54,29 +51,17 @@ public class AlarmNotification
 	}
 
 	/**
-	 * Shows alarm notification for to do items.
+	 * Shows notification containing {@link ToDoItem} information.
 	 *
-	 * @param context - context
-	 * @param item - last to do item to show
+	 * @param context context
+	 * @param item last to do item to show
 	 */
 	public void showAlarm(Context context, ToDoItem item)
 	{
 		toDoItems.add(item);
 
 		Intent detailIntent = new Intent(context, ItemListActivity.class);
-		detailIntent.putExtra(
-			ToDoItem.EXTRA_ITEM,
-			item);
-
-		Intent laterIntent = new Intent(context, UpdateItemReceiver.class);
-		laterIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
-		laterIntent.setAction(UpdateItemReceiver.ACTION_LATER);
-
-		Intent doneIntent = new Intent(context, UpdateItemReceiver.class);
-		doneIntent.putExtra(
-			ToDoItem.EXTRA_ITEM,
-			item);
-		doneIntent.setAction(UpdateItemReceiver.ACTION_DONE);
+		detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
 		Intent deleteIntent = new Intent(context, DismissAlarmReceiver.class);
 
@@ -86,16 +71,6 @@ public class AlarmNotification
 
 		PendingIntent content =
 			stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		PendingIntent later =
-			PendingIntent.getBroadcast(
-				context,
-				0,
-				laterIntent,
-				0);
-
-		PendingIntent done =
-			PendingIntent.getBroadcast(context, 0, doneIntent, 0);
 
 		PendingIntent delete =
 			PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
@@ -108,12 +83,7 @@ public class AlarmNotification
 		builder.setContentIntent(content);
 		builder.setDeleteIntent(delete);
 
-		if (toDoItems.size() == 1)
-		{
-			builder.addAction(R.mipmap.ic_launcher, "later", later);
-			builder.addAction(R.mipmap.ic_launcher, "done", done);
-		}
-		else
+		if (toDoItems.size() > 1)
 			builder.setStyle(createInbox());
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -130,7 +100,7 @@ public class AlarmNotification
 	}
 
 	/**
-	 * Cancels notification for to do list items.
+	 * Cancels notification for {@link ToDoItem} objects.
 	 */
 	public void cancel(Context context)
 	{
@@ -142,9 +112,9 @@ public class AlarmNotification
 	}
 
 	/**
-	 * Creates inbox style for notification.
+	 * Creates {@link NotificationCompat.InboxStyle} for notification.
 	 *
-	 * @return - inbox style
+	 * @return inbox style
 	 */
 	private NotificationCompat.InboxStyle createInbox()
 	{
@@ -156,7 +126,7 @@ public class AlarmNotification
 		{
 			String line = String.format(
 				"%s | %s - %s",
-				DateFormatter.getFormattedDate(item.timestamp, "HH:mm"),
+				DateTimeHelper.getFormattedDate(item.timestamp, "HH:mm"),
 				item.title,
 				item.description);
 

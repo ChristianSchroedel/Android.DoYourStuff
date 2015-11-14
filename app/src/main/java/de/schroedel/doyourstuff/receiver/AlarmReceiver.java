@@ -8,8 +8,6 @@ import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.notification.AlarmNotification;
 
 /**
- * Created by Christian Schrödel on 10.04.15.
- *
  * Receiver receiving alarms to remind user.
  */
 public class AlarmReceiver extends BroadcastReceiver

@@ -8,9 +8,7 @@ import android.support.v4.content.ContextCompat;
 import de.schroedel.doyourstuff.R;
 
 /**
- * Created by Christian Schrödel on 08.11.15.
- *
- * Category of a to do item.
+ * Category type of a to do item.
  */
 public enum Category
 {
@@ -35,9 +33,9 @@ public enum Category
 	}
 
 	/**
-	 * Returns associated integer value of category.
+	 * Returns associated integer value of {@link Category}.
 	 *
-	 * @return - integer value
+	 * @return integer value
 	 */
 	public int toValue()
 	{
@@ -45,10 +43,10 @@ public enum Category
 	}
 
 	/**
-	 * Creates category item matching given value.
+	 * Creates {@link Category} item matching given value.
 	 *
-	 * @param value - value
-	 * @return - category item
+	 * @param value value
+	 * @return category item
 	 */
 	public static Category fromValue(int value)
 	{
@@ -61,10 +59,10 @@ public enum Category
 		return null;
 	}
 	/**
-	 * Returns string equivalent for given to do item category.
+	 * Returns string equivalent for given item {@link Category}.
 	 *
-	 * @param context - context
-	 * @return - category string
+	 * @param context context
+	 * @return category string
 	 */
 	public String getString(Context context)
 	{
@@ -102,10 +100,10 @@ public enum Category
 	}
 
 	/**
-	 * Returns drawable equivalent for given to do category item.
+	 * Returns drawable equivalent for given item {@link Category}.
 	 *
-	 * @param context - context
-	 * @return - category drawable
+	 * @param context context
+	 * @return category drawable
 	 */
 	public Drawable getDrawable(Context context)
 	{

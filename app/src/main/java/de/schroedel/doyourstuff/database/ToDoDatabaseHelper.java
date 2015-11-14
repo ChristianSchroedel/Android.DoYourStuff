@@ -6,8 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 /**
- * Created by Christian Schrödel on 31.10.15.
- *
  * To do list database helper.
  */
 public class ToDoDatabaseHelper extends SQLiteOpenHelper
@@ -56,9 +54,9 @@ public class ToDoDatabaseHelper extends SQLiteOpenHelper
 	}
 
 	/**
-	 * Creates database helper.
+	 * Creates {@link ToDoDatabaseHelper}.
 	 *
-	 * @param context - context
+	 * @param context context
 	 */
 	public ToDoDatabaseHelper(Context context)
 	{
