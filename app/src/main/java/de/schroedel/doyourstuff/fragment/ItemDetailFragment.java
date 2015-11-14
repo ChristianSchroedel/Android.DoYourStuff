@@ -89,12 +89,14 @@ public class ItemDetailFragment extends Fragment
 			ivCategory != null);
 	}
 
-
+	/**
+	 * Initializes fragment {@link View} objects with {@link ToDoItem}
+	 * information.
+	 *
+	 * @param item item containing information
+	 */
 	private void initDetailViews(ToDoItem item)
 	{
-		tvTitle.setText(item.title);
-		tvDescription.setText(item.description);
-
 		String dateTime = null;
 
 		if (item.timestamp > 0)
@@ -102,8 +104,9 @@ public class ItemDetailFragment extends Fragment
 				item.timestamp,
 				"EEEE - dd.MM.yyyy | HH:mm");
 
+		tvTitle.setText(item.title);
+		tvDescription.setText(item.description);
 		tvDatetime.setText(dateTime);
-
 		ivCategory.setImageDrawable(
 			item.category.getDrawable(getContext()));
 	}

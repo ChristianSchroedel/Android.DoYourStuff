@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-    <include
-		android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-
-    <LinearLayout
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		android:layout_height="wrap_content">
 
-		<EditText
-			android:id="@+id/title"
-			android:layout_width="match_parent"
-			android:layout_height="48dp"
-			android:inputType="textAutoComplete"
-			android:hint="@string/hint_title"/>
-
-		<EditText
-			android:id="@+id/description"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="top|start"
-			android:inputType="textMultiLine|textAutoComplete"
-			android:minLines="4"
-			android:scrollbars="vertical"
-			android:hint="@string/hint_description"/>
+		<include
+			android:id="@+id/toolbar"
+			layout="@layout/toolbar"/>
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
 
-			<Spinner
-				android:id="@+id/category"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
+			<EditText
+				android:id="@+id/title"
+				android:layout_width="match_parent"
+				android:layout_height="48dp"
+				android:inputType="textAutoComplete"
+				android:hint="@string/hint_title"/>
 
-			<Button
-				android:id="@+id/dateTime"
-				android:layout_width="wrap_content"
+			<EditText
+				android:id="@+id/description"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="DateTime"/>
+				android:gravity="top|start"
+				android:inputType="textMultiLine|textAutoComplete"
+				android:minLines="4"
+				android:scrollbars="vertical"
+				android:hint="@string/hint_description"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<Spinner
+					android:id="@+id/category"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+				<Button
+					android:id="@+id/date"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Date"/>
+
+				<Button
+					android:id="@+id/time"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Time"/>
+
+			</LinearLayout>
 
 		</LinearLayout>
 
 	</LinearLayout>
 
-</LinearLayout>
+</ScrollView>

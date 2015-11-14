@@ -1,39 +1,50 @@
 package de.schroedel.doyourstuff.activity;
 
-import android.app.DialogFragment;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.adapter.CategoryAdapter;
 import de.schroedel.doyourstuff.content.Category;
 import de.schroedel.doyourstuff.content.ToDoItem;
-import de.schroedel.doyourstuff.fragment.DateTimePickerFragment;
 
 /**
  * Activity creating/editing {@link ToDoItem} values.
  */
-public class ItemCreateActivity extends AppCompatActivity implements
-	DateTimePickerFragment.OnDateTimePickedCallback
+public class ItemCreateActivity extends AppCompatActivity
 {
+	public static final int RESULT_CANCELED_NO_TITLE = 1;
+
 	private EditText etTitle;
 	private EditText etDesc;
 	private Spinner spCategory;
 
 	private ToDoItem item;
 
-	private long timestamp;
+	private static Calendar calendar;
+	private static long timestamp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -41,52 +52,19 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_create);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		initEditorViews();
 
-		final ActionBar actionBar = getSupportActionBar();
-
-		if (actionBar != null)
-			actionBar.setDisplayHomeAsUpEnabled(true);
-
-		this.etTitle = (EditText) findViewById(R.id.title);
-		this.etDesc = (EditText) findViewById(R.id.description);
-		this.spCategory = (Spinner) findViewById(R.id.category);
-
-		spCategory.setAdapter(new CategoryAdapter(this));
-
-		Intent intent = getIntent();
-
-		ToDoItem item = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		String title = null;
+		ToDoItem item = getIntent().getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
 		if (item != null)
 		{
-			this.item = item;
-			this.timestamp = item.timestamp;
-
-			etTitle.setText(item.title);
-			etDesc.setText(item.description);
-			spCategory.setSelection(item.category.toValue());
-
-			if (actionBar != null)
-				actionBar.setTitle(item.title);
+			initEditorViewValues(item);
+			title = item.title;
 		}
 
-		Button btnDate = (Button) findViewById(R.id.dateTime);
-		btnDate.setOnClickListener(
-			new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View view)
-				{
-					Bundle arguments = new Bundle();
-					arguments.putLong(ToDoItem.EXTRA_TIMESTAMP, timestamp);
-
-					DialogFragment picker = new DateTimePickerFragment();
-					picker.setArguments(arguments);
-					picker.show(getFragmentManager(), "dateTimePicker");
-				}
-			});
+		initActionBar(title);
+		initCalendar(timestamp);
 	}
 
 	@Override
@@ -111,14 +89,25 @@ public class ItemCreateActivity extends AppCompatActivity implements
 					this,
 					ItemListActivity.class));
 
+			resetTime();
+
 			return true;
 		}
 		else if (id == R.id.action_edit)
 		{
+			String title = etTitle.getText().toString();
+
+			if (title.isEmpty())
+			{
+				// A set title is mandatory for every to do item.
+				setResultAndFinish(RESULT_CANCELED_NO_TITLE, null);
+				return false;
+			}
+
 			if (item == null)
 				item = new ToDoItem();
 
-			item.title = etTitle.getText().toString();
+			item.title = title;
 			item.description = etDesc.getText().toString();
 			item.category = (Category) spCategory.getSelectedItem();
 			item.timestamp = timestamp;
@@ -126,8 +115,9 @@ public class ItemCreateActivity extends AppCompatActivity implements
 			Intent resultIntent = new Intent();
 			resultIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
-			setResult(RESULT_OK, resultIntent);
-			finish();
+			setResultAndFinish(RESULT_OK, resultIntent);
+
+			resetTime();
 
 			return false;
 		}
@@ -135,9 +125,175 @@ public class ItemCreateActivity extends AppCompatActivity implements
 		return super.onOptionsItemSelected(menuItem);
 	}
 
-	@Override
-	public void onDateTimePicked(long timestamp)
+	/**
+	 * Initializes {@link View} items of activity.
+	 */
+	private void initEditorViews()
 	{
-		this.timestamp = timestamp;
+		this.etTitle = (EditText) findViewById(R.id.title);
+		this.etDesc = (EditText) findViewById(R.id.description);
+		this.spCategory = (Spinner) findViewById(R.id.category);
+
+		spCategory.setAdapter(new CategoryAdapter(this));
+
+		Button btnDate = (Button) findViewById(R.id.date);
+		btnDate.setOnClickListener(
+			new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					DatePickerFragment fragment = new DatePickerFragment();
+					fragment.show(getSupportFragmentManager(), "datePicker");
+				}
+			});
+
+		Button btnTime = (Button) findViewById(R.id.time);
+		btnTime.setOnClickListener(
+			new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					TimePickerFragment fragment = new TimePickerFragment();
+					fragment.show(getSupportFragmentManager(), "timePicker");
+				}
+			});
+	}
+
+	/**
+	 * Sets default values of activity {@link View} items with {@link ToDoItem}
+	 * information.
+	 *
+	 * @param item item with information
+	 */
+	private void initEditorViewValues(ToDoItem item)
+	{
+		timestamp = item.timestamp;
+
+		this.item = item;
+
+		etTitle.setText(item.title);
+		etDesc.setText(item.description);
+		spCategory.setSelection(item.category.toValue());
+	}
+
+	/**
+	 * Initializes {@link ActionBar} with a set title.
+	 *
+	 * @param title title of action bar
+	 */
+	private void initActionBar(String title)
+	{
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar actionBar = getSupportActionBar();
+
+		if (actionBar != null)
+		{
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle(title);
+		}
+	}
+
+	/**
+	 * Initializes {@link Calendar} with set timestamp. If timestamp is 0
+	 * {@link Calendar} uses the current time.
+	 *
+	 * @param timestamp UTC timestamp
+	 */
+	private void initCalendar(long timestamp)
+	{
+		if (calendar == null)
+			calendar = Calendar.getInstance();
+
+		if (timestamp > 0)
+			calendar.setTimeInMillis(timestamp);
+	}
+
+	/**
+	 * Resets timestamp and {@link Calendar} instance.
+	 */
+	private void resetTime()
+	{
+		timestamp = 0;
+		calendar = null;
+	}
+
+	/**
+	 * Sets result for activity and finishes it.
+	 *
+	 * @param result result code
+	 */
+	private void setResultAndFinish(int result, Intent intent)
+	{
+		setResult(result, intent);
+		finish();
+	}
+
+	/**
+	 * Dialog fragment to pick hour of day and minute time values.
+	 */
+	public static class TimePickerFragment extends DialogFragment implements
+		TimePickerDialog.OnTimeSetListener
+	{
+		@NonNull
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState)
+		{
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+			int minute = calendar.get(Calendar.MINUTE);
+
+			Context context = getActivity();
+
+			return new TimePickerDialog(
+				context,
+				this,
+				hour,
+				minute,
+				DateFormat.is24HourFormat(context));
+		}
+
+		@Override
+		public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute)
+		{
+			calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+			calendar.set(Calendar.MINUTE, minute);
+
+			timestamp = calendar.getTimeInMillis();
+		}
+	}
+
+	/**
+	 * Dialog fragment to pick year, month and day of month date values.
+	 */
+	public static class DatePickerFragment extends DialogFragment implements
+		DatePickerDialog.OnDateSetListener
+	{
+		@NonNull
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState)
+		{
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH);
+			int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		@Override
+		public void onDateSet(
+			DatePicker datePicker,
+			int year,
+			int month,
+			int day)
+		{
+			calendar.set(Calendar.YEAR, year);
+			calendar.set(Calendar.MONTH, month);
+			calendar.set(Calendar.DAY_OF_MONTH, day);
+
+			timestamp = calendar.getTimeInMillis();
+		}
 	}
 }
