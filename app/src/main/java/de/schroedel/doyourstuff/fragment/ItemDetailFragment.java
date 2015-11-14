@@ -44,17 +44,9 @@ public class ItemDetailFragment extends Fragment
 	{
 		super.onResume();
 
-		if (!isInitialized() ||
-			item == null)
-			return;
-
-		tvTitle.setText(item.title);
-		tvDescription.setText(item.description);
-		tvDatetime.setText(
-			DateTimeHelper.getFormattedDate(
-				item.timestamp,
-				"EEEE - dd.MM.yyyy | HH:mm"));
-		ivCategory.setImageDrawable(item.category.getDrawable(getContext()));
+		if (isInitialized() &&
+			item != null)
+			initDetailViews(item);
 	}
 
 	@Override
@@ -78,14 +70,7 @@ public class ItemDetailFragment extends Fragment
 			this.ivCategory =
 				(ImageView) rootView.findViewById(R.id.todo_detail_category);
 
-			tvTitle.setText(item.title);
-			tvDescription.setText(item.description);
-			tvDatetime.setText(
-				DateTimeHelper.getFormattedDate(
-					item.timestamp,
-					"EEEE - dd.MM.yyyy | HH:mm"));
-			ivCategory.setImageDrawable(
-				item.category.getDrawable(getContext()));
+			initDetailViews(item);
 		}
 
 		return rootView;
@@ -102,5 +87,24 @@ public class ItemDetailFragment extends Fragment
 			tvDescription != null &&
 			tvDatetime != null &&
 			ivCategory != null);
+	}
+
+
+	private void initDetailViews(ToDoItem item)
+	{
+		tvTitle.setText(item.title);
+		tvDescription.setText(item.description);
+
+		String dateTime = null;
+
+		if (item.timestamp > 0)
+			dateTime = DateTimeHelper.getFormattedDate(
+				item.timestamp,
+				"EEEE - dd.MM.yyyy | HH:mm");
+
+		tvDatetime.setText(dateTime);
+
+		ivCategory.setImageDrawable(
+			item.category.getDrawable(getContext()));
 	}
 }
