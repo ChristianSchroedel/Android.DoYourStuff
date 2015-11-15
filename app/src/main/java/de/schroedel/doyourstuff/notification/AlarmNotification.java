@@ -61,7 +61,10 @@ public class AlarmNotification
 		toDoItems.add(item);
 
 		Intent detailIntent = new Intent(context, ItemListActivity.class);
-		detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+		detailIntent.setAction(ItemListActivity.SHOW_DETAIL);
+
+		if (toDoItems.size() == 1)
+			detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
 
 		Intent deleteIntent = new Intent(context, DismissAlarmReceiver.class);
 
@@ -73,7 +76,11 @@ public class AlarmNotification
 			stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		PendingIntent delete =
-			PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+			PendingIntent.getBroadcast(
+				context,
+				0,
+				deleteIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationCompat.Builder builder =
 			new NotificationCompat.Builder(context);
@@ -83,6 +90,7 @@ public class AlarmNotification
 		builder.setContentIntent(content);
 		builder.setDeleteIntent(delete);
 		builder.setAutoCancel(true);
+		builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
 		if (toDoItems.size() > 1)
 			builder.setStyle(createInbox());
@@ -97,7 +105,7 @@ public class AlarmNotification
 
 		NotificationManager manager = (NotificationManager)
 			context.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(ALARM_NOTIFICATION,builder.build());
+		manager.notify(ALARM_NOTIFICATION, builder.build());
 	}
 
 	/**

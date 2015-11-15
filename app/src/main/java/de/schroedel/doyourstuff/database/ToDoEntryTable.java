@@ -214,6 +214,28 @@ public class ToDoEntryTable implements DatabaseTable<ListItem>
 		return item;
 	}
 
+	@Override
+	public int getCount()
+	{
+		SQLiteDatabase sql = dbHelper.getReadableDatabase();
+
+		Cursor cursor = sql.query(
+			ToDoEntry.TABLE_NAME,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null);
+		cursor.moveToFirst();
+
+		int cnt = cursor.getCount();
+
+		cursor.close();
+
+		return cnt;
+	}
+
 	/**
 	 * Creates {@link Header} to put in front of {@link ToDoItem} in item list.
 	 *

@@ -1,25 +1,25 @@
 package de.schroedel.doyourstuff.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import de.schroedel.doyourstuff.R;
+import de.schroedel.doyourstuff.alarm.ToDoAlarmManager;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.fragment.ItemDetailFragment;
 import de.schroedel.doyourstuff.fragment.ItemListFragment;
-import de.schroedel.doyourstuff.receiver.AlarmReceiver;
+import de.schroedel.doyourstuff.notification.AlarmNotification;
+import de.schroedel.doyourstuff.receiver.BootReceiver;
 
 
 /**
@@ -41,6 +41,8 @@ import de.schroedel.doyourstuff.receiver.AlarmReceiver;
 public class ItemListActivity extends AppCompatActivity
 	implements ItemListFragment.Callbacks
 {
+	public static final String SHOW_DETAIL = "show_detail";
+
 	public static final int ADD_ITEM = 1;
 	public static final int EDIT_ITEM = 2;
 
@@ -90,7 +92,24 @@ public class ItemListActivity extends AppCompatActivity
 		Intent intent = getIntent();
 
 		if (intent != null)
-			this.selectedItem = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		{
+			String action = intent.getAction();
+
+			Log.d("ItemListActvity", "received intent: " + action);
+
+			if (action != null)
+			{
+				switch (action)
+				{
+					case SHOW_DETAIL:
+						handleShowDetailIntent(intent);
+						break;
+				}
+
+				// Reset action of received intent.
+				intent.setAction(null);
+			}
+		}
 
 		if (savedInstanceState != null)
 			this.selectedItem =
@@ -172,7 +191,13 @@ public class ItemListActivity extends AppCompatActivity
 				// If ID of to do item is not a real number it is not stored in
 				// the database yet.
 				if (item.id < 0)
+				{
 					entryTable.insert(item);
+
+					// Enable boot command receiver if disabled right now.
+					if (!BootReceiver.isComponentEnabled(this))
+						BootReceiver.setComponentEnabled(this, true);
+				}
 				else
 					entryTable.updateToDoItem(
 						item.id,
@@ -182,7 +207,7 @@ public class ItemListActivity extends AppCompatActivity
 						item.category);
 
 				if (item.timestamp != 0)
-					setReminderAlarm(item);
+					ToDoAlarmManager.setReminderAlarm(this, item);
 
 				this.selectedItem = item;
 			}
@@ -260,7 +285,7 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void removeItem(ToDoItem item)
 	{
-		cancelReminderAlarm(item);
+		ToDoAlarmManager.cancelReminderAlarm(this, item);
 
 		ItemListFragment listFragment = getListFragment();
 
@@ -312,45 +337,16 @@ public class ItemListActivity extends AppCompatActivity
 	}
 
 	/**
-	 * Sets reminder alarm for given {@link ToDoItem}.
+	 * Handles {@link Intent} with {@link ItemListActivity#SHOW_DETAIL}
+	 * action.
 	 *
-	 * @param item item to set alarm for
+	 * @param intent intent
 	 */
-	private void setReminderAlarm(ToDoItem item)
+	private void handleShowDetailIntent(Intent intent)
 	{
-		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra(ToDoItem.EXTRA_ITEM, item);
+		this.selectedItem = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
 
-		PendingIntent alarm =
-			PendingIntent.getBroadcast(this, (int) item.id, intent, 0);
-
-		AlarmManager manager = getAlarmManager();
-		manager.set(AlarmManager.RTC_WAKEUP, item.timestamp, alarm);
-	}
-
-	/**
-	 * Cancels reminder alarm for given {@link ToDoItem}.
-	 *
-	 * @param item item to cancel alarm for
-	 */
-	private void cancelReminderAlarm(ToDoItem item)
-	{
-		Intent intent = new Intent(this, AlarmReceiver.class);
-
-		PendingIntent alarm =
-			PendingIntent.getBroadcast(this, (int) item.id, intent, 0);
-
-		AlarmManager manager = getAlarmManager();
-		manager.cancel(alarm);
-	}
-
-	/**
-	 * Returns {@link AlarmManager} system service.
-	 *
-	 * @return alarm manager
-	 */
-	private AlarmManager getAlarmManager()
-	{
-		return (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		AlarmNotification notification = AlarmNotification.getInstance();
+		notification.cancel(this);
 	}
 }

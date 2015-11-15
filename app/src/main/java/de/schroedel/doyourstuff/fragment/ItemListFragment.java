@@ -13,6 +13,7 @@ import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.listener.SwipeDismissListViewTouchListener;
+import de.schroedel.doyourstuff.receiver.BootReceiver;
 
 
 /**
@@ -209,6 +210,10 @@ public class ItemListFragment extends ListFragment
 
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 		entryTable.remove(item.id);
+
+		// Disable boot command receiver if there are no more set alarms.
+		if (entryTable.getCount() == 0)
+			BootReceiver.setComponentEnabled(getContext(), false);
 
 		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
 		adapter.remove(item);

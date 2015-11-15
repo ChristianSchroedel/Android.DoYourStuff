@@ -4,6 +4,7 @@
     package="de.schroedel.doyourstuff" >
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -21,6 +22,13 @@
                 <action android:name="de.schroedel.doit.service.UpdateItemReceiver.ACTION_DONE"/>
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name="de.schroedel.doyourstuff.activity.ItemListActivity"
@@ -31,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name="de.schroedel.doyourstuff.activity.ItemDetailActivity"
 			android:label="@string/activity_label_detail">
@@ -39,7 +46,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.schroedel.doyourstuff.activity.ItemListActivity"/>
         </activity>
-
 		<activity
 			android:name="de.schroedel.doyourstuff.activity.ItemCreateActivity"
 			android:label="@string/activity_label_create">

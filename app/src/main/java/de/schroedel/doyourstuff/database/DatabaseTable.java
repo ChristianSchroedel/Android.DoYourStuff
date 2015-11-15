@@ -37,4 +37,11 @@ public interface DatabaseTable<T>
 	 * @return item
 	 */
 	T get(long id);
+
+	/**
+	 * Returns amount of items in database table.
+	 *
+	 * @return amount of items
+	 */
+	int getCount();
 }
