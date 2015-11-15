@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,8 @@ public class AlarmNotification
 
 		NotificationCompat.Builder builder =
 			new NotificationCompat.Builder(context);
-		builder.setSmallIcon(R.mipmap.ic_launcher);
+		builder.setSmallIcon(R.drawable.ic_item_notification);
+		builder.setColor(ContextCompat.getColor(context, R.color.primary));
 		builder.setContentTitle(item.title);
 		builder.setContentText(item.description);
 		builder.setContentIntent(content);

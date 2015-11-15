@@ -17,6 +17,7 @@ import de.schroedel.doyourstuff.content.Category;
 public class CategoryAdapter extends ArrayAdapter<Category>
 {
 	private LayoutInflater inflater;
+	private Category[] categories;
 
 	/**
 	 * Creates {@link CategoryAdapter} containing {@link Category} types.
@@ -28,18 +29,19 @@ public class CategoryAdapter extends ArrayAdapter<Category>
 		super(context, 0);
 
 		this.inflater = LayoutInflater.from(context);
+		this.categories = Category.values();
 	}
 
 	@Override
 	public int getCount()
 	{
-		return Category.values().length;
+		return categories.length;
 	}
 
 	@Override
 	public Category getItem(int i)
 	{
-		return Category.fromValue(i);
+		return categories[i];
 	}
 
 	@Override

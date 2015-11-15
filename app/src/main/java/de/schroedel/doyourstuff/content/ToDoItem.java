@@ -17,7 +17,6 @@ import de.schroedel.doyourstuff.utils.DateTimeHelper;
 public class ToDoItem implements Parcelable, ListItem
 {
 	public static final String EXTRA_ITEM = "todoItem";
-	public static final String EXTRA_TIMESTAMP = "timestamp";
 
 	public static final int ITEM_PENDING = 0;
 	public static final int ITEM_DONE = 1;

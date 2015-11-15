@@ -113,8 +113,8 @@ ic_category_phone.svg 32
 ic_category_school.svg 32
 ic_category_shopping.svg 32
 ic_category_sport.svg 32
-ic_category_template.svg 32
 ic_category_work.svg 32
 ic_event.svg 32
+ic_item_notification.svg 32
 ic_schedule.svg 32
 EOF

@@ -12,18 +12,31 @@ import de.schroedel.doyourstuff.R;
  */
 public enum Category
 {
-	ITEM_DEFAULT(0),
-	ITEM_CAR(1),
-	ITEM_FOOD(2),
-	ITEM_GAMING(3),
-	ITEM_HOUSE(4),
-	ITEM_IMPORTANT(5),
-	ITEM_PARTY(6),
-	ITEM_PHONE(7),
-	ITEM_SCHOOL(8),
-	ITEM_SHOPPING(9),
-	ITEM_SPORT(10),
-	ITEM_WORK(11);
+	// Default
+	ITEM_DEFAULT(0x01),
+	ITEM_IMPORTANT(0x02),
+
+	// Goods
+	ITEM_SHOPPING(0x11),
+	ITEM_FOOD(0x12),
+
+	// Social
+	ITEM_GAMING(0x21),
+	ITEM_PARTY(0x22),
+	ITEM_PHONE(0x23),
+
+	// Household
+	ITEM_HOUSE(0x31),
+
+	// Duty
+	ITEM_SCHOOL(0x41),
+	ITEM_WORK(0x42),
+
+	// Fitness
+	ITEM_SPORT(0x51),
+
+	// Travel
+	ITEM_CAR(0x61);
 
 	private int value;
 
@@ -56,8 +69,9 @@ public enum Category
 				return cat;
 		}
 
-		return null;
+		return Category.ITEM_DEFAULT;
 	}
+
 	/**
 	 * Returns string equivalent for given item {@link Category}.
 	 *

@@ -175,7 +175,31 @@ public class ItemCreateActivity extends AppCompatActivity
 
 		etTitle.setText(item.title);
 		etDesc.setText(item.description);
-		spCategory.setSelection(item.category.toValue());
+		spCategory.setSelection(getCategorySelection(item.category));
+	}
+
+	/**
+	 * Returns index of {@link Category} in {@link Spinner} from all available
+	 * categories.
+	 *
+	 * @param category category item
+	 * @return index of category in spinner
+	 */
+	private int getCategorySelection(Category category)
+	{
+		Category[] categories = Category.values();
+		int selection = 0;
+
+		for (int i = 0; i < categories.length; ++i)
+		{
+			if (category == categories[i])
+			{
+				selection = i;
+				break;
+			}
+		}
+
+		return selection;
 	}
 
 	/**
