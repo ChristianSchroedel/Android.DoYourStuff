@@ -117,4 +117,5 @@ ic_category_work.svg 32
 ic_event.svg 32
 ic_item_notification.svg 32
 ic_schedule.svg 32
+ic_undo.svg 32
 EOF

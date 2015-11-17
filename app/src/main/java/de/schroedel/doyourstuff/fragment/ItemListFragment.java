@@ -8,12 +8,14 @@ import android.widget.ListView;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.adapter.ToDoListAdapter;
+import de.schroedel.doyourstuff.alarm.ToDoAlarmManager;
 import de.schroedel.doyourstuff.content.ListItem;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.listener.SwipeDismissListViewTouchListener;
 import de.schroedel.doyourstuff.receiver.BootReceiver;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 
 /**
@@ -33,7 +35,7 @@ public class ItemListFragment extends ListFragment
 	public interface Callbacks
 	{
 		void onItemSelected(int position);
-		void onItemDismissed(int position);
+		void onItemDismissed(int[] reverseSortedPositions);
 	}
 
 	@Override
@@ -137,10 +139,7 @@ public class ItemListFragment extends ListFragment
 						ListView listView,
 						int[] reverseSortedPositions)
 					{
-						if (reverseSortedPositions.length == 0)
-							return;
-
-						callback.onItemDismissed(reverseSortedPositions[0]);
+						callback.onItemDismissed(reverseSortedPositions);
 					}
 				});
 
@@ -206,16 +205,48 @@ public class ItemListFragment extends ListFragment
 	 */
 	public void removeItem(ToDoItem item)
 	{
-		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+		Context context = getContext();
+
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
 
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 		entryTable.remove(item.id);
 
+		ToDoAlarmManager.cancelReminderAlarm(context, item);
+
 		// Disable boot command receiver if there are no more set alarms.
 		if (entryTable.getCount() == 0)
-			BootReceiver.setComponentEnabled(getContext(), false);
+			BootReceiver.setComponentEnabled(context, false);
 
 		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
 		adapter.remove(item);
+	}
+
+	/**
+	 * Inserts {@link ToDoItem} at position in underlying {@link ListView}.
+	 *
+	 * @param item item to insert
+	 * @param position insert position
+	 */
+	public void insertItem(ToDoItem item, int position)
+	{
+		Context context = getContext();
+
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
+
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+		entryTable.insert(item);
+
+		if (item.timestamp > 0 &&
+			!DateTimeHelper.dateIsPast(item.timestamp))
+		{
+			ToDoAlarmManager.setReminderAlarm(context, item);
+
+			if (BootReceiver.isComponentEnabled(context))
+				BootReceiver.setComponentEnabled(context, true);
+		}
+
+		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
+		adapter.insert(item, position);
 	}
 }

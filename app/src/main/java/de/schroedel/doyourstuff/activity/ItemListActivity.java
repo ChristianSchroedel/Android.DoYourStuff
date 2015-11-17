@@ -2,6 +2,7 @@ package de.schroedel.doyourstuff.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,9 @@ import de.schroedel.doyourstuff.fragment.ItemDetailFragment;
 import de.schroedel.doyourstuff.fragment.ItemListFragment;
 import de.schroedel.doyourstuff.notification.AlarmNotification;
 import de.schroedel.doyourstuff.receiver.BootReceiver;
+import de.schroedel.doyourstuff.undo.UndoBarController;
+import de.schroedel.doyourstuff.undo.UndoItem;
+import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 
 /**
@@ -38,7 +42,7 @@ import de.schroedel.doyourstuff.receiver.BootReceiver;
  * </p>
  */
 public class ItemListActivity extends AppCompatActivity
-	implements ItemListFragment.Callbacks
+	implements ItemListFragment.Callbacks, UndoBarController.UndoListener
 {
 	public static final String SHOW_DETAIL = "show_detail";
 
@@ -48,6 +52,8 @@ public class ItemListActivity extends AppCompatActivity
 	private boolean twoPane;
 
 	private MenuItem actionEdit;
+
+	private UndoBarController undoBarController;
 
 	private ToDoItem selectedItem;
 
@@ -72,6 +78,10 @@ public class ItemListActivity extends AppCompatActivity
 				}
 			}
 		);
+
+		this.undoBarController = new UndoBarController(
+			findViewById(R.id.undobar),
+			this);
 
 		if (findViewById(R.id.item_detail_container) != null)
 		{
@@ -118,20 +128,26 @@ public class ItemListActivity extends AppCompatActivity
 	{
 		super.onResume();
 
-		if (selectedItem == null)
-			return;
-
-		if (twoPane)
+		if (selectedItem != null)
 			showToDoDetails(selectedItem);
 	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState)
+	{
+		super.onRestoreInstanceState(savedInstanceState);
+
+		undoBarController.onRestoreInstanceState(savedInstanceState);
+	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
-		outState.putParcelable(ToDoItem.EXTRA_ITEM, selectedItem);
-
 		super.onSaveInstanceState(outState);
+
+		undoBarController.onSaveInstanceState(outState);
+
+		outState.putParcelable(ToDoItem.EXTRA_ITEM, selectedItem);
 	}
 
 	@Override
@@ -203,10 +219,12 @@ public class ItemListActivity extends AppCompatActivity
 						item.timestamp,
 						item.category);
 
-				if (item.timestamp != 0)
+				if (item.timestamp > 0 &&
+					!DateTimeHelper.dateIsPast(item.timestamp))
 					ToDoAlarmManager.setReminderAlarm(this, item);
 
-				this.selectedItem = item;
+				if (twoPane)
+					this.selectedItem = item;
 			}
 		}
 	}
@@ -229,16 +247,54 @@ public class ItemListActivity extends AppCompatActivity
 	}
 
 	@Override
-	public void onItemDismissed(int index)
+	public void onItemDismissed(int[] reverseSortedPositions)
 	{
-		ToDoItem item = null;
 		ItemListFragment listFragment = getListFragment();
 
-		if (listFragment != null)
-			item = listFragment.getToDoItem(index);
+		if (listFragment == null)
+			return;
 
-		if (item != null)
-			removeItem(item);
+		ToDoItem[] items = new ToDoItem[reverseSortedPositions.length];
+		int[] positions = new int[reverseSortedPositions.length];
+
+		for (int i = 0; i < reverseSortedPositions.length; ++i)
+		{
+			int index = reverseSortedPositions[i];
+
+			ToDoItem item = listFragment.getToDoItem(index);
+
+			if (item != null)
+			{
+				items[i] = item;
+				positions[i] = index;
+
+				removeItem(item);
+			}
+		}
+
+		undoBarController.showUndoBar(
+			false,
+			getResources().getString(R.string.info_deleted, items.length),
+			new UndoItem(items, positions));
+	}
+
+	@Override
+	public void onUndo(Parcelable token)
+	{
+		if (token == null)
+			return;
+
+		ItemListFragment listFragment = getListFragment();
+
+		if (listFragment == null)
+			return;
+
+		UndoItem undoItem = (UndoItem) token;
+
+		for (int i = undoItem.itemPositions.length-1; i >= 0; --i)
+			listFragment.insertItem(
+				undoItem.items[i],
+				undoItem.itemPositions[i]);
 	}
 
 	/**
@@ -282,8 +338,6 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void removeItem(ToDoItem item)
 	{
-		ToDoAlarmManager.cancelReminderAlarm(this, item);
-
 		ItemListFragment listFragment = getListFragment();
 
 		if (listFragment != null)

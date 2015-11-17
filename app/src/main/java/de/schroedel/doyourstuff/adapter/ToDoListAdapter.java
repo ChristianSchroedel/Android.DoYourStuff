@@ -52,16 +52,20 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	{
 		ListItem item = getItem(position);
 
-		return item.getView(
-			inflater,
-			convertView,
-			parent);
+		return item.getView(inflater, convertView, parent);
 	}
 
 	@Override
 	public void remove(ListItem item)
 	{
 		items.remove(item);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void insert(ListItem item, int index)
+	{
+		items.add(index, item);
 		notifyDataSetChanged();
 	}
 }

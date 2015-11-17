@@ -1,34 +1,42 @@
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-	<fragment
-		xmlns:tools="http://schemas.android.com/tools"
-		android:id="@+id/item_list"
-		android:name="de.schroedel.doyourstuff.fragment.ItemListFragment"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-		tools:context=".ItemListActivity"
-		tools:layout="@android:layout/list_content"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
-    <android.support.design.widget.FloatingActionButton
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/action_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_action_new"
-        fab:backgroundTint="@color/primary"
-        fab:elevation="4dp"/>
+        <fragment
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/item_list"
+            android:name="de.schroedel.doyourstuff.fragment.ItemListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            tools:context=".ItemListActivity"
+            tools:layout="@android:layout/list_content"/>
 
-</RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/action_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_action_new"
+            fab:backgroundTint="@color/primary"
+            fab:elevation="4dp"/>
+
+    </RelativeLayout>
+
+    <include layout="@layout/undobar"/>
+
+</FrameLayout>

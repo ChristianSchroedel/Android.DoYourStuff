@@ -11,7 +11,7 @@ import android.widget.TextView;
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.content.Category;
 
-/**+
+/**
  * Adapter containing available {@link Category} types.
  */
 public class CategoryAdapter extends ArrayAdapter<Category>
