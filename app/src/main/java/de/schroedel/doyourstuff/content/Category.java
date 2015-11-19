@@ -15,6 +15,7 @@ public enum Category
 	// Default
 	ITEM_DEFAULT(0x01),
 	ITEM_IMPORTANT(0x02),
+	ITEM_HEALTH(0x03),
 
 	// Goods
 	ITEM_SHOPPING(0x11),
@@ -24,6 +25,7 @@ public enum Category
 	ITEM_GAMING(0x21),
 	ITEM_PARTY(0x22),
 	ITEM_PHONE(0x23),
+	ITEM_PARTNER(0x24),
 
 	// Household
 	ITEM_HOUSE(0x31),
@@ -34,6 +36,11 @@ public enum Category
 
 	// Fitness
 	ITEM_SPORT(0x51),
+	ITEM_RUNNING(0x52),
+	ITEM_BIKE(0x53),
+	ITEM_SWIMMING(0x54),
+	ITEM_FOOTBALL(0x55),
+	ITEM_FITNESS(0x56),
 
 	// Travel
 	ITEM_CAR(0x61);
@@ -82,35 +89,34 @@ public enum Category
 	{
 		Resources res = context.getResources();
 
+		int stringRes;
+
 		switch (this)
 		{
-			case ITEM_CAR:
-				return res.getString(R.string.category_car);
-			case ITEM_FOOD:
-				return res.getString(R.string.category_food);
-			case ITEM_GAMING:
-				return res.getString(R.string.category_gaming);
-			case ITEM_HOUSE:
-				return res.getString(R.string.category_house);
-			case ITEM_IMPORTANT:
-				return res.getString(R.string.category_important);
-			case ITEM_PARTY:
-				return res.getString(R.string.category_party);
-			case ITEM_PHONE:
-				return res.getString(R.string.category_phone);
-			case ITEM_SCHOOL:
-				return res.getString(R.string.category_school);
-			case ITEM_SHOPPING:
-				return res.getString(R.string.category_shopping);
-			case ITEM_SPORT:
-				return res.getString(R.string.category_sport);
-			case ITEM_WORK:
-				return res.getString(R.string.category_work);
+			case ITEM_BIKE: stringRes = R.string.category_bike;	break;
+			case ITEM_CAR: stringRes = R.string.category_car; break;
+			case ITEM_FITNESS: stringRes = R.string.category_fitness; break;
+			case ITEM_FOOD: stringRes = R.string.category_food; break;
+			case ITEM_FOOTBALL: stringRes = R.string.category_football; break;
+			case ITEM_GAMING: stringRes = R.string.category_gaming; break;
+			case ITEM_HEALTH: stringRes = R.string.category_health; break;
+			case ITEM_HOUSE: stringRes = R.string.category_house; break;
+			case ITEM_IMPORTANT: stringRes = R.string.category_important; break;
+			case ITEM_PARTNER: stringRes = R.string.category_partner; break;
+			case ITEM_PARTY: stringRes = R.string.category_party; break;
+			case ITEM_PHONE: stringRes = R.string.category_phone; break;
+			case ITEM_RUNNING: stringRes = R.string.category_running; break;
+			case ITEM_SCHOOL: stringRes = R.string.category_school; break;
+			case ITEM_SHOPPING: stringRes = R.string.category_shopping; break;
+			case ITEM_SPORT: stringRes = R.string.category_sport; break;
+			case ITEM_SWIMMING: stringRes = R.string.category_swimming; break;
+			case ITEM_WORK: stringRes = R.string.category_work; break;
 
 			case ITEM_DEFAULT:
-			default:
-				return res.getString(R.string.category_default);
+			default: stringRes = R.string.category_default; break;
 		}
+
+		return res.getString(stringRes);
 	}
 
 	/**
@@ -121,68 +127,87 @@ public enum Category
 	 */
 	public Drawable getDrawable(Context context)
 	{
+		int drawableRes;
+
 		switch (this)
 		{
+			case ITEM_BIKE:
+				drawableRes = R.drawable.ic_category_bike;
+				break;
+
 			case ITEM_CAR:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_car);
+				drawableRes = R.drawable.ic_category_car;
+				break;
+
+			case ITEM_FITNESS:
+				drawableRes = R.drawable.ic_category_fitness;
+				break;
 
 			case ITEM_FOOD:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_food);
+				drawableRes = R.drawable.ic_category_food;
+				break;
+
+			case ITEM_FOOTBALL:
+				drawableRes = R.drawable.ic_category_football;
+				break;
 
 			case ITEM_GAMING:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_gaming);
+				drawableRes = R.drawable.ic_category_gaming;
+				break;
+
+			case ITEM_HEALTH:
+				drawableRes = R.drawable.ic_category_health;
+				break;
 
 			case ITEM_HOUSE:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_house);
+				drawableRes = R.drawable.ic_category_house;
+				break;
 
 			case ITEM_IMPORTANT:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_important);
+				drawableRes = R.drawable.ic_category_important;
+				break;
+
+			case ITEM_PARTNER:
+				drawableRes = R.drawable.ic_category_partner;
+				break;
 
 			case ITEM_PARTY:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_party);
+				drawableRes = R.drawable.ic_category_party;
+				break;
 
 			case ITEM_PHONE:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_phone);
+				drawableRes = R.drawable.ic_category_phone;
+				break;
+
+			case ITEM_RUNNING:
+				drawableRes = R.drawable.ic_category_running;
+				break;
 
 			case ITEM_SCHOOL:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_school);
+				drawableRes = R.drawable.ic_category_school;
+				break;
 
 			case ITEM_SHOPPING:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_shopping);
+				drawableRes = R.drawable.ic_category_shopping;
+				break;
 
 			case ITEM_SPORT:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_sport);
+				drawableRes = R.drawable.ic_category_sport;
+				break;
+
+			case ITEM_SWIMMING:
+				drawableRes = R.drawable.ic_category_swimming;
+				break;
 
 			case ITEM_WORK:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_work);
+				drawableRes = R.drawable.ic_category_work;
+				break;
 
 			case ITEM_DEFAULT:
 			default:
-				return ContextCompat.getDrawable(
-					context,
-					R.drawable.ic_category_default);
+				drawableRes = R.drawable.ic_category_default;
 		}
+
+		return ContextCompat.getDrawable(context, drawableRes);
 	}
 }

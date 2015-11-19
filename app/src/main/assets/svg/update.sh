@@ -102,17 +102,24 @@ EOF
 update ../../res/drawable << EOF
 ic_action_edit.svg 32
 ic_action_new.svg 32
+ic_category_bike.svg 32
 ic_category_car.svg 32
 ic_category_default.svg 32
+ic_category_fitness.svg 32
 ic_category_food.svg 32
+ic_category_football.svg 32
 ic_category_gaming.svg 32
+ic_category_health.svg 32
 ic_category_house.svg 32
 ic_category_important.svg 32
+ic_category_partner.svg 32
 ic_category_party.svg 32
 ic_category_phone.svg 32
+ic_category_running.svg 32
 ic_category_school.svg 32
 ic_category_shopping.svg 32
 ic_category_sport.svg 32
+ic_category_swimming.svg 32
 ic_category_work.svg 32
 ic_event.svg 32
 ic_item_notification.svg 32

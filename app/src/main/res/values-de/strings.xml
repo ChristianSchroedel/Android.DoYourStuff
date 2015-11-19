@@ -21,17 +21,24 @@
     <string name="header_today">Heute</string>
     <string name="header_missed">Verpasst</string>
 
-	<string name="category_default">Standard</string>
+	<string name="category_bike">Fahrrad</string>
 	<string name="category_car">Auto</string>
+	<string name="category_default">Standard</string>
+	<string name="category_fitness">Fitness</string>
 	<string name="category_food">Essen</string>
+	<string name="category_football">Fußball</string>
 	<string name="category_gaming">Gaming</string>
+	<string name="category_health">Gesundheit</string>
 	<string name="category_house">Haus</string>
 	<string name="category_important">Wichtig</string>
+	<string name="category_partner">Partner</string>
 	<string name="category_party">Party</string>
 	<string name="category_phone">Telefon</string>
+	<string name="category_running">Laufen</string>
 	<string name="category_school">Schule</string>
 	<string name="category_shopping">Einkaufen</string>
 	<string name="category_sport">Sport</string>
+	<string name="category_swimming">Schwimmen</string>
 	<string name="category_work">Arbeit</string>
 
 	<string name="content_category">Kategorie</string>
