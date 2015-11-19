@@ -28,18 +28,6 @@ public class ToDoDatabaseHelper extends SQLiteOpenHelper
 			ToDoEntry.COLUMN_DONE + INTEGER +
 			")";
 
-	private final static String SQL_ADD_DATETIME =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_TIMESTAMP + TEXT;
-
-	private final static String SQL_ADD_CATEGORY =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_CATEGORY + INTEGER;
-
-	private final static String SQL_ADD_DONE =
-		"ALTER TABLE " + ToDoEntry.TABLE_NAME + " ADD COLUMN " +
-			ToDoEntry.COLUMN_DONE + INTEGER;
-
 	/**
 	 * To do list item columns.
 	 */
@@ -72,14 +60,6 @@ public class ToDoDatabaseHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		if (oldVersion == 1 &&
-			newVersion == 2)
-			db.execSQL(SQL_ADD_DATETIME);
-		else if (oldVersion == 2 &&
-			newVersion == 3)
-		{
-			db.execSQL(SQL_ADD_CATEGORY);
-			db.execSQL(SQL_ADD_DONE);
-		}
+
 	}
 }
