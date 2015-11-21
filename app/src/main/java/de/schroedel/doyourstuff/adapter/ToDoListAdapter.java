@@ -27,10 +27,22 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	 */
 	public ToDoListAdapter(Context context, List<ListItem> items)
 	{
-		super(context, 0, items);
+		super(context, 0);
 
 		this.items = items;
 		this.inflater = LayoutInflater.from(context);
+	}
+
+	@Override
+	public int getCount()
+	{
+		return items.size();
+	}
+
+	@Override
+	public ListItem getItem(int position)
+	{
+		return items.get(position);
 	}
 
 	@Override
@@ -66,6 +78,23 @@ public class ToDoListAdapter extends ArrayAdapter<ListItem>
 	public void insert(ListItem item, int index)
 	{
 		items.add(index, item);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public int getPosition(ListItem item)
+	{
+		return items.indexOf(item);
+	}
+
+	/**
+	 * Sets collection of {@link ListItem} items.
+	 *
+	 * @param items items
+	 */
+	public void setItems(List<ListItem> items)
+	{
+		this.items = items;
 		notifyDataSetChanged();
 	}
 }

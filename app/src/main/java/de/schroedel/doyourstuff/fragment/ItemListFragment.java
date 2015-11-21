@@ -1,6 +1,5 @@
 package de.schroedel.doyourstuff.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -8,14 +7,11 @@ import android.widget.ListView;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.adapter.ToDoListAdapter;
-import de.schroedel.doyourstuff.alarm.ToDoAlarmManager;
 import de.schroedel.doyourstuff.content.ListItem;
 import de.schroedel.doyourstuff.content.ToDoItem;
 import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.listener.SwipeDismissListViewTouchListener;
-import de.schroedel.doyourstuff.receiver.BootReceiver;
-import de.schroedel.doyourstuff.utils.DateTimeHelper;
 
 
 /**
@@ -28,11 +24,11 @@ public class ItemListFragment extends ListFragment
 {
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-	private Callbacks callback;
+	private OnItemListCallbacks itemListCallbacks;
 
 	private int activatedPosition = ListView.INVALID_POSITION;
 
-	public interface Callbacks
+	public interface OnItemListCallbacks
 	{
 		void onItemSelected(int position);
 		void onItemDismissed(int[] reverseSortedPositions);
@@ -46,7 +42,8 @@ public class ItemListFragment extends ListFragment
 		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 
-		setListAdapter(new ToDoListAdapter(getContext(), entryTable.getAll()));
+		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
+		adapter.setItems(entryTable.getAll());
 
 		setActivatedPosition(activatedPosition);
 	}
@@ -59,27 +56,9 @@ public class ItemListFragment extends ListFragment
 		initListView();
 
 		// Restore the previously serialized activated item position.
-		if (savedInstanceState != null
-			&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION))
-		{
+		if (savedInstanceState != null)
 			setActivatedPosition(
 				savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-		}
-	}
-
-	@Override
-	public void onAttach(Context context)
-	{
-		super.onAttach(context);
-
-		// Activities containing this fragment must implement its callbacks.
-		if (!(context instanceof Callbacks))
-		{
-			throw new IllegalStateException(
-				"Activity must implement fragment's callbacks.");
-		}
-
-		callback = (Callbacks) context;
 	}
 
 	@Override
@@ -93,8 +72,9 @@ public class ItemListFragment extends ListFragment
 		// fragment is attached to one) that an item has been selected.
 		ListItem item = (ListItem) getListAdapter().getItem(position);
 
-		if (item.getItemType() == ListItem.ItemType.LIST_ITEM)
-			callback.onItemSelected(position);
+		if (item.getItemType() == ListItem.ItemType.LIST_ITEM &&
+			itemListCallbacks != null)
+			itemListCallbacks.onItemSelected(position);
 
 		setActivatedPosition(position);
 	}
@@ -114,39 +94,14 @@ public class ItemListFragment extends ListFragment
 	}
 
 	/**
-	 * Initializes underlying {@link ListView} with {@link
-	 * SwipeDismissListViewTouchListener}.
+	 * Sets listener receiving callbacks of performed action on the item list
+	 * fragment.
+	 *
+	 * @param itemListCallbacks listener
 	 */
-	private void initListView()
+	public void setItemListCallbacks(OnItemListCallbacks itemListCallbacks)
 	{
-		SwipeDismissListViewTouchListener dismissListener =
-			new SwipeDismissListViewTouchListener(
-				getListView(),
-				new SwipeDismissListViewTouchListener.DismissCallbacks()
-				{
-					@Override
-					public boolean canDismiss(int position)
-					{
-						ListItem item =	(ListItem) getListAdapter().
-							getItem(position);
-
-						return (item.getItemType() ==
-							ListItem.ItemType.LIST_ITEM);
-					}
-
-					@Override
-					public void onDismiss(
-						ListView listView,
-						int[] reverseSortedPositions)
-					{
-						callback.onItemDismissed(reverseSortedPositions);
-					}
-				});
-
-		ListView lv = getListView();
-		lv.setOnTouchListener(dismissListener);
-		lv.setOnScrollListener(dismissListener.makeScrollListener());
-		lv.setSelector(R.drawable.item_list_selector);
+		this.itemListCallbacks = itemListCallbacks;
 	}
 
 	/**
@@ -205,19 +160,6 @@ public class ItemListFragment extends ListFragment
 	 */
 	public void removeItem(ToDoItem item)
 	{
-		Context context = getContext();
-
-		ToDoDatabase database = ToDoDatabase.getInstance(context);
-
-		ToDoEntryTable entryTable = database.getToDoEntryTable();
-		entryTable.remove(item.id);
-
-		ToDoAlarmManager.cancelReminderAlarm(context, item);
-
-		// Disable boot command receiver if there are no more set alarms.
-		if (entryTable.getCount() == 0)
-			BootReceiver.setComponentEnabled(context, false);
-
 		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
 		adapter.remove(item);
 	}
@@ -230,23 +172,50 @@ public class ItemListFragment extends ListFragment
 	 */
 	public void insertItem(ToDoItem item, int position)
 	{
-		Context context = getContext();
-
-		ToDoDatabase database = ToDoDatabase.getInstance(context);
-
-		ToDoEntryTable entryTable = database.getToDoEntryTable();
-		entryTable.insert(item);
-
-		if (item.timestamp > 0 &&
-			!DateTimeHelper.dateIsPast(item.timestamp))
-		{
-			ToDoAlarmManager.setReminderAlarm(context, item);
-
-			if (BootReceiver.isComponentEnabled(context))
-				BootReceiver.setComponentEnabled(context, true);
-		}
-
 		ToDoListAdapter adapter = (ToDoListAdapter) getListAdapter();
 		adapter.insert(item, position);
+	}
+
+	/**
+	 * Initializes underlying {@link ListView} with {@link
+	 * SwipeDismissListViewTouchListener}.
+	 */
+	private void initListView()
+	{
+		ToDoDatabase database = ToDoDatabase.getInstance(getContext());
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		setListAdapter(new ToDoListAdapter(getContext(), entryTable.getAll()));
+
+		SwipeDismissListViewTouchListener dismissListener =
+			new SwipeDismissListViewTouchListener(
+				getListView(),
+				new SwipeDismissListViewTouchListener.DismissCallbacks()
+				{
+					@Override
+					public boolean canDismiss(int position)
+					{
+						ListItem item =	(ListItem) getListAdapter().
+							getItem(position);
+
+						return (item.getItemType() ==
+							ListItem.ItemType.LIST_ITEM);
+					}
+
+					@Override
+					public void onDismiss(
+						ListView listView,
+						int[] reverseSortedPositions)
+					{
+						if (itemListCallbacks != null)
+							itemListCallbacks.onItemDismissed(
+								reverseSortedPositions);
+					}
+				});
+
+		ListView lv = getListView();
+		lv.setOnTouchListener(dismissListener);
+		lv.setOnScrollListener(dismissListener.makeScrollListener());
+		lv.setSelector(R.drawable.item_list_selector);
 	}
 }

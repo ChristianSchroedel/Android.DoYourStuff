@@ -42,13 +42,13 @@ public class ToDoItem implements Parcelable, ListItem
 	 */
 	public ToDoItem()
 	{
-		id = -1;
+		this.id = -1;
 
-		title = null;
-		description = null;
+		this.title = null;
+		this.description = null;
 
-		itemDone = ITEM_PENDING;
-		category = Category.ITEM_DEFAULT;
+		this.itemDone = ITEM_PENDING;
+		this.category = Category.ITEM_DEFAULT;
 	}
 
 	/**
@@ -93,12 +93,12 @@ public class ToDoItem implements Parcelable, ListItem
 	 */
 	private ToDoItem(Parcel in)
 	{
-		id = in.readLong();
-		title = in.readString();
-		description = in.readString();
-		timestamp = in.readLong();
-		itemDone = in.readInt();
-		category = Category.fromValue(in.readInt());
+		this.id = in.readLong();
+		this.title = in.readString();
+		this.description = in.readString();
+		this.timestamp = in.readLong();
+		this.itemDone = in.readInt();
+		this.category = Category.fromValue(in.readInt());
 	}
 
 	@Override
