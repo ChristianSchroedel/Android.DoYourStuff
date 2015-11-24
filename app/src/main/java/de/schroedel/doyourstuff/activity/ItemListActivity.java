@@ -240,6 +240,9 @@ public class ItemListActivity extends AppCompatActivity
 				handleShowDetailIntent(intent);
 				break;
 		}
+
+		// Unset intent action when consumed.
+		intent.setAction(null);
 	}
 
 	/**
