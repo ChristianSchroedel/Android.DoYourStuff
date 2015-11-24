@@ -31,7 +31,7 @@
         </receiver>
 
         <activity
-            android:name="de.schroedel.doyourstuff.activity.ItemListActivity"
+            android:name=".activity.ItemListActivity"
             android:label="@string/activity_label_list"
             android:launchMode="singleTop">
             <intent-filter
@@ -40,21 +40,27 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
-            android:name="de.schroedel.doyourstuff.activity.ItemDetailActivity"
+            android:name=".activity.ItemDetailActivity"
 			android:label="@string/activity_label_detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.schroedel.doyourstuff.activity.ItemListActivity"/>
+                android:value=".activity.ItemListActivity"/>
         </activity>
+
 		<activity
-			android:name="de.schroedel.doyourstuff.activity.ItemCreateActivity"
+			android:name=".activity.ItemCreateActivity"
 			android:label="@string/activity_label_create">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
+
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/action_settings"/>
 
     </application>
 

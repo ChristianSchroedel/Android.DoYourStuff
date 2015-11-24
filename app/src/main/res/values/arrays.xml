@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="lead_time_entries">
+		<item>No lead time</item>
+		<item>5 Minutes</item>
+		<item>15 Minutes</item>
+		<item>30 Minutes</item>
+		<item>1 hour</item>
+	</string-array>
+
+	<string-array name="lead_time_entry_values">
+		<item>0</item>
+		<item>300000</item>
+		<item>900000</item>
+		<item>1800000</item>
+		<item>3600000</item>
+	</string-array>
+	
+</resources>

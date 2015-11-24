@@ -10,6 +10,7 @@
 	<string name="action_add">Eintrag hinzufügen</string>
 	<string name="action_edit">Eintrag bearbeiten</string>
 	<string name="action_undo">Rückgängig</string>
+	<string name="action_settings">Einstellungen</string>
 
 	<string name="hint_title">Titel</string>
 	<string name="hint_description">Beschreibung</string>
@@ -17,6 +18,13 @@
 	<string name="btn_create">Erstellen</string>
 
 	<string name="info_deleted">%1$d Eintrag gelöscht</string>
+
+	<string name="pref_category_alarms">Erinnerungen</string>
+	<string name="pref_category_about">Über</string>
+
+	<string name="pref_title_alarm_lead_time">Vorlaufzeit Erinnerung</string>
+
+	<string name="pref_summary_version">Version %1$s</string>
 
     <string name="header_today">Heute</string>
     <string name="header_missed">Verpasst</string>
