@@ -15,6 +15,9 @@
 	<string name="hint_title">Title</string>
 	<string name="hint_description">Description</string>
 
+	<string name="notification_item_ticker">%1$s at %2$s</string>
+	<string name="notification_item_title">%1$s | %2$s</string>
+
 	<string name="btn_create">Create</string>
 
 	<string name="info_deleted">%1$d item deleted</string>
