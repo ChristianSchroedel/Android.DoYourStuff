@@ -11,8 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.database.ToDoDatabase;
+import de.schroedel.doyourstuff.alarm.ToDoAlarmManager;
 import de.schroedel.doyourstuff.content.ToDoItem;
+import de.schroedel.doyourstuff.database.ToDoDatabase;
 import de.schroedel.doyourstuff.database.ToDoEntryTable;
 import de.schroedel.doyourstuff.fragment.ItemDetailFragment;
 
@@ -79,9 +80,6 @@ public class ItemDetailActivity extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
-
-		if (item != null)
-			setTitle(item.title);
 	}
 
 	@Override
@@ -154,6 +152,11 @@ public class ItemDetailActivity extends AppCompatActivity
 						item.description,
 						item.timestamp,
 						item.category);
+
+					ToDoAlarmManager.setReminderAlarm(
+						this,
+						item,
+						ToDoAlarmManager.getAlarmLeadTime(this));
 				}
 
 				finish();

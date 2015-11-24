@@ -43,7 +43,10 @@ public class BootReceiver extends BroadcastReceiver
 			ToDoItem toDoItem = (ToDoItem) item;
 
 			if (toDoItem.timestamp > 0)
-				ToDoAlarmManager.setReminderAlarm(context, toDoItem);
+				ToDoAlarmManager.setReminderAlarm(
+					context,
+					toDoItem,
+					ToDoAlarmManager.getAlarmLeadTime(context));
 		}
 	}
 

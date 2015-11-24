@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -83,16 +84,31 @@ public class AlarmNotification
 				deleteIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
+		Resources res = context.getResources();
+
+		String time = DateTimeHelper.getFormattedDate(item.timestamp, "HH:mm");
+
+		String title = res.getString(
+			R.string.notification_item_title,
+			time,
+			item.title);
+
+		String ticker = res.getString(
+			R.string.notification_item_ticker,
+			item.title,
+			time);
+
 		NotificationCompat.Builder builder =
 			new NotificationCompat.Builder(context);
 		builder.setSmallIcon(R.drawable.ic_item_notification);
 		builder.setColor(ContextCompat.getColor(context, R.color.primary));
-		builder.setContentTitle(item.title);
+		builder.setContentTitle(title);
 		builder.setContentText(item.description);
 		builder.setContentIntent(content);
 		builder.setDeleteIntent(delete);
 		builder.setAutoCancel(true);
 		builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+		builder.setTicker(ticker);
 
 		if (toDoItems.size() > 1)
 			builder.setStyle(createInbox());
@@ -136,10 +152,9 @@ public class AlarmNotification
 		for (ToDoItem item : toDoItems)
 		{
 			String line = String.format(
-				"%s | %s - %s",
+				"%s | %s",
 				DateTimeHelper.getFormattedDate(item.timestamp, "HH:mm"),
-				item.title,
-				item.description);
+				item.title);
 
 			inboxStyle.addLine(line);
 		}
