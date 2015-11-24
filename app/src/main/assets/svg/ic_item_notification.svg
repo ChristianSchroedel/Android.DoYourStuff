@@ -24,18 +24,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="11.394966"
-     inkscape:cy="14.645796"
+     inkscape:zoom="31.678384"
+     inkscape:cx="8.9669429"
+     inkscape:cy="12.082354"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1280"
-     inkscape:window-height="1000"
-     inkscape:window-x="1680"
+     inkscape:window-width="1680"
+     inkscape:window-height="1026"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -62,47 +62,13 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="fill:#616ae1;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.44452285999999996;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 3.2486663,1032.5249 10.1402227,0 c 0.294224,0 0.531092,0.1911 0.531092,0.4284 l 0,16.2584 c 0,0.2373 -0.236868,0.4283 -0.531092,0.4283 l -10.1402227,0 c -0.2942254,0 -0.5310927,-0.191 -0.5310927,-0.4283 l 0,-16.2584 c 0,-0.2373 0.2368673,-0.4284 0.5310927,-0.4284 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="M 4.75 4 C 4.3297685 4 4 4.1879 4 4.4375 L 4 21.5625 C 4 21.8122 4.3297685 22 4.75 22 L 19.25 22 C 19.67023 22 20 21.8122 20 21.5625 L 20 4.4375 C 20 4.1879 19.67023 4 19.25 4 L 18.625 4 L 16.71875 12.3125 L 16.71875 12.34375 L 15.03125 16 L 15.0625 12.03125 L 16.875 4 L 4.75 4 z M 9.375 6 L 9.96875 8.03125 L 12 8.6875 L 10.25 9.875 L 10.28125 12 L 8.59375 10.71875 L 6.5625 11.40625 L 7.25 9.375 L 6 7.6875 L 8.125 7.71875 L 9.375 6 z M 6.8125 15 L 12.1875 15 C 12.6307 15 13 15.3345 13 15.75 C 13 16.1655 12.6307 16.5 12.1875 16.5 L 6.8125 16.5 C 6.3693 16.5 6 16.1655 6 15.75 C 6 15.3345 6.3693 15 6.8125 15 z M 6.8125 18.5 L 17.1875 18.5 C 17.6307 18.5 18 18.8345 18 19.25 C 18 19.6655 17.6307 20 17.1875 20 L 6.8125 20 C 6.3693 20 6 19.6655 6 19.25 C 6 18.8345 6.3693 18.5 6.8125 18.5 z "
        id="rect4294"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.98176807;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 5.2225427,1035.0772 5.0464913,0"
-       id="path4804"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4806"
-       d="m 5.2986035,1037.4626 6.1853245,0"
-       style="fill:none;stroke:#ffffff;stroke-width:0.98176807;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:0.98176807;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 5.2755259,1040.0636 5.2482281,0"
-       id="path4808"
-       inkscape:connector-curvature="0" />
-    <g
-       id="g3774"
-       transform="matrix(0.86888298,0.76711631,-0.6995003,0.95287208,739.79052,48.263231)"
-       style="fill:#ffffff;fill-opacity:1">
-      <path
-         transform="translate(0,1028.3622)"
-         inkscape:connector-curvature="0"
-         id="path3768"
-         d="M 1,2 3,2 3,12 1,12 z"
-         style="fill:#ffffff;fill-opacity:1;stroke:none" />
-      <path
-         transform="translate(0,1028.3622)"
-         inkscape:connector-curvature="0"
-         id="path3770"
-         d="m 1,12 1,4 1.0190594,-4.037871 z"
-         style="fill:#ffffff;fill-opacity:1;stroke:none"
-         sodipodi:nodetypes="cccc" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path3772"
-         d="m 1,1029.8673 2,0 0,0.558 -2,0 z"
-         style="fill:#ffffff;fill-opacity:1;stroke:none" />
-    </g>
+       transform="translate(0,1028.3622)" />
   </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer" />
 </svg>
