@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -137,14 +136,11 @@ public class ItemListActivity extends AppCompatActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(
-			R.menu.menu_list,
-			menu);
+		getMenuInflater().inflate(R.menu.menu_list, menu);
 
 		this.actionEdit = menu.findItem(R.id.action_edit);
 
-		actionEdit.setVisible(selectedItem != null);
+		actionEdit.setVisible(twoPane && selectedItem != null);
 
 		return true;
 	}
@@ -152,9 +148,16 @@ public class ItemListActivity extends AppCompatActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
-		if (menuItem.getItemId() == R.id.action_edit)
+		int itemId = menuItem.getItemId();
+
+		if (itemId == R.id.action_edit)
 		{
 			editItem(selectedItem);
+			return true;
+		}
+		else if (itemId == R.id.action_settings)
+		{
+			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		}
 
@@ -203,9 +206,10 @@ public class ItemListActivity extends AppCompatActivity
 						item.timestamp,
 						item.category);
 
-				if (item.timestamp > 0 &&
-					!DateTimeHelper.dateIsPast(item.timestamp))
-					ToDoAlarmManager.setReminderAlarm(this, item);
+				ToDoAlarmManager.setReminderAlarm(
+					this,
+					item,
+					ToDoAlarmManager.getAlarmLeadTime(this));
 
 				if (twoPane)
 					this.selectedItem = item;
@@ -373,7 +377,10 @@ public class ItemListActivity extends AppCompatActivity
 		if (item.timestamp > 0 &&
 			!DateTimeHelper.dateIsPast(item.timestamp))
 		{
-			ToDoAlarmManager.setReminderAlarm(context, item);
+			ToDoAlarmManager.setReminderAlarm(
+				context,
+				item,
+				ToDoAlarmManager.getAlarmLeadTime(this));
 
 			if (BootReceiver.isComponentEnabled(context))
 				BootReceiver.setComponentEnabled(context, true);
