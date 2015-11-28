@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">Do Your Stuff</string>
+	<!-- Activity labels -->
+	<string name="label.appName">Do Your Stuff</string>
+	<string name="label.createItem">Create item</string>
+	<string name="label.timeScheduler">Time Scheduler</string>
+	<string name="label.details">Details</string>
 
-	<string name="activity_label_create">Create item</string>
-	<string name="activity_label_list">Time Scheduler</string>
-	<string name="activity_label_detail">Details</string>
+	<!-- Actions -->
+	<string name="action.title.add">Add item</string>
+	<string name="action.title.edit">Edit item</string>
+	<string name="action.title.undo">Undo</string>
+	<string name="action.title.settings">Settings</string>
 
-	<string name="action_add">Add item</string>
-	<string name="action_edit">Edit item</string>
-	<string name="action_undo">Undo</string>
-	<string name="action_settings">Settings</string>
+	<!-- Buttons -->
+	<string name="button.text.create">Create</string>
 
-	<string name="hint_title">Title</string>
-	<string name="hint_description">Description</string>
+	<!-- Info messages -->
+	<string name="info.title.today">Today</string>
+	<string name="info.title.missed">Missed</string>
+	<string name="info.message.deleted">%1$d item deleted</string>
 
-	<string name="notification_item_ticker">%1$s at %2$s</string>
-	<string name="notification_item_title">%1$s | %2$s</string>
+	<!-- Notifications -->
+	<string name="notification.ticker.alarm">%1$s at %2$s</string>
+	<string name="notification.title.alarm">%1$s | %2$s</string>
 
-	<string name="btn_create">Create</string>
+	<!-- Input hints -->
+	<string name="hint.title">Title</string>
+	<string name="hint.description">Description</string>
 
-	<string name="info_deleted">%1$d item deleted</string>
+	<!-- Preferences -->
+	<string name="preference.category.alarms">Alarms</string>
+	<string name="preference.category.about">About</string>
+	<string name="preference.title.alarmLeadTime">Lead time alarms</string>
+	<string name="preference.summary.version">Version %1$s</string>
 
-	<string name="pref_category_alarms">Alarms</string>
-	<string name="pref_category_about">About</string>
-
-	<string name="pref_title_alarm_lead_time">Lead time alarms</string>
-
-	<string name="pref_summary_version">Version %1$s</string>
-
-    <string name="header_today">Today</string>
-    <string name="header_missed">Missed</string>
-
-	<string name="category_bike">Bike</string>
-	<string name="category_car">Car</string>
-	<string name="category_default">Default</string>
-	<string name="category_fitness">Fitness</string>
-	<string name="category_food">Food</string>
-	<string name="category_football">Football</string>
-	<string name="category_gaming">Gaming</string>
-	<string name="category_health">Health</string>
-	<string name="category_house">House</string>
-	<string name="category_important">Important</string>
-	<string name="category_partner">Partner</string>
-	<string name="category_party">Party</string>
-	<string name="category_phone">Phone</string>
-	<string name="category_running">Running</string>
-	<string name="category_school">School</string>
-	<string name="category_shopping">Shopping</string>
-	<string name="category_sport">Sport</string>
-	<string name="category_swimming">Swimming</string>
-	<string name="category_work">Work</string>
-
-	<string name="content_category">Category</string>
-	<string name="content_date">Date</string>
-	<string name="content_time">Time</string>
+	<!-- Content -->
+	<string name="content.title.bike">Bike</string>
+	<string name="content.title.car">Car</string>
+	<string name="content.title.default">Default</string>
+	<string name="content.title.fitness">Fitness</string>
+	<string name="content.title.food">Food</string>
+	<string name="content.title.football">Football</string>
+	<string name="content.title.gaming">Gaming</string>
+	<string name="content.title.health">Health</string>
+	<string name="content.title.house">House</string>
+	<string name="content.title.important">Important</string>
+	<string name="content.title.partner">Partner</string>
+	<string name="content.title.party">Party</string>
+	<string name="content.title.phone">Phone</string>
+	<string name="content.title.running">Running</string>
+	<string name="content.title.school">School</string>
+	<string name="content.title.shopping">Shopping</string>
+	<string name="content.title.sport">Sport</string>
+	<string name="content.title.swimming">Swimming</string>
+	<string name="content.title.work">Work</string>
+	<string name="content.description.category">Category</string>
+	<string name="content.description.date">Date</string>
+	<string name="content.description.time">Time</string>
 
 </resources>

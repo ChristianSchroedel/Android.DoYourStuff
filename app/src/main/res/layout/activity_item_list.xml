@@ -10,12 +10,12 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+            layout="@layout/toolbar_actionbar"/>
 
         <fragment
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/item_list"
-            android:name="de.schroedel.doyourstuff.fragment.ItemListFragment"
+            android:name="de.schroedel.doyourstuff.fragments.ItemListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
@@ -37,6 +37,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/undobar"/>
+    <include layout="@layout/view_undobar"/>
 
 </FrameLayout>

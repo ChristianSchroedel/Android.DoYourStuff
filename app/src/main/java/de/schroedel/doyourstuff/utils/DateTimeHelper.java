@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Utility class to format date time strings.
+ * Utility class to format date time strings using {@link SimpleDateFormat}.
  */
 public final class DateTimeHelper
 {

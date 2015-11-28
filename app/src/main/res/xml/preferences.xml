@@ -2,18 +2,18 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory android:title="@string/pref_category_alarms">
+	<PreferenceCategory android:title="@string/preference.category.alarms">
 
 		<ListPreference
 			android:key="pref_alarm_lead_time"
-			android:title="@string/pref_title_alarm_lead_time"
+			android:title="@string/preference.title.alarmLeadTime"
 			android:entries="@array/lead_time_entries"
 			android:entryValues="@array/lead_time_entry_values"
 			android:defaultValue="900000"/>
 
 	</PreferenceCategory>
 
-	<PreferenceCategory android:title="@string/pref_category_about">
+	<PreferenceCategory android:title="@string/preference.category.about">
 
 		<Preference android:key="pref_version"/>
 
