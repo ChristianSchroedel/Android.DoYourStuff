@@ -14,7 +14,7 @@ public class DismissAlarmReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		AlarmNotification notification = AlarmNotification.getInstance();
-		notification.cancel(context);
+		AlarmNotification notification = AlarmNotification.getInstance(context);
+		notification.cancel();
 	}
 }

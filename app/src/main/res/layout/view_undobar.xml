@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/undobar"
 	style="@style/UndoBar">
 
 	<TextView
 		android:id="@+id/undobar_message"
-		style="@style/UndoBarMessage"/>
+		style="@style/UndoBarMessage"
+		tools:text="@string/info.message.deleted"/>
 
 	<Button
 		android:id="@+id/undobar_button"

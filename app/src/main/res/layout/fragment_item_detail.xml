@@ -18,7 +18,8 @@
 			android:id="@+id/todo_detail_category"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
-			android:contentDescription="@string/content.description.category"/>
+			android:contentDescription="@string/content.description.category"
+			tools:src="@drawable/ic_category_default"/>
 
 		<TextView
 			android:id="@+id/todo_detail_title"
@@ -27,7 +28,8 @@
 			android:layout_marginLeft="16dp"
 			android:layout_marginStart="16dp"
 			android:textSize="24sp"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			tools:text="This is a title"/>
 
 	</LinearLayout>
 
@@ -35,15 +37,18 @@
 		android:id="@+id/todo_detail_datetime"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
 		android:textSize="16sp"
-		android:textStyle="italic"/>
+		android:textStyle="italic"
+		tools:text="Monday - 13.12.2015 | 17:00"/>
 
 	<TextView
 		android:id="@+id/todo_detail_desc"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingTop="16dp"
-		android:paddingBottom="16dp"
-		android:textSize="20sp"/>
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="16dp"
+		android:textSize="20sp"
+		tools:text="Your description goes right here"/>
 
 </LinearLayout>

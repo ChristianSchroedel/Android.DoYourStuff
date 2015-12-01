@@ -23,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver
 		if (item == null)
 			return;
 
-		AlarmNotification notification = AlarmNotification.getInstance();
-		notification.showAlarm(context, item);
+		AlarmNotification notification = AlarmNotification.getInstance(context);
+		notification.showAlarm(item);
 	}
 }

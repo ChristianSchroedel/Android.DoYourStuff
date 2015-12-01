@@ -84,7 +84,7 @@ public class ItemListActivity extends AppCompatActivity
 		this.undoBarController = new UndoBarController(
 			findViewById(R.id.undobar),
 			new UndoListener());
-		this.alarmNotification = AlarmNotification.getInstance();
+		this.alarmNotification = AlarmNotification.getInstance(this);
 
 		ItemListFragment listFragment = getListFragment();
 		listFragment.setItemListCallbacks(new ItemListCallbacks());

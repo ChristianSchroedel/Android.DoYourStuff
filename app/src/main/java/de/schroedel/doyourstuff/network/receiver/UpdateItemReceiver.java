@@ -78,7 +78,7 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	 */
 	private void cancelNotification(Context context)
 	{
-		AlarmNotification notification = AlarmNotification.getInstance();
-		notification.cancel(context);
+		AlarmNotification notification = AlarmNotification.getInstance(context);
+		notification.cancel();
 	}
 }

@@ -29,25 +29,28 @@ public class AlarmNotification
 
 	private static AlarmNotification instance;
 
+	private Context context;
 	private List<ToDoItem> toDoItems;
 
 	/**
 	 * Creates new {@link AlarmNotification} manager.
 	 */
-	private AlarmNotification()
+	private AlarmNotification(Context context)
 	{
+		this.context = context;
 		this.toDoItems = new ArrayList<>();
 	}
 
 	/**
 	 * Returns instance of alarm notification.
 	 *
+	 * @param context context
 	 * @return instance
 	 */
-	public static AlarmNotification getInstance()
+	public static AlarmNotification getInstance(Context context)
 	{
 		if (instance == null)
-			instance = new AlarmNotification();
+			instance = new AlarmNotification(context);
 
 		return instance;
 	}
@@ -55,10 +58,9 @@ public class AlarmNotification
 	/**
 	 * Shows notification containing {@link ToDoItem} information.
 	 *
-	 * @param context context
 	 * @param item last to do item to show
 	 */
-	public void showAlarm(Context context, ToDoItem item)
+	public void showAlarm(ToDoItem item)
 	{
 		toDoItems.add(item);
 
@@ -135,7 +137,7 @@ public class AlarmNotification
 	/**
 	 * Cancels notification for {@link ToDoItem} objects.
 	 */
-	public void cancel(Context context)
+	public void cancel()
 	{
 		clear();
 
