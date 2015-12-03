@@ -29,6 +29,7 @@
 			android:layout_marginStart="16dp"
 			android:textSize="24sp"
 			android:textStyle="bold"
+			android:textColor="@color/brand_primary_dark"
 			tools:text="This is a title"/>
 
 	</LinearLayout>
@@ -38,8 +39,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
-		android:textSize="16sp"
-		android:textStyle="italic"
+		android:textSize="14sp"
+		android:textColor="@color/gray"
 		tools:text="Monday - 13.12.2015 | 17:00"/>
 
 	<TextView
@@ -48,7 +49,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="16dp"
 		android:layout_marginBottom="16dp"
-		android:textSize="20sp"
-		tools:text="Your description goes right here"/>
+		android:textSize="18sp"
+		android:textColor="@color/gray_dark"
+		tools:text="Your description goes right here. It may be a bit longer, because you have so much to do."/>
 
 </LinearLayout>

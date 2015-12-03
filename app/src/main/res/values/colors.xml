@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<color name="primary">#319bf2</color>
-	<color name="primary_dark">#ff6c6cca</color>
-	<color name="accent">#787878</color>
+	<color name="brand_primary">#319bf2</color>
+	<color name="brand_primary_dark">#ff6c6cca</color>
+	<color name="accent">#ff565656</color>
 
 	<color name="white">#ffffff</color>
+	<color name="gray">#ff777777</color>
+	<color name="gray_dark">#ff454545</color>
+	<color name="black">#ff000000</color>
 
-	<color name="theme_background">#ffeaeaea</color>
+	<color name="brown">#a79152</color>
 
-	<color name="list_item_selected">#ff8cc3ff</color>
+	<color name="green">#478e50</color>
+	<color name="green_dark">#738e47</color>
 
-	<color name="background_monday">#a79152</color>
-	<color name="background_tuesday">#738e47</color>
-	<color name="background_wednesday">#478e50</color>
-	<color name="background_thursday">#478e8e</color>
-	<color name="background_friday">#47628e</color>
-	<color name="background_saturday">#7a478e</color>
-	<color name="background_sunday">#8e4755</color>
-	<color name="background_default">#ff6c6cca</color>
+	<color name="purple">#7a478e</color>
+
+	<color name="red_dark">#8e4755</color>
+
+	<color name="blue_light">#ff8cc3ff</color>
+	<color name="blue">#5c6bc0</color>
+	<color name="blue_dark">#47628e</color>
+
+	<color name="indigo">#478e8e</color>
 
 </resources>

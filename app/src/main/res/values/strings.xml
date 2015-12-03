@@ -19,7 +19,7 @@
 	<!-- Info messages -->
 	<string name="info.title.today">Today</string>
 	<string name="info.title.missed">Missed</string>
-	<string name="info.message.deleted">%1$d item deleted</string>
+	<string name="info.message.deleted">Item deleted</string>
 
 	<!-- Notifications -->
 	<string name="notification.ticker.alarm">%1$s at %2$s</string>

@@ -33,7 +33,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:src="@drawable/ic_action_new"
-            fab:backgroundTint="@color/primary"
+            fab:backgroundTint="@color/brand_primary"
             fab:elevation="4dp"/>
 
     </RelativeLayout>

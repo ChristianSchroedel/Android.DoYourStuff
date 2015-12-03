@@ -1,84 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical"
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:minHeight="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		app:theme="@style/ToDoToolBar">
 
-		<android.support.v7.widget.Toolbar
-			xmlns:app="http://schemas.android.com/apk/res-auto"
-			android:id="@+id/toolbar"
+		<Spinner
+			android:id="@+id/category"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+	</android.support.v7.widget.Toolbar>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<ScrollView
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:minHeight="?attr/actionBarSize"
-			android:background="?attr/colorPrimary"
-			app:theme="@style/ToDoToolBar">
-
-			<Spinner
-				android:id="@+id/category"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-		</android.support.v7.widget.Toolbar>
-
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-
-			<EditText
-				android:id="@+id/title"
-				android:layout_width="match_parent"
-				android:layout_height="48dp"
-				android:inputType="textAutoComplete"
-				android:hint="@string/hint.title"
-				android:nextFocusUp="@id/title"
-				android:nextFocusLeft="@id/title"/>
-
-			<EditText
-				android:id="@+id/description"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="top|start"
-				android:inputType="textMultiLine|textAutoComplete"
-				android:minLines="4"
-				android:scrollbars="vertical"
-				android:hint="@string/hint.description"/>
+			android:layout_height="match_parent">
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+				android:orientation="vertical">
 
-				<ImageButton
-					android:id="@+id/date"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="16dp"
-					android:src="@drawable/ic_event"
-					android:background="@android:color/transparent"
-					android:contentDescription="@string/content.description.date"/>
+				<EditText
+					android:id="@+id/title"
+					android:layout_width="match_parent"
+					android:layout_height="48dp"
+					android:inputType="textAutoComplete"
+					android:hint="@string/hint.title"
+					android:nextFocusUp="@id/title"
+					android:nextFocusLeft="@id/title"/>
 
-				<ImageButton
-					android:id="@+id/time"
-					android:layout_width="wrap_content"
+				<EditText
+					android:id="@+id/description"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="16dp"
-					android:src="@drawable/ic_schedule"
-					android:background="@android:color/transparent"
-					android:contentDescription="@string/content.description.time"/>
+					android:gravity="top|start"
+					android:inputType="textMultiLine|textAutoComplete"
+					android:minLines="4"
+					android:scrollbars="vertical"
+					android:hint="@string/hint.description"/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+
+					<ImageButton
+						android:id="@+id/date"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="16dp"
+						android:src="@drawable/ic_event"
+						android:background="@android:color/transparent"
+						android:contentDescription="@string/content.description.date"/>
+
+					<ImageButton
+						android:id="@+id/time"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="16dp"
+						android:src="@drawable/ic_schedule"
+						android:background="@android:color/transparent"
+						android:contentDescription="@string/content.description.time"/>
+
+				</LinearLayout>
 
 			</LinearLayout>
 
-		</LinearLayout>
+		</ScrollView>
 
-	</LinearLayout>
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/action_done"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|end"
+			android:layout_margin="16dp"
+			android:src="@drawable/ic_action_done"
+			app:backgroundTint="@color/brand_primary"
+			app:elevation="4dp"/>
 
-</ScrollView>
+	</FrameLayout>
+
+</LinearLayout>

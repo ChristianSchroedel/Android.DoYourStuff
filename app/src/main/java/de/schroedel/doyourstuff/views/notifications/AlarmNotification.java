@@ -109,7 +109,7 @@ public class AlarmNotification
 		NotificationCompat.Builder builder =
 			new NotificationCompat.Builder(context);
 		builder.setSmallIcon(R.drawable.ic_item_notification);
-		builder.setColor(ContextCompat.getColor(context, R.color.primary));
+		builder.setColor(ContextCompat.getColor(context, R.color.brand_primary));
 		builder.setContentTitle(title);
 		builder.setContentText(item.description);
 		builder.setContentIntent(content);

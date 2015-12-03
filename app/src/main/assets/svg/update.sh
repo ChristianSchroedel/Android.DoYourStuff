@@ -100,6 +100,7 @@ ic_launcher.svg 48
 EOF
 
 update ../../res/drawable << EOF
+ic_action_done.svg 32
 ic_action_edit.svg 32
 ic_action_new.svg 32
 ic_category_bike.svg 32

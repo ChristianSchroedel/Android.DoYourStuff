@@ -98,17 +98,34 @@ public class ItemDetailFragment extends Fragment
 	 */
 	private void initDetailViews(ToDoItem item)
 	{
-		String dateTime = null;
-
-		if (item.timestamp > 0)
-			dateTime = DateTimeHelper.getFormattedDate(
-				item.timestamp,
-				"EEEE - dd.MM.yyyy | HH:mm");
+		initDateTimeView(item.timestamp);
 
 		tvTitle.setText(item.title);
 		tvDescription.setText(item.description);
-		tvDatetime.setText(dateTime);
 		ivCategory.setImageDrawable(
 			Category.getCategoryDrawable(getContext(), item.category));
+	}
+
+	/**
+	 * Initializes {@link TextView} showing datetime of {@link ToDoItem} with a
+	 * timestamp value.
+	 * <p>
+	 * Hides view showing datetime when there is no valid datetime provided.
+	 * </p>
+	 *
+	 * @param timestamp timestamp
+	 */
+	private void initDateTimeView(long timestamp)
+	{
+		if (timestamp > 0)
+		{
+			String dateTime = DateTimeHelper.getFormattedDate(
+				timestamp,
+				"EEEE - dd.MM.yyyy | HH:mm");
+
+			tvDatetime.setText(dateTime);
+		}
+		else
+			tvDatetime.setVisibility(View.GONE);
 	}
 }

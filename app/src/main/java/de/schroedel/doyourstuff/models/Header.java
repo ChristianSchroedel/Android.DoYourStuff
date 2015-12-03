@@ -1,11 +1,5 @@
 package de.schroedel.doyourstuff.models;
 
-import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import java.util.Calendar;
 
 import de.schroedel.doyourstuff.R;
@@ -44,15 +38,15 @@ public class Header extends ListItem
 	{
 		switch (dayOfWeek)
 		{
-			case Calendar.MONDAY: return R.color.background_monday;
-			case Calendar.TUESDAY: return R.color.background_tuesday;
-			case Calendar.WEDNESDAY: return R.color.background_wednesday;
-			case Calendar.THURSDAY: return R.color.background_thursday;
-			case Calendar.FRIDAY: return R.color.background_friday;
-			case Calendar.SATURDAY: return R.color.background_saturday;
-			case Calendar.SUNDAY: return R.color.background_sunday;
+			case Calendar.MONDAY: return R.color.brown;
+			case Calendar.TUESDAY: return R.color.green_dark;
+			case Calendar.WEDNESDAY: return R.color.green;
+			case Calendar.THURSDAY: return R.color.indigo;
+			case Calendar.FRIDAY: return R.color.blue_dark;
+			case Calendar.SATURDAY: return R.color.purple;
+			case Calendar.SUNDAY: return R.color.red_dark;
 
-			default: return R.color.background_default;
+			default: return R.color.blue;
 		}
 	}
 }

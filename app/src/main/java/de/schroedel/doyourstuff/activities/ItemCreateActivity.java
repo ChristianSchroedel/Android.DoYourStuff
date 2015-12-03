@@ -7,14 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -26,9 +25,9 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 import de.schroedel.doyourstuff.R;
-import de.schroedel.doyourstuff.views.adapters.CategoryAdapter;
 import de.schroedel.doyourstuff.models.Category;
 import de.schroedel.doyourstuff.models.ToDoItem;
+import de.schroedel.doyourstuff.views.adapters.CategoryAdapter;
 
 /**
  * Activity creating/editing {@link ToDoItem} values.
@@ -68,15 +67,6 @@ public class ItemCreateActivity extends AppCompatActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.edit_item, menu);
-
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem)
 	{
 		int id = menuItem.getItemId();
@@ -93,36 +83,37 @@ public class ItemCreateActivity extends AppCompatActivity
 
 			return true;
 		}
-		else if (id == R.id.action_edit)
-		{
-			String title = etTitle.getText().toString();
-
-			if (title.isEmpty())
-			{
-				// A set title is mandatory for every to do item.
-				setResultAndFinish(RESULT_CANCELED_NO_TITLE, null);
-				return false;
-			}
-
-			if (item == null)
-				item = new ToDoItem();
-
-			item.title = title;
-			item.description = etDesc.getText().toString();
-			item.category = (int) spCategory.getSelectedItem();
-			item.timestamp = timestamp;
-
-			Intent resultIntent = new Intent();
-			resultIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
-
-			setResultAndFinish(RESULT_OK, resultIntent);
-
-			resetTime();
-
-			return false;
-		}
 
 		return super.onOptionsItemSelected(menuItem);
+	}
+
+	/**
+	 * Sets resulting edited or created {@link ToDoItem} for activity.
+	 */
+	private void setItemResult()
+	{
+		String title = etTitle.getText().toString();
+
+		if (title.isEmpty())
+		{
+			// A set title is mandatory for every to do item.
+			setResultAndFinish(RESULT_CANCELED_NO_TITLE, null);
+		}
+
+		if (item == null)
+			item = new ToDoItem();
+
+		item.title = title;
+		item.description = etDesc.getText().toString();
+		item.category = (int) spCategory.getSelectedItem();
+		item.timestamp = timestamp;
+
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+
+		setResultAndFinish(RESULT_OK, resultIntent);
+
+		resetTime();
 	}
 
 	/**
@@ -157,6 +148,18 @@ public class ItemCreateActivity extends AppCompatActivity
 				{
 					TimePickerFragment fragment = new TimePickerFragment();
 					fragment.show(getSupportFragmentManager(), "timePicker");
+				}
+			});
+
+		FloatingActionButton fabDone =
+			(FloatingActionButton) findViewById(R.id.action_done);
+		fabDone.setOnClickListener(
+			new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					setItemResult();
 				}
 			});
 	}

@@ -8,7 +8,7 @@ import de.schroedel.doyourstuff.activities.SettingsActivity;
 import de.schroedel.doyourstuff.models.ToDoItem;
 
 /**
- * Created by christian on 28.11.15.
+ * Provides easy access to {@link SharedPreferences} of application.
  */
 public final class Preferences
 {

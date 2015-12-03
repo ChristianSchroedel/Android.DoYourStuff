@@ -36,10 +36,10 @@
                 android:layout_toLeftOf="@+id/todo_list_time"
                 android:layout_toStartOf="@+id/todo_list_time"
                 android:textSize="16sp"
-                android:alpha="0.87"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_alignParentTop="true"
+                android:textColor="@color/gray_dark"
                 tools:text="This is a title"/>
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:textSize="16sp"
-                android:alpha="0.87"
+                android:textColor="@color/gray_dark"
                 tools:text="17:00"/>
 
         </RelativeLayout>
@@ -59,9 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:alpha="0.54"
             android:maxLines="1"
             android:ellipsize="end"
+            android:textColor="@color/gray"
             tools:text="Your description goes right here"/>
 
     </LinearLayout>

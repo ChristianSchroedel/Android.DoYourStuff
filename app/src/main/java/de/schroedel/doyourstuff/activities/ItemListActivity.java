@@ -242,7 +242,7 @@ public class ItemListActivity extends AppCompatActivity
 				break;
 
 			case SHOW_LIST:
-				handleShowListIntent(intent);
+				handleShowListIntent();
 				break;
 		}
 
@@ -352,9 +352,8 @@ public class ItemListActivity extends AppCompatActivity
 	/**
 	 * Handles {@link Intent} with {@link ItemListActivity#SHOW_LIST} action.
 	 *
-	 * @param intent intent
 	 */
-	private void handleShowListIntent(Intent intent)
+	private void handleShowListIntent()
 	{
 		alarmNotification.clear();
 	}
@@ -464,7 +463,7 @@ public class ItemListActivity extends AppCompatActivity
 
 			undoBarController.showUndoBar(
 				false,
-				getResources().getString(R.string.info_message_deleted, items.length),
+				getResources().getString(R.string.info_message_deleted),
 				new UndoItem(items, positions));
 		}
 	}

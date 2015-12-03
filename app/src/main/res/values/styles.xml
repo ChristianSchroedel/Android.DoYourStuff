@@ -2,11 +2,11 @@
 
 	<!-- Base application theme. -->
 	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		<item name="colorPrimary">@color/primary</item>
-		<item name="colorPrimaryDark">@color/primary_dark</item>
+		<item name="colorPrimary">@color/brand_primary</item>
+		<item name="colorPrimaryDark">@color/brand_primary_dark</item>
 		<item name="colorAccent">@color/accent</item>
 		<item name="android:editTextStyle">@style/ToDoEditText</item>
-		<item name="android:colorBackground">@color/theme_background</item>
+		<item name="android:colorBackground">@color/white</item>
 	</style>
 
 	<style name="ToDoEditText" parent="Base.Widget.AppCompat.EditText">
