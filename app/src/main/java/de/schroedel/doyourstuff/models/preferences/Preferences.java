@@ -26,6 +26,6 @@ public final class Preferences
 		return Long.valueOf(
 			sharedPreferences.getString(
 				SettingsActivity.KEY_PREF_ALARM_LEAD_TIME,
-				""));
+				"900000"));
 	}
 }

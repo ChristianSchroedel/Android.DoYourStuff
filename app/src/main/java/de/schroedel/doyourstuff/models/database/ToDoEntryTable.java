@@ -272,7 +272,6 @@ public class ToDoEntryTable implements DatabaseTable<ToDoItem>
 		return items;
 	}
 
-
 	/**
 	 * Creates {@link Header} to put in front of {@link ToDoItem} in item list.
 	 *
@@ -330,6 +329,7 @@ public class ToDoEntryTable implements DatabaseTable<ToDoItem>
 			return new Header(headerTitle, dayOfWeek);
 		}
 	}
+
 	/**
 	 * Updates title and description of {@link ToDoItem} in database table.
 	 *
