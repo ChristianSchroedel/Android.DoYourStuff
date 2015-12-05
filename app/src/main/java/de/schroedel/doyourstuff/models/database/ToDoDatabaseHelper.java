@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
 public class ToDoDatabaseHelper extends SQLiteOpenHelper
 {
 	protected static final String DB_NAME = "ToDoList.db";
-	protected static final int VERSION = 3;
+	protected static final int VERSION = 1;
 
 	private final static String INTEGER = " integer";
 	private final static String TEXT = " text";
