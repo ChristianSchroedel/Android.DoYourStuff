@@ -30,7 +30,7 @@ public final class ToDoAlarmManager
 			return;
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
-		intent.putExtra(ToDoItem.EXTRA_ITEM, item);
+		intent.putExtra(ToDoItem.EXTRA_ITEM_ID, item.id);
 
 		long alarmTime = item.timestamp - Preferences.getAlarmLeadTime(context);
 

@@ -71,7 +71,7 @@ public class AlarmNotification
 		if (toDoItems.size() == 1)
 		{
 			contentIntent.setAction(ItemListActivity.SHOW_DETAIL);
-			contentIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+			contentIntent.putExtra(ToDoItem.EXTRA_ITEM_ID, item.id);
 		}
 		else
 			contentIntent.setAction(ItemListActivity.SHOW_LIST);

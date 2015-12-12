@@ -1,14 +1,16 @@
 package de.schroedel.doyourstuff.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.content.Context;
+
+import de.schroedel.doyourstuff.models.database.ToDoDatabase;
+import de.schroedel.doyourstuff.models.database.ToDoEntryTable;
 
 /**
  * To do list item holding information about planned task of user.
  */
-public class ToDoItem extends ListItem implements Parcelable
+public class ToDoItem extends ListItem
 {
-	public static final String EXTRA_ITEM = "todoItem";
+	public static final String EXTRA_ITEM_ID = "extra_item_id";
 
 	public static final int ITEM_PENDING = 0;
 	public static final int ITEM_DONE = 1;
@@ -42,52 +44,17 @@ public class ToDoItem extends ListItem implements Parcelable
 	}
 
 	/**
-	 * Creator to implement {@link android.os.Parcelable.Creator} interface.
-	 */
-	public static final Creator<ToDoItem> CREATOR = new Creator<ToDoItem>()
-	{
-		@Override
-		public ToDoItem createFromParcel(Parcel in)
-		{
-			return new ToDoItem(in);
-		}
-
-		@Override
-		public ToDoItem[] newArray(int size)
-		{
-			return new ToDoItem[size];
-		}
-	};
-
-	@Override
-	public int describeContents()
-	{
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel out, int flags)
-	{
-		out.writeLong(id);
-		out.writeString(title);
-		out.writeString(description);
-		out.writeLong(timestamp);
-		out.writeInt(itemDone);
-		out.writeInt(category);
-	}
-
-	/**
-	 * Creates {@link ToDoItem} from {@link Parcel}.
+	 * Returns {@link ToDoItem} from {@link ToDoEntryTable} for given item ID.
 	 *
-	 * @param in parcel containing data
+	 * @param context context
+	 * @param itemId ID of item
+	 * @return item matching ID
 	 */
-	private ToDoItem(Parcel in)
+	public static ToDoItem fromDatabase(Context context, long itemId)
 	{
-		this.id = in.readLong();
-		this.title = in.readString();
-		this.description = in.readString();
-		this.timestamp = in.readLong();
-		this.itemDone = in.readInt();
-		this.category = in.readInt();
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		return entryTable.get(itemId);
 	}
 }

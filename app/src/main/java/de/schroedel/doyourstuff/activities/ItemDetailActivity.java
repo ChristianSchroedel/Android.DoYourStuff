@@ -12,10 +12,7 @@ import android.view.MenuItem;
 
 import de.schroedel.doyourstuff.R;
 import de.schroedel.doyourstuff.fragments.ItemDetailFragment;
-import de.schroedel.doyourstuff.managers.ToDoAlarmManager;
 import de.schroedel.doyourstuff.models.ToDoItem;
-import de.schroedel.doyourstuff.models.database.ToDoDatabase;
-import de.schroedel.doyourstuff.models.database.ToDoEntryTable;
 
 
 /**
@@ -26,9 +23,7 @@ import de.schroedel.doyourstuff.models.database.ToDoEntryTable;
  */
 public class ItemDetailActivity extends AppCompatActivity
 {
-	public static final int EDIT_ITEM = 2;
-
-	private ToDoItem item;
+	private long itemId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -55,12 +50,12 @@ public class ItemDetailActivity extends AppCompatActivity
 		//
 		if (savedInstanceState == null)
 		{
-			item = getIntent().getParcelableExtra(ToDoItem.EXTRA_ITEM);
+			this.itemId = getIntent().getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
 
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putParcelable(ToDoItem.EXTRA_ITEM, item);
+			arguments.putLong(ToDoItem.EXTRA_ITEM_ID, itemId);
 
 			ItemDetailFragment fragment = new ItemDetailFragment();
 			fragment.setArguments(arguments);
@@ -73,7 +68,7 @@ public class ItemDetailActivity extends AppCompatActivity
 				.commit();
 		}
 		else
-			item = savedInstanceState.getParcelable(ToDoItem.EXTRA_ITEM);
+			this.itemId = savedInstanceState.getLong(ToDoItem.EXTRA_ITEM_ID);
 	}
 
 	@Override
@@ -85,7 +80,7 @@ public class ItemDetailActivity extends AppCompatActivity
 	@Override
 	protected void onSaveInstanceState(Bundle savedInstanceState)
 	{
-		savedInstanceState.putParcelable(ToDoItem.EXTRA_ITEM, item);
+		savedInstanceState.putLong(ToDoItem.EXTRA_ITEM_ID, itemId);
 
 		super.onSaveInstanceState(savedInstanceState);
 	}
@@ -117,52 +112,11 @@ public class ItemDetailActivity extends AppCompatActivity
 		else if (menuItem.getItemId() == R.id.action_edit)
 		{
 			Intent editIntent = new Intent(this, ItemCreateActivity.class);
-			editIntent.putExtra(
-				ToDoItem.EXTRA_ITEM,
-				item);
+			editIntent.putExtra(ToDoItem.EXTRA_ITEM_ID, itemId);
 
-			startActivityForResult(editIntent, EDIT_ITEM);
+			startActivity(editIntent);
 		}
 
 		return super.onOptionsItemSelected(menuItem);
-	}
-
-	@Override
-	public void onActivityResult(
-		int requestCode,
-		int resultCode,
-		Intent data)
-	{
-		if (requestCode == EDIT_ITEM)
-		{
-			if (resultCode == RESULT_OK)
-			{
-				ToDoItem item;
-
-				if (data != null &&
-					(item =
-						data.getParcelableExtra(ToDoItem.EXTRA_ITEM)) != null)
-				{
-					ToDoDatabase database = ToDoDatabase.getInstance(this);
-					ToDoEntryTable entryTable = database.getToDoEntryTable();
-
-					entryTable.updateToDoItem(
-						item.id,
-						item.title,
-						item.description,
-						item.timestamp,
-						item.category);
-
-					ToDoAlarmManager.setReminderAlarm(this, item);
-				}
-
-				finish();
-				NavUtils.navigateUpTo(
-					this,
-					new Intent(
-						this,
-						ItemListActivity.class));
-			}
-		}
 	}
 }

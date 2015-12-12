@@ -18,7 +18,9 @@ public class AlarmReceiver extends BroadcastReceiver
 		if (data == null)
 			return;
 
-		ToDoItem item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		long itemId = data.getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
+
+		ToDoItem item = ToDoItem.fromDatabase(context, itemId);
 
 		if (item == null)
 			return;

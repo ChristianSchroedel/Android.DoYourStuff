@@ -1,6 +1,5 @@
 package de.schroedel.doyourstuff.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -46,11 +45,7 @@ public class ItemListActivity extends AppCompatActivity
 	public static final String SHOW_LIST = "show_list";
 	public static final String SHOW_DETAIL = "show_detail";
 
-	public static final int ADD_ITEM = 1;
-	public static final int EDIT_ITEM = 2;
-
 	private boolean twoPane;
-	private Context context;
 
 	private MenuItem actionEdit;
 
@@ -80,7 +75,6 @@ public class ItemListActivity extends AppCompatActivity
 				}
 			});
 
-		this.context = this;
 		this.undoBarController = new UndoBarController(
 			findViewById(R.id.undobar),
 			new UndoListener());
@@ -95,7 +89,7 @@ public class ItemListActivity extends AppCompatActivity
 			// large-screen layouts (res/values-large and res/values-sw600dp).
 			// If this view is present, then the activity should be in two-pane
 			// mode.
-			twoPane = true;
+			this.twoPane = true;
 
 			// In two-pane mode, list items should be given the 'activated'
 			// state when touched.
@@ -103,10 +97,6 @@ public class ItemListActivity extends AppCompatActivity
 		}
 
 		handleIntent(getIntent());
-
-		if (savedInstanceState != null)
-			this.selectedItem =
-				savedInstanceState.getParcelable(ToDoItem.EXTRA_ITEM);
 	}
 
 	@Override
@@ -125,6 +115,10 @@ public class ItemListActivity extends AppCompatActivity
 		super.onRestoreInstanceState(savedInstanceState);
 
 		undoBarController.onRestoreInstanceState(savedInstanceState);
+
+		long itemId = savedInstanceState.getLong(ToDoItem.EXTRA_ITEM_ID, 0);
+
+		this.selectedItem = ToDoItem.fromDatabase(this, itemId);
 	}
 
 	@Override
@@ -134,7 +128,8 @@ public class ItemListActivity extends AppCompatActivity
 
 		undoBarController.onSaveInstanceState(outState);
 
-		outState.putParcelable(ToDoItem.EXTRA_ITEM, selectedItem);
+		if (selectedItem != null)
+			outState.putLong(ToDoItem.EXTRA_ITEM_ID, selectedItem.id);
 	}
 
 	@Override
@@ -166,58 +161,6 @@ public class ItemListActivity extends AppCompatActivity
 		}
 
 		return false;
-	}
-
-	@Override
-	protected void onActivityResult(
-		int requestCode,
-		int resultCode,
-		Intent data)
-	{
-		if (requestCode == ADD_ITEM ||
-			requestCode == EDIT_ITEM)
-		{
-			if (resultCode == RESULT_OK)
-			{
-				ToDoItem item;
-
-				if (data == null)
-					return;
-
-				item = data.getParcelableExtra(ToDoItem.EXTRA_ITEM);
-
-				if (item == null)
-					return;
-
-				ToDoDatabase database = ToDoDatabase.getInstance(this);
-				ToDoEntryTable entryTable = database.getToDoEntryTable();
-
-				// If ID of to do item is not a real number it is not stored in
-				// the database yet.
-				if (item.id < 0)
-				{
-					entryTable.insert(item);
-
-					// Enable boot command receiver if disabled right now.
-					if (!BootReceiver.isComponentEnabled(this))
-						BootReceiver.setComponentEnabled(this, true);
-				}
-				else
-					entryTable.updateToDoItem(
-						item.id,
-						item.title,
-						item.description,
-						item.timestamp,
-						item.category);
-
-				ToDoAlarmManager.setReminderAlarm(this,	item);
-
-				if (twoPane)
-					this.selectedItem = item;
-
-				data.setAction(null);
-			}
-		}
 	}
 
 	/**
@@ -266,9 +209,7 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void addItem()
 	{
-		startActivityForResult(
-			new Intent(this, ItemCreateActivity.class),
-			ADD_ITEM);
+		startActivity(new Intent(this, ItemCreateActivity.class));
 	}
 
 	/**
@@ -279,9 +220,9 @@ public class ItemListActivity extends AppCompatActivity
 	private void editItem(ToDoItem item)
 	{
 		Intent editIntent = new Intent(this, ItemCreateActivity.class);
-		editIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+		editIntent.putExtra(ToDoItem.EXTRA_ITEM_ID, item.id);
 
-		startActivityForResult(editIntent, EDIT_ITEM);
+		startActivity(editIntent);
 	}
 
 	/**
@@ -301,7 +242,7 @@ public class ItemListActivity extends AppCompatActivity
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putParcelable(ToDoItem.EXTRA_ITEM, item);
+			arguments.putLong(ToDoItem.EXTRA_ITEM_ID, item.id);
 
 			ItemDetailFragment fragment = new ItemDetailFragment();
 			fragment.setArguments(arguments);
@@ -321,7 +262,7 @@ public class ItemListActivity extends AppCompatActivity
 			// In single-pane mode, simply start the detail activity for the
 			// selected to do item.
 			Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-			detailIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+			detailIntent.putExtra(ToDoItem.EXTRA_ITEM_ID, item.id);
 
 			startActivity(detailIntent);
 		}
@@ -334,7 +275,9 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void handleShowDetailIntent(Intent intent)
 	{
-		ToDoItem item = intent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		long itemId = intent.getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
+
+		ToDoItem item = ToDoItem.fromDatabase(this, itemId);
 
 		if (item != null)
 		{
@@ -365,16 +308,15 @@ public class ItemListActivity extends AppCompatActivity
 	 */
 	private void removeItem(ToDoItem item)
 	{
-		ToDoDatabase database = ToDoDatabase.getInstance(context);
-
+		ToDoDatabase database = ToDoDatabase.getInstance(this);
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 		entryTable.remove(item.id);
 
-		ToDoAlarmManager.cancelReminderAlarm(context, item);
+		ToDoAlarmManager.cancelReminderAlarm(this, item);
 
 		// Disable boot command receiver if there are no more set alarms.
 		if (entryTable.getCount() == 0)
-			BootReceiver.setComponentEnabled(context, false);
+			BootReceiver.setComponentEnabled(this, false);
 
 		ItemListFragment listFragment = getListFragment();
 
@@ -395,18 +337,17 @@ public class ItemListActivity extends AppCompatActivity
 		if (listFragment == null)
 			return;
 
-		ToDoDatabase database = ToDoDatabase.getInstance(context);
-
+		ToDoDatabase database = ToDoDatabase.getInstance(this);
 		ToDoEntryTable entryTable = database.getToDoEntryTable();
 		entryTable.insert(item);
 
 		if (item.timestamp > 0 &&
 			!DateTimeHelper.dateIsPast(item.timestamp))
 		{
-			ToDoAlarmManager.setReminderAlarm(context, item);
+			ToDoAlarmManager.setReminderAlarm(this, item);
 
-			if (BootReceiver.isComponentEnabled(context))
-				BootReceiver.setComponentEnabled(context, true);
+			if (BootReceiver.isComponentEnabled(this))
+				BootReceiver.setComponentEnabled(this, true);
 		}
 
 		listFragment.insertItem(item, position);
@@ -485,5 +426,4 @@ public class ItemListActivity extends AppCompatActivity
 				insertItem(undoItem.items[i], undoItem.itemPositions[i]);
 		}
 	}
-
 }

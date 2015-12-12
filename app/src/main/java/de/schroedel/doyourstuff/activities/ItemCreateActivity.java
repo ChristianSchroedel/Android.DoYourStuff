@@ -25,8 +25,12 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 import de.schroedel.doyourstuff.R;
+import de.schroedel.doyourstuff.managers.ToDoAlarmManager;
 import de.schroedel.doyourstuff.models.Category;
 import de.schroedel.doyourstuff.models.ToDoItem;
+import de.schroedel.doyourstuff.models.database.ToDoDatabase;
+import de.schroedel.doyourstuff.models.database.ToDoEntryTable;
+import de.schroedel.doyourstuff.network.receiver.BootReceiver;
 import de.schroedel.doyourstuff.views.adapters.CategoryAdapter;
 
 /**
@@ -34,13 +38,13 @@ import de.schroedel.doyourstuff.views.adapters.CategoryAdapter;
  */
 public class ItemCreateActivity extends AppCompatActivity
 {
-	public static final int RESULT_CANCELED_NO_TITLE = 1;
-
 	private EditText etTitle;
 	private EditText etDesc;
 	private Spinner spCategory;
 
 	private ToDoItem item;
+
+	boolean newItem = true;
 
 	private static Calendar calendar;
 	private static long timestamp;
@@ -54,12 +58,17 @@ public class ItemCreateActivity extends AppCompatActivity
 		initEditorViews();
 
 		String title = null;
-		ToDoItem item = getIntent().getParcelableExtra(ToDoItem.EXTRA_ITEM);
+
+		long itemId = getIntent().getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
+
+		ToDoItem item = ToDoItem.fromDatabase(this, itemId);
 
 		if (item != null)
 		{
 			initEditorViewValues(item);
 			title = item.title;
+
+			this.newItem = false;
 		}
 
 		initActionBar(title);
@@ -88,17 +97,19 @@ public class ItemCreateActivity extends AppCompatActivity
 	}
 
 	/**
-	 * Sets resulting edited or created {@link ToDoItem} for activity.
+	 * Commits edited or created {@link ToDoItem} and adds/updates it in the
+	 * database.
 	 */
-	private void setItemResult()
+	private void commitItem()
 	{
 		String title = etTitle.getText().toString();
 
+		ToDoDatabase database = ToDoDatabase.getInstance(this);
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		// A set title is mandatory for every to do item.
 		if (title.isEmpty())
-		{
-			// A set title is mandatory for every to do item.
-			setResultAndFinish(RESULT_CANCELED_NO_TITLE, null);
-		}
+			return;
 
 		if (item == null)
 			item = new ToDoItem();
@@ -108,12 +119,25 @@ public class ItemCreateActivity extends AppCompatActivity
 		item.category = (int) spCategory.getSelectedItem();
 		item.timestamp = timestamp;
 
-		Intent resultIntent = new Intent();
-		resultIntent.putExtra(ToDoItem.EXTRA_ITEM, item);
+		if (newItem)
+			entryTable.insert(item);
+		else
+			entryTable.updateToDoItem(
+				item.id,
+				item.title,
+				item.description,
+				item.timestamp,
+				item.category);
 
-		setResultAndFinish(RESULT_OK, resultIntent);
+		// Enable boot command receiver if disabled right now.
+		if (!BootReceiver.isComponentEnabled(this))
+			BootReceiver.setComponentEnabled(this, true);
+
+		ToDoAlarmManager.setReminderAlarm(this, item);
 
 		resetTime();
+
+		finish();
 	}
 
 	/**
@@ -159,7 +183,7 @@ public class ItemCreateActivity extends AppCompatActivity
 				@Override
 				public void onClick(View view)
 				{
-					setItemResult();
+					commitItem();
 				}
 			});
 	}
@@ -248,17 +272,6 @@ public class ItemCreateActivity extends AppCompatActivity
 	{
 		timestamp = 0;
 		calendar = null;
-	}
-
-	/**
-	 * Sets result for activity and finishes it.
-	 *
-	 * @param result result code
-	 */
-	private void setResultAndFinish(int result, Intent intent)
-	{
-		setResult(result, intent);
-		finish();
 	}
 
 	/**

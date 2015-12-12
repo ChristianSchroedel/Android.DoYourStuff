@@ -36,17 +36,16 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	 */
 	private void itemIsDone(Context context, Intent doneIntent)
 	{
-		if (doneIntent == null)
-			return;
+		long itemId = doneIntent.getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
 
-		ToDoItem item = doneIntent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		ToDoItem item = entryTable.get(itemId);
 
 		if (item == null)
 			return;
 
-		ToDoDatabase database = ToDoDatabase.getInstance(context);
-
-		ToDoEntryTable entryTable = database.getToDoEntryTable();
 		entryTable.updateItemIsDone(item.id, ToDoItem.ITEM_DONE);
 
 		cancelNotification(context);
@@ -60,10 +59,12 @@ public class UpdateItemReceiver extends BroadcastReceiver
 	 */
 	private void doItemLater(Context context, Intent laterIntent)
 	{
-		if (laterIntent == null)
-			return;
+		long itemId = laterIntent.getLongExtra(ToDoItem.EXTRA_ITEM_ID, 0);
 
-		ToDoItem item = laterIntent.getParcelableExtra(ToDoItem.EXTRA_ITEM);
+		ToDoDatabase database = ToDoDatabase.getInstance(context);
+		ToDoEntryTable entryTable = database.getToDoEntryTable();
+
+		ToDoItem item = entryTable.get(itemId);
 
 		if (item == null)
 			return;

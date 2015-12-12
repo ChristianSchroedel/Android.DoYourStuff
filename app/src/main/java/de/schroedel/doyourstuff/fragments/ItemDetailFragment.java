@@ -27,23 +27,22 @@ public class ItemDetailFragment extends Fragment
 	private TextView tvDatetime;
 	private ImageView ivCategory;
 
-	private ToDoItem item;
+	private long itemId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
-		Bundle arguments = getArguments();
-
-		if (arguments.containsKey(ToDoItem.EXTRA_ITEM))
-			item = arguments.getParcelable(ToDoItem.EXTRA_ITEM);
+		this.itemId = getArguments().getLong(ToDoItem.EXTRA_ITEM_ID, 0);
 	}
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
+
+		ToDoItem item = ToDoItem.fromDatabase(getContext(), itemId);
 
 		if (isInitialized() &&
 			item != null)
@@ -60,6 +59,8 @@ public class ItemDetailFragment extends Fragment
 			R.layout.fragment_item_detail,
 			container,
 			false);
+
+		ToDoItem item = ToDoItem.fromDatabase(getContext(), itemId);
 
 		if (item != null)
 		{
