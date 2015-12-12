@@ -22,7 +22,7 @@
 	<string name="info.message.deleted">Eintrag gelöscht</string>
 
 	<!-- Notifications -->
-	<string name="notification.ticker.alarm">%1$s at %2$s</string>
+	<string name="notification.ticker.alarm">%1$s um %2$s</string>
 	<string name="notification.title.alarm">%1$s | %2$s</string>
 
 	<!-- Input hints -->
